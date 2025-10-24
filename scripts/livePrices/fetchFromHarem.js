@@ -1,100 +1,170 @@
+
 const EXCHANGE_TYPES = [
   {
     id: "BILEZIK22",
     alisMilyem: 0.912,
     satisMilyem: 0.93,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "AYAR22",
     alisMilyem: 0.912,
     satisMilyem: 0.93,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "AYAR8",
     alisMilyem: 0.32,
     satisMilyem: 0,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "AYAR14",
     alisMilyem: 0.575,
     satisMilyem: 0,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "AYAR18",
     alisMilyem: 0.7,
     satisMilyem: 0,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "AYAR24",
     alisMilyem: 0.995,
     satisMilyem: 1.1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "CEYREK_YENI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "CEYREK_ESKI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "YARIM_YENI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "YARIM_ESKI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "TEK_ESKI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "TEK_YENI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "ATA_YENI",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "RESAT",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "GRAMESE_YENI",
     alisMilyem: 10,
     satisMilyem: 10,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "GRAMESE_ESKI",
     alisMilyem: 10,
     satisMilyem: 10,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "USDTRY",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "EURTRY",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
   {
     id: "GUMUSTRY",
     alisMilyem: 1,
     satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0
   },
 ];
+
+
+// DB'den kârları oku.
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+
+// Kullanıcı giriş yaptıysa, fiyatlarını getir
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  const uid = user.uid;
+  const pricesCol = collection(db, "users", uid, "prices");
+  const snapshot = await getDocs(pricesCol);
+
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    const productId = doc.id; // Örn: "BILEZIK22"
+
+    EXCHANGE_TYPES.find((type) => {
+      if(type.id === productId) {
+        type.satisKar = data.satis.toFixed(2);
+        type.alisKar = data.alis.toFixed(2);
+      }
+    });
+  });
+});
 
 const socket = io("https://socketweb.haremaltin.com", {
   transports: ["websocket"],
@@ -140,13 +210,13 @@ socket.on("price_changed", (data) => {
   hasSatisElement.innerText = formatNumber(has.satis);
 
   EXCHANGE_TYPES.forEach((type) => {
-    const totalAlis = has.alis * type.alisMilyem;
-    const totalSatis = has.satis * type.satisMilyem;
+    const totalAlis = has.alis * type.alisMilyem + type.alisKar;
+    const totalSatis = has.satis * type.satisMilyem + type.satisKar;
 
     if (type.id === "ATA") 
-      findElementAndFill(type.id, ata.alis, ata.satis);
+      findElementAndFill(type.id, ata.alis + type.alisKar, ata.satis + type.satisKar);
     else if (type.id === "RESAT")
-      findElementAndFill(type.id, resat.alis, resat.satis);
+      findElementAndFill(type.id, resat.alis + type.alisKar, resat.satis + type.satisKar);
     else 
       findElementAndFill(type.id, totalAlis, totalSatis);
   });

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+  <link rel="stylesheet" href="./assets/dashboard/style.css">
+  <link rel="stylesheet" href="./assets/dashboard/table.css">
+  <title>Rumeli | DASHBOARD</title>
+</head>
+
+<body>
+  <table class="layout-table w-100 mt-lg-5 mt-md-5 mt-sm-2 mb-sm-2">
+    <tr>
+      <!-- Ana içerik hücresi: mevcut container-fluid burada kalacak -->
+      <td colspan="2" class="header-cell">
+        <div class="container-fluid p-12 p-sm-6 mt-3">
+          <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+              <div class="card bg-primary text-white mb-4">
+                <div class="card-body">
+                  <div class="d-flex justify-content-around align-items-center">
+                    <div class="logo-container">
+                      <img src="./media/rumeli_logo_buyuk.png" alt="Rumeli Altın" class="logo-image">
+                    </div>
+                    <div class="navbar-title-container">
+                      <h2 class="mb-0">İSTANBUL KAPALI ÇARŞI FİYATLARI</h2>
+                      <h2 class="currentTime"></h2>
+                    </div>
+                    <div class="text-end navbar-has-container">
+                      <div class="navbar-has-container-alis">
+                        <span>HAS ALIŞ: </span>
+                        <span id="has-alis">0,00</span>
+                      </div>
+                      <div class="navbar-has-container-satis">
+                        <span>HAS SATIŞ: </span>
+                        <span id="has-satis">0,00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+      <td class="main-cell align-top">
+        <div class="container-fluid  p-12 p-sm-6">
+          <div class="row">
+            <div class="col-md-6 col-sm-12 mb-4">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  ALTIN
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered mb-0">
+                    <thead>
+                      <tr>
+                        <th>CİNS</th>
+                        <th>ALIŞ</th>
+                        <th>SATIŞ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="BILEZIK22">
+                        <td class="first-cell">22 BİLEZİK</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="AYAR8">
+                        <td>8 AYAR</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="AYAR14">
+                        <td>14 AYAR</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="AYAR18">
+                        <td>18 AYAR</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-4">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  YENİ
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered mb-0">
+                    <thead>
+                      <tr>
+                        <th>CİNS</th>
+                        <th>ALIŞ</th>
+                        <th>SATIŞ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="CEYREK_YENI">
+                        <td class="first-cell">ÇEYREK</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="YARIM_YENI">
+                        <td>YARIM</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="TEK_YENI">
+                        <td>TAM</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="GRAMESE_YENI">
+                        <td>GREMİSE</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 col-sm-12 mb-4">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  ALTIN
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered mb-0">
+                    <thead>
+                      <tr>
+                        <th>CİNS</th>
+                        <th>ALIŞ</th>
+                        <th>SATIŞ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="AYAR24">
+                        <td class="first-cell">24 GRAM</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="AYAR22">
+                        <td>22 GRAM</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="ATA_YENI">
+                        <td>ATA LİRA</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="RESAT">
+                        <td>REŞAT</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-sm-12 mb-4">
+              <div class="card">
+                <div class="card-header bg-primary text-white">
+                  ESKİ
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-striped table-bordered mb-0">
+                    <thead>
+                      <tr>
+                        <th>CİNS</th>
+                        <th>ALIŞ</th>
+                        <th>SATIŞ</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr id="CEYREK_ESKI">
+                        <td class="first-cell">ÇEYREK</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="YARIM_ESKI">
+                        <td>YARIM</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="TEK_ESKI">
+                        <td>TAM</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                      <tr id="GRAMESE_ESKI">
+                        <td>GREMİSE</td>
+                        <td class="alis">0,00</td>
+                        <td class="satis">0,00</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-12 col-sm-12">
+              <div class="card bg-primary text-white">
+                <div class="d-flex justify-content-around align-items-center footer">
+                  <div id="USDTRY"
+                    class="footer-dolar-container d-flex justify-content-between align-items-center gap-1 p-2">
+                    <div class="dolar-title">
+                      DOLAR
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1 ">
+                      <span class="title">ALIŞ: </span>
+                      <span class="alis footer">0,00</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1">
+                      <span class="title">SATIŞ: </span>
+                      <span class="satis footer">0,00</span>
+                    </div>
+                  </div>
+
+                  <div id="EURTRY"
+                    class="footer-euro-container d-flex justify-content-between align-items-center gap-1 p-2">
+                    <div class="euro-title">
+                      EURO
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1">
+                      <span class="title">ALIŞ: </span>
+                      <span class="alis footer">0,00</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1">
+                      <span class="title">SATIŞ: </span>
+                      <span class="satis footer">0,00</span>
+                    </div>
+                  </div>
+
+                  <div id="GUMUSTRY"
+                    class="footer-gumus-container d-flex justify-content-between align-items-center gap-1 p-2">
+                    <div class="gumus-title">
+                      GÜMÜŞ
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1">
+                      <span class="title">ALIŞ: </span>
+                      <span class="alis footer">0,00</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center gap-1 ">
+                      <span class="title">SATIŞ: </span>
+                      <span class="satis footer">0,00</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+      <td class="ad-cell align-top d-none d-md-table-cell">
+        <div class="ad-wrapper">
+          <img src="./media/rumeli_ad.jpg" alt="Reklam görseli" class="ad-image">
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script type="module" src="./scripts/livePrices/fetchFromHarem.js"></script>
+  <script src="./scripts/livePrices/time.js"></script>
+  <!-- <script src="./scripts/livePrices/readPrices.js"></script> -->
+
+</body>
+
+</html>
