@@ -1,105 +1,53 @@
-*{
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+  html, body { width: 99.9%; height: 100%; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#f8f9fa; }
+  
+  .card { box-shadow:0 2px 4px rgba(0,0,0,0.1); margin-bottom:1rem; }
+  .card-header { font-weight:bold; }
 
-html, body {
-  overflow-x: hidden;
-  height: 100vh;
-}
+  /* Logo */
+  .logo-container { display:flex; align-items:center; width:200px; padding:10px; }
+  .logo-image { width:100%; height:120px; object-fit:contain; }
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+  /* HAS bilgileri */
+  .navbar-has-container { text-align:right; }
+  .navbar-has-container-alis { margin-bottom:5px; }
 
+  /* Reklam alanı */
+  .ad-cell { width:180px; padding-right:12px; }
+  .ad-wrapper { position:relative; height:100%; border-radius:6px; overflow:hidden; }
+  .ad-image { width:100%; height:100%; object-fit:cover; display:block; }
 
-.card {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
+  .container-fluid { padding-left:8px; padding-right:8px; }
 
-.card-header {
-    font-weight: bold;
-}
+  /* Tablo responsive */
+  .table-responsive { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .layout-table { width:100%; border-collapse:separate; border-spacing:0; }
+  .layout-table td { vertical-align:top; }
+  .layout-table .table { width:100%; table-layout:fixed; }
+  .layout-table .table th:first-child,
+  .layout-table .table td:first-child { width:42%; word-wrap:break-word; }
+  .layout-table .table th:nth-child(2),
+  .layout-table .table td:nth-child(2),
+  .layout-table .table th:nth-child(3),
+  .layout-table .table td:nth-child(3) { width:29%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .layout-table .table th, .layout-table .table td { padding:12px; }
+  .main-cell { width:100%; }
 
-/* Logo styles */
-.logo-container {
-    display: flex;
-    align-items: center;
-    width: 250px;
-    padding: 10px;
-}
+  /* Masaüstü */
+  @media (min-width: 769px) {
+    .layout-table { display:table; }
+    .ad-cell { display:block !important; }
+  }
 
-.logo-image {
-    width: 100%;
-    height: 200px; /* Varsayılan yükseklik */
-    object-fit: cover;
-}
-
-/* Responsive breakpoints */
-@media (min-width: 768px) {
-    .logo-container {
-        width: 180px;
-    }
-    .logo-image {
-        height: 100px; /* Tablet ve üstü için daha büyük */
-    }
-}
-
-@media (min-width: 1200px) {
-    .logo-image {
-        height: 150px; /* Desktop için en büyük boyut */
-    }
-}
-
-@media (min-width: 1500px) {
-    .logo-image {
-        height: 150px; /* Desktop için en büyük boyut */
-    }
-}
-
-/* Küçük ekranlar için */
-@media (min-width: 576px) {
-    .logo-container {
-        width: 180px;
-    }
-    .logo-image {
-        height: 120px; /* Mobil için daha küçük */
-    }
-}
-
-.navbar-title-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
-.navbar-has-container {
-    text-align: right;
-}
-
-.navbar-has-container-alis {
-    margin-bottom: 5px;
-}
-
-/* Reklam hücresi ve içerik düzeni */
-.ad-cell {
-    width: 180px;
-    height: 100%;
-    padding-right: 12px;
-}
-
-.ad-wrapper {
-    position: relative;
-    height: 100%;
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-.ad-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+  /* Mobil */
+  @media (max-width: 768px) {
+    .layout-table { display:block; overflow-x:hidden; }
+    .ad-cell { display:none !important; }
+    .table-responsive { overflow-x:visible; }
+    table.table { width:100% !important; table-layout:auto !important; }
+    table.table th, table.table td { font-size:13px; padding:6px 8px; word-break:break-word; }
+    .logo-container { width:120px; padding:0; }
+    .logo-image { height:80px; }
+    .navbar-title-container h2 { font-size:1.1rem; }
+    .row > [class*="col-"] { padding-left:4px; padding-right:4px; }
+  }
