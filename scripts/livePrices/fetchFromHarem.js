@@ -248,8 +248,8 @@ const EXCHANGE_TYPES = [
     haremId: "CEYREK_YENI",
     haremAlis: 0,
     haremSatis: 0,
-    alisMilyem: 10,
-    satisMilyem: 10,
+    alisMilyem: 1,
+    satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
     alisHesap: function () {
@@ -266,8 +266,8 @@ const EXCHANGE_TYPES = [
     haremId: "CEYREK_ESKI",
     haremAlis: 0,
     haremSatis: 0,
-    alisMilyem: 10,
-    satisMilyem: 10,
+    alisMilyem: 1,
+    satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
     alisHesap: function () {
