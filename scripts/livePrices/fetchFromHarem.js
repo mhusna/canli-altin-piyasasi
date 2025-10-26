@@ -499,9 +499,5 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
   element.innerText = deger;
 }
 
-const goToUpdatePrices = () => {
-  window.location.href = "updatePrices.html";
-}
-
 // Saat kontrolü için interval
 setInterval(manageSocketConnection, 2000);

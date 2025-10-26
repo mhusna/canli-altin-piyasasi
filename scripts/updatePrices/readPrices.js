@@ -125,14 +125,13 @@ document.getElementById("newUserBtn").addEventListener("click", () => {
 });
 
 document.getElementById("homeBtn").addEventListener("click", () => {
-  window.location.href = "/index.html"; // Ana sayfa linki
+  window.location.href = "/livePrices.html"; // Ana sayfa linki
 });
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
   signOut(auth)
     .then(() => {
-      alert("Başarıyla çıkış yaptınız!");
-      window.location.href = "/login.html"; // Çıkış sonrası yönlendirme
+      window.location.href = "/index.html"; // Çıkış sonrası yönlendirme
     })
     .catch((error) => {
       console.error("Çıkış yapılamadı:", error);

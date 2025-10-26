@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getAuth, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { getAuth, signOut, createUserWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -17,6 +17,13 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    window.location.href = "index.html";
+    return;
+  }
+});
 
 const form = document.getElementById("registerForm");
 const message = document.getElementById("message");
@@ -38,14 +45,13 @@ form.addEventListener("submit", (e) => {
 
 
 document.getElementById("homeBtn").addEventListener("click", () => {
-  window.location.href = "/index.html"; // Ana sayfa linki
+  window.location.href = "/livePrices.html"; // Ana sayfa linki
 });
 
 document.getElementById("logoutBtn").addEventListener("click", () => {
   signOut(auth)
     .then(() => {
-      alert("Başarıyla çıkış yaptınız!");
-      window.location.href = "/login.html"; // Çıkış sonrası yönlendirme
+      window.location.href = "/index.html"; // Çıkış sonrası yönlendirme
     })
     .catch((error) => {
       console.error("Çıkış yapılamadı:", error);
