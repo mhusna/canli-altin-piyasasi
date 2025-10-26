@@ -1,140 +1,345 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
 const EXCHANGE_TYPES = [
   {
-    id: "BILEZIK22",
-    alisMilyem: 0.912,
-    satisMilyem: 0.93,
+    id: "HAS",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
-    id: "AYAR22",
+    id: "BILEZIK22",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 0.912,
     satisMilyem: 0.93,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "AYAR8",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 0.32,
     satisMilyem: 0,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "AYAR14",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 0.575,
     satisMilyem: 0,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "AYAR18",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 0.7,
     satisMilyem: 0,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "AYAR22",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.912,
+    satisMilyem: 0.93,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "AYAR24",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 0.995,
     satisMilyem: 1.1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "CEYREK_YENI",
+    haremId: "CEYREK_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "CEYREK_ESKI",
+    haremId: "CEYREK_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "YARIM_YENI",
+    haremId: "YARIM_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "YARIM_ESKI",
+    haremId: "YARIM_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "TEK_ESKI",
+    haremId: "TEK_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "TEK_YENI",
+    haremId: "TEK_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "ATA_YENI",
+    haremId: "ATA_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "RESAT",
+    haremId: "ATA_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "GRAMESE_YENI",
+    haremId: "CEYREK_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 10,
     satisMilyem: 10,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremAlis) * 10) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "GRAMESE_ESKI",
+    haremId: "CEYREK_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 10,
     satisMilyem: 10,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremAlis) * 10) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "USDTRY",
+    haremId: "USDTRY",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "EURTRY",
+    haremId: "EURTRY",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
   {
     id: "GUMUSTRY",
+    haremId: "GUMUSTRY",
+    haremAlis: 0,
+    haremSatis: 0,
     alisMilyem: 1,
     satisMilyem: 1,
     alisKar: 0,
-    satisKar: 0
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
   },
 ];
 
+const firebaseConfig = {
+  apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
+  authDomain: "canli-altin-app.firebaseapp.com",
+  databaseURL:
+    "https://canli-altin-app-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "canli-altin-app",
+  storageBucket: "canli-altin-app.firebasestorage.app",
+  messagingSenderId: "675863034125",
+  appId: "1:675863034125:web:301006180c35a5f0549844",
+  measurementId: "G-V3YHGPSB8M",
+};
 
 // DB'den kârları oku.
 const app = initializeApp(firebaseConfig);
@@ -158,7 +363,7 @@ onAuthStateChanged(auth, async (user) => {
     const productId = doc.id; // Örn: "BILEZIK22"
 
     EXCHANGE_TYPES.find((type) => {
-      if(type.id === productId) {
+      if (type.id === productId) {
         type.satisKar = data.satis.toFixed(2);
         type.alisKar = data.alis.toFixed(2);
       }
@@ -190,36 +395,36 @@ const manageSocketConnection = () => {
 socket.on("price_changed", (data) => {
   const items = Object.values(data);
   const firstItem = Object.values(items[1]);
-
-  let has = {};
-  let ata = {};
-  let resat = {};
+  
+  // Ürünleri haremden oku ve haremAlis - haremSatis alanlarını doldur.
   firstItem.forEach((item) => {
-    if (item.code === "ALTIN") {
-      has = item;
-    } else if (item.code === "ATA_YENI") {
-      ata = item;
-      resat = item;
-    }
+    EXCHANGE_TYPES.forEach((type) => {
+      if(item.code === type.haremId) {
+        type.haremAlis = item.alis;
+        type.haremSatis = item.satis;
+      }
+    });
   });
 
+  //#region Has alış - satış fiyatlarını ekrana yaz.
   const hasAlisElement = document.getElementById("has-alis");
   const hasSatisElement = document.getElementById("has-satis");
 
-  hasAlisElement.innerText = formatNumber(has.alis);
-  hasSatisElement.innerText = formatNumber(has.satis);
+  hasAlisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis);
+  hasSatisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis);
+  //#endregion
 
+  //#region Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
   EXCHANGE_TYPES.forEach((type) => {
-    const totalAlis = has.alis * type.alisMilyem + type.alisKar;
-    const totalSatis = has.satis * type.satisMilyem + type.satisKar;
 
-    if (type.id === "ATA") 
-      findElementAndFill(type.id, ata.alis + type.alisKar, ata.satis + type.satisKar);
-    else if (type.id === "RESAT")
-      findElementAndFill(type.id, resat.alis + type.alisKar, resat.satis + type.satisKar);
-    else 
-      findElementAndFill(type.id, totalAlis, totalSatis);
+    // Alış ve satış fiyatlarını hesapla.
+    const totalAlis = type.alisHesap();
+    const totalSatis = type.satisHesap();
+
+    // Ekrana yansıt.
+    findElementAndFill(type.id, totalAlis, totalSatis);
   });
+  //#endregion
 });
 
 // helper: locale-aware format (2 ondalık, Türkçe)
@@ -256,25 +461,47 @@ const findElementAndFill = (code, alis, satis) => {
   const currentAlis = parseDisplayNumber(alisElement.innerText);
   const currentSatis = parseDisplayNumber(satisElement.innerText);
 
-  const alisDown = currentAlis < Number(alis);
-  const satisDown = currentSatis < Number(satis);
+  const alisDown = handleRate(currentAlis, Number(alis));
+  const satisDown = handleRate(currentSatis, Number(satis));
 
   checkValuesAndDisplay(alisElement, alis, alisDown);
   checkValuesAndDisplay(satisElement, satis, satisDown);
 };
 
-const checkValuesAndDisplay = (element, newValue, isDown) => {
+// Fiyat arttı mı azaldı mı belirler.
+const handleRate = (currentValue, newValue) => {
+  if (currentValue > newValue) return "down";
+  else if (currentValue < newValue) return "up";
+  return "equal"
+}
+
+const checkValuesAndDisplay = (element, newValue, rate) => {
   if (newValue === 0 || isNaN(newValue)) return;
+
+  const originalBg = getComputedStyle(element).backgroundColor;
 
   if (!element.classList.contains("footer")) {
     element.style.transition = "background 2s ease";
-    isDown
-      ? (element.style.background = "#efafaa")
-      : (element.style.background = "#daf3d0");
+
+    if (rate === "down") {
+      element.style.background = "#efafaa"; // kırmızı
+    } else if (rate === "up") {
+      element.style.background = "#daf3d0"; // yeşil
+    }
+
+    // 2 saniye sonra geri griye dönsün
+    setTimeout(() => {
+      element.style.background = originalBg;
+    }, 1000);
   }
+  
   const deger = formatNumber(newValue); // iki ondalık gösterim, locale ile
   element.innerText = deger;
-};
+}
+
+const goToUpdatePrices = () => {
+  window.location.href = "updatePrices.html";
+}
 
 // Saat kontrolü için interval
 setInterval(manageSocketConnection, 2000);

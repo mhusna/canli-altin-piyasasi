@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import {
   getAuth,
+  signOut,
   onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import {
@@ -52,6 +53,8 @@ const EXCHANGE_TYPES = [
 
 const tableBody = document.getElementById("priceTable");
 const saveBtn = document.getElementById("saveBtn");
+const loadingMessage = document.getElementById("loadingMessage");
+const priceCard = document.getElementById("priceCard");
 
 // --- Ürünleri tabloya ekle ---
 function renderTable(data = {}) {
@@ -59,20 +62,14 @@ function renderTable(data = {}) {
   EXCHANGE_TYPES.forEach((item) => {
     const existing = data[item.id] || {};
     tableBody.innerHTML += `
-          <tr>
-            <td class="fw-semibold">${item.id}</td>
-            <td><input type="number" class="form-control" id="alis_${
-              item.id
-            }" value="${existing.alis ?? ""}" placeholder="${
-      item.alisMilyem
-    }"></td>
-            <td><input type="number" class="form-control" id="satis_${
-              item.id
-            }" value="${existing.satis ?? ""}" placeholder="${
-      item.satisMilyem
-    }"></td>
-          </tr>
-        `;
+      <tr>
+        <td class="fw-semibold">${item.id}</td>
+        <td><input type="number" class="form-control" id="alis_${item.id}" 
+          value="${existing.alis ?? ""}" placeholder="${item.alisMilyem}"></td>
+        <td><input type="number" class="form-control" id="satis_${item.id}" 
+          value="${existing.satis ?? ""}" placeholder="${item.satisMilyem}"></td>
+      </tr>
+    `;
   });
 }
 
@@ -92,13 +89,24 @@ async function savePrices(uid) {
 
 // --- Firestore'dan mevcut fiyatları oku ---
 async function loadPrices(uid) {
+  // Spinner'ı göster, tabloyu gizle
+  loadingMessage.style.display = "block";
+  priceCard.style.display = "none";
+  priceCard.classList.remove("show");
+
   const pricesData = {};
   for (const item of EXCHANGE_TYPES) {
     const ref = doc(db, "users", uid, "prices", item.id);
     const snap = await getDoc(ref);
     if (snap.exists()) pricesData[item.id] = snap.data();
   }
+
   renderTable(pricesData);
+
+  // Spinner'ı gizle, tabloyu göster (fade-in ile)
+  loadingMessage.style.display = "none";
+  priceCard.style.display = "block";
+  setTimeout(() => priceCard.classList.add("show"), 10);
 }
 
 // --- Kullanıcı girişi kontrolü ---
@@ -109,4 +117,25 @@ onAuthStateChanged(auth, async (user) => {
   } else {
     window.location.href = "index.html"; // giriş yoksa login sayfasına yönlendir
   }
+});
+
+
+document.getElementById("newUserBtn").addEventListener("click", () => {
+  window.location.href = "/register.html";
+});
+
+document.getElementById("homeBtn").addEventListener("click", () => {
+  window.location.href = "/index.html"; // Ana sayfa linki
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth)
+    .then(() => {
+      alert("Başarıyla çıkış yaptınız!");
+      window.location.href = "/login.html"; // Çıkış sonrası yönlendirme
+    })
+    .catch((error) => {
+      console.error("Çıkış yapılamadı:", error);
+      alert("Çıkış sırasında bir hata oluştu!");
+    });
 });

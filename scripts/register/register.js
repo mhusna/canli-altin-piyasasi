@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { getAuth, signOut, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
 // Firebase config
 const firebaseConfig = {
@@ -34,4 +34,21 @@ form.addEventListener("submit", (e) => {
         .catch((error) => {
             message.textContent = "Hata: " + error.message;
         });
+});
+
+
+document.getElementById("homeBtn").addEventListener("click", () => {
+  window.location.href = "/index.html"; // Ana sayfa linki
+});
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  signOut(auth)
+    .then(() => {
+      alert("Başarıyla çıkış yaptınız!");
+      window.location.href = "/login.html"; // Çıkış sonrası yönlendirme
+    })
+    .catch((error) => {
+      console.error("Çıkış yapılamadı:", error);
+      alert("Çıkış sırasında bir hata oluştu!");
+    });
 });

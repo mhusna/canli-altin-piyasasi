@@ -12,11 +12,11 @@
 </head>
 
 <body>
-  <table class="layout-table w-100 mt-lg-5 mt-md-5 mt-sm-2 mb-sm-2">
+  <table class="layout-table w-100">
     <tr>
       <!-- Ana içerik hücresi: mevcut container-fluid burada kalacak -->
       <td colspan="2" class="header-cell">
-        <div class="container-fluid p-12 p-sm-6 mt-3">
+        <div class="container-fluid p-12 p-sm-6 mt-1">
           <div class="row">
             <div class="col-12 col-md-12 col-sm-12">
               <div class="card bg-primary text-white mb-4">
@@ -34,10 +34,13 @@
                         <span>HAS ALIŞ: </span>
                         <span id="has-alis">0,00</span>
                       </div>
-                      <div class="navbar-has-container-satis">
+                      <div class="navbar-has-container-satis mb-2">
                         <span>HAS SATIŞ: </span>
                         <span id="has-satis">0,00</span>
                       </div>
+                      <button id="goToUpdateBtn" class="btn btn-primary text-light border-black fw-bold px-3 py-2">
+                        ⚙️ Ayarlar
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -50,9 +53,9 @@
 
     <tr>
       <td class="main-cell align-top">
-        <div class="container-fluid  p-12 p-sm-6">
+        <div class="container-fluid p-12 p-sm-6">
           <div class="row">
-            <div class="col-md-6 col-sm-12 mb-4">
+            <div class="col-md-6 col-sm-12 mb-3">
               <div class="card">
                 <div class="card-header bg-primary text-white">
                   ALTIN
@@ -93,7 +96,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 col-sm-12 mb-4">
+            <div class="col-md-6 col-sm-12 mb-3">
               <div class="card">
                 <div class="card-header bg-primary text-white">
                   YENİ
@@ -136,7 +139,7 @@
           </div>
 
           <div class="row">
-            <div class="col-md-6 col-sm-12 mb-4">
+            <div class="col-md-6 col-sm-12 mb-3">
               <div class="card">
                 <div class="card-header bg-primary text-white">
                   ALTIN
@@ -177,7 +180,7 @@
               </div>
             </div>
 
-            <div class="col-md-6 col-sm-12 mb-4">
+            <div class="col-md-6 col-sm-12 mb-3">
               <div class="card">
                 <div class="card-header bg-primary text-white">
                   ESKİ
@@ -288,8 +291,11 @@
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script type="module" src="./scripts/livePrices/fetchFromHarem.js"></script>
   <script src="./scripts/livePrices/time.js"></script>
-  <!-- <script src="./scripts/livePrices/readPrices.js"></script> -->
-
+  <script>
+    document.getElementById("goToUpdateBtn").addEventListener("click", () => {
+      window.location.href = "updatePrices.html";
+    });
+  </script>
 </body>
 
 </html>
