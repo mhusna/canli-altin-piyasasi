@@ -1,5 +1,5 @@
 * { box-sizing: border-box; }
-  html, body { width: 99.9%; height: 100%; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#f8f9fa; }
+  html, body { width: 99.8%; height: 100%; margin:0; padding:0; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color:#f8f9fa; }
   
   .card { box-shadow:0 2px 4px rgba(0,0,0,0.1); margin-bottom:1rem; }
   .card-header { font-weight:bold; }
@@ -13,9 +13,9 @@
   .navbar-has-container-alis { margin-bottom:5px; }
 
   /* Reklam alanı */
-  .ad-cell { width:180px; padding-right:12px; }
+  .ad-cell { width: 400px; padding-right:12px; }
   .ad-wrapper { position:relative; height:100%; border-radius:6px; overflow:hidden; }
-  .ad-image { width:100%; height:100%; object-fit:cover; display:block; }
+  .ad-image { width:100%; height:100%; object-fit:fill; display:block; }
 
   .container-fluid { padding-left:8px; padding-right:8px; }
 
@@ -36,13 +36,23 @@
   /* Masaüstü */
   @media (min-width: 769px) {
     .layout-table { display:table; }
-    .ad-cell { display:block !important; }
+  }
+
+  @media (min-width: 1044.99px) {
+    .ad-cell { 
+      display:block !important;
+      width: 300px;
+    }
+  }
+
+  @media (max-width: 1044px) {
+    .ad-cell { display:none !important; }
+    .layout-table .table th, .layout-table .table td { padding:12px; }
   }
 
   /* Mobil */
   @media (max-width: 768px) {
     .layout-table { display:block; overflow-x:hidden; }
-    .ad-cell { display:none !important; }
     .table-responsive { overflow-x:visible; }
     table.table { width:100% !important; table-layout:auto !important; }
     table.table th, table.table td { font-size:13px; padding:6px 8px; word-break:break-word; }

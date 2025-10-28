@@ -6,9 +6,10 @@ function getCurrentTime() {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-const body = document.getElementsByClassName("main-cell")[0];
-console.log(body)
-document.getElementsByClassName("ad-cell")[0].style.height = (body.clientHeight - 15) + "px";
+window.addEventListener("resize", () => {
+    const body = document.getElementsByClassName("main-cell")[0];
+    document.getElementsByClassName("ad-cell")[0].style.height = (body.clientHeight - 15) + "px";
+})
 
 setInterval(() => {
     const timeElement = document.querySelector('.currentTime');
