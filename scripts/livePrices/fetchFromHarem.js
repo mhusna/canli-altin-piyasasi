@@ -316,8 +316,8 @@ const EXCHANGE_TYPES = [
     haremId: "GUMUSTRY",
     haremAlis: 0,
     haremSatis: 0,
-    alisMilyem: 1,
-    satisMilyem: 1,
+    alisMilyem: 1000,
+    satisMilyem: 1000,
     alisKar: 0,
     satisKar: 0,
     alisHesap: function () {
