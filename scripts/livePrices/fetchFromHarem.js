@@ -316,15 +316,15 @@ const EXCHANGE_TYPES = [
     haremId: "GUMUSTRY",
     haremAlis: 0,
     haremSatis: 0,
-    alisMilyem: 1000,
-    satisMilyem: 1000,
+    alisMilyem: 1,
+    satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
     alisHesap: function () {
-      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+      return Number(this.haremAlis * 1000) * this.alisMilyem + Number(this.alisKar);
     },
     satisHesap: function () {
-      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+      return Number(this.haremSatis * 1000) * this.satisMilyem + Number(this.satisKar);
     },
   },
 ];
