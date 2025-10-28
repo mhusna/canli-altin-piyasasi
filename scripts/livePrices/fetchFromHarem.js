@@ -481,7 +481,7 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
   const originalBg = getComputedStyle(element).backgroundColor;
 
   if (!element.classList.contains("footer")) {
-    element.style.transition = "background 2s ease";
+    element.style.transition = "background 0.5s ease-in-out";
 
     if (rate === "down") {
       element.style.background = "#efafaa"; // kırmızı
@@ -491,8 +491,8 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
 
     // 2 saniye sonra geri griye dönsün
     setTimeout(() => {
-      element.style.background = originalBg;
-    }, 1000);
+      element.style.background = "#fff";
+    }, 500);
   }
   
   const deger = formatNumber(newValue); // iki ondalık gösterim, locale ile
@@ -500,4 +500,4 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
 }
 
 // Saat kontrolü için interval
-setInterval(manageSocketConnection, 2000);
+setInterval(manageSocketConnection, 3000);
