@@ -30,25 +30,330 @@ const db = getFirestore(app);
 
 // --- Ürün listesi ---
 const EXCHANGE_TYPES = [
-  { id: "BILEZIK22", alisMilyem: 0.912, satisMilyem: 0.93 },
-  { id: "AYAR22", alisMilyem: 0.912, satisMilyem: 0.93 },
-  { id: "AYAR8", alisMilyem: 0.32, satisMilyem: 0 },
-  { id: "AYAR14", alisMilyem: 0.575, satisMilyem: 0 },
-  { id: "AYAR18", alisMilyem: 0.7, satisMilyem: 0 },
-  { id: "AYAR24", alisMilyem: 0.995, satisMilyem: 1.1 },
-  { id: "CEYREK_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "CEYREK_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "YARIM_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "YARIM_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "TEK_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "TEK_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "ATA_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "RESAT", alisMilyem: 1, satisMilyem: 1 },
-  { id: "GRAMESE_YENI", alisMilyem: 10, satisMilyem: 10 },
-  { id: "GRAMESE_ESKI", alisMilyem: 10, satisMilyem: 10 },
-  { id: "USDTRY", alisMilyem: 1, satisMilyem: 1 },
-  { id: "EURTRY", alisMilyem: 1, satisMilyem: 1 },
-  { id: "GUMUSTRY", alisMilyem: 1, satisMilyem: 1 },
+  {
+    id: "HAS",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "BILEZIK22",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.912,
+    satisMilyem: 0.93,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "AYAR8",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.32,
+    satisMilyem: 0,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "AYAR14",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.575,
+    satisMilyem: 0,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "AYAR18",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.7,
+    satisMilyem: 0,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "AYAR22",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.912,
+    satisMilyem: 0.93,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "AYAR24",
+    haremId: "ALTIN",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 0.995,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "CEYREK_YENI",
+    haremId: "CEYREK_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "CEYREK_ESKI",
+    haremId: "CEYREK_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "YARIM_YENI",
+    haremId: "YARIM_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "YARIM_ESKI",
+    haremId: "YARIM_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "TEK_ESKI",
+    haremId: "TEK_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "TEK_YENI",
+    haremId: "TEK_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "ATA_YENI",
+    haremId: "ATA_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "RESAT",
+    haremId: "ATA_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "GRAMESE_YENI",
+    haremId: "CEYREK_YENI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremAlis) * 10) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "GRAMESE_ESKI",
+    haremId: "CEYREK_ESKI",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremAlis) * 10) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
+      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "USDTRY",
+    haremId: "USDTRY",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "EURTRY",
+    haremId: "EURTRY",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1,
+    satisMilyem: 1,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
+  {
+    id: "GUMUSTRY",
+    haremId: "GUMUSTRY",
+    haremAlis: 0,
+    haremSatis: 0,
+    alisMilyem: 1000,
+    satisMilyem: 1000,
+    alisKar: 0,
+    satisKar: 0,
+    alisHesap: function () {
+      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
+    },
+    satisHesap: function () {
+      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
+    },
+  },
 ];
 
 const tableBody = document.getElementById("priceTable");
@@ -65,9 +370,9 @@ function renderTable(data = {}) {
       <tr>
         <td class="fw-semibold">${item.id}</td>
         <td><input type="number" class="form-control" id="alis_${item.id}" 
-          value="${existing.alis ?? ""}" placeholder="${item.alisMilyem}"></td>
+          value="${existing.alis > 0 ? existing.alis : ""}" placeholder="${item.alisMilyem}"></td>
         <td><input type="number" class="form-control" id="satis_${item.id}" 
-          value="${existing.satis ?? ""}" placeholder="${item.satisMilyem}"></td>
+          value="${existing.satis > 0 ? existing.satis : ""}" placeholder="${item.satisMilyem}"></td>
       </tr>
     `;
   });
