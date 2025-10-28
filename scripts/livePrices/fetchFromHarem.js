@@ -105,7 +105,7 @@ const EXCHANGE_TYPES = [
     haremAlis: 0,
     haremSatis: 0,
     alisMilyem: 0.995,
-    satisMilyem: 1.1,
+    satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
     alisHesap: function () {
