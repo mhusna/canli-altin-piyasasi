@@ -484,9 +484,9 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
     element.style.transition = "background 0.5s ease-in-out";
 
     if (rate === "down") {
-      element.style.background = "#efafaa"; // kırmızı
+      element.style.background = "#ffd6d6ff"; // kırmızı
     } else if (rate === "up") {
-      element.style.background = "#daf3d0"; // yeşil
+      element.style.background = "#e1ffd6ff"; // yeşil
     }
 
     // 2 saniye sonra geri griye dönsün
@@ -494,7 +494,7 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
       element.style.background = "#fff";
     }, 500);
   }
-  
+
   const deger = formatNumber(newValue); // iki ondalık gösterim, locale ile
   element.innerText = deger;
 }
