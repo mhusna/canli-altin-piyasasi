@@ -12,6 +12,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: true,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -28,6 +29,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 0.93,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -44,6 +46,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 0,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -60,6 +63,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 0,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -76,6 +80,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 0,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -92,6 +97,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 0.93,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -108,6 +114,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -124,6 +131,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -140,6 +148,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -156,6 +165,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -172,6 +182,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -188,6 +199,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -204,6 +216,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -220,6 +233,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -236,6 +250,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -252,6 +267,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
       return (Number(this.haremAlis) * 10) * this.alisMilyem + Number(this.alisKar);
@@ -270,6 +286,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: false,
     alisHesap: function () {
       // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
       return (Number(this.haremAlis) * 10) * this.alisMilyem + Number(this.alisKar);
@@ -288,6 +305,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: true,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -304,6 +322,7 @@ const EXCHANGE_TYPES = [
     satisMilyem: 1,
     alisKar: 0,
     satisKar: 0,
+    format: true,
     alisHesap: function () {
       return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
     },
@@ -421,7 +440,7 @@ socket.on("price_changed", (data) => {
     const totalSatis = type.satisHesap();
 
     // Ekrana yansıt.
-    findElementAndFill(type.id, totalAlis, totalSatis);
+    findElementAndFill(type.id, totalAlis, totalSatis, type.format);
   });
   //#endregion
 });
@@ -449,7 +468,7 @@ const parseDisplayNumber = (str) => {
 };
 
 // Fiyat güncelleme fonksiyonları
-const findElementAndFill = (code, alis, satis) => {
+const findElementAndFill = (code, alis, satis, format) => {
   const urunSatir = document.getElementById(code);
   if (!urunSatir) return;
 
@@ -463,8 +482,8 @@ const findElementAndFill = (code, alis, satis) => {
   const alisDown = handleRate(currentAlis, Number(alis));
   const satisDown = handleRate(currentSatis, Number(satis));
 
-  checkValuesAndDisplay(alisElement, alis, alisDown);
-  checkValuesAndDisplay(satisElement, satis, satisDown);
+  checkValuesAndDisplay(alisElement, alis, alisDown, format);
+  checkValuesAndDisplay(satisElement, satis, satisDown, format);
 };
 
 // Fiyat arttı mı azaldı mı belirler.
@@ -474,7 +493,7 @@ const handleRate = (currentValue, newValue) => {
   return "equal"
 }
 
-const checkValuesAndDisplay = (element, newValue, rate) => {
+const checkValuesAndDisplay = (element, newValue, rate, format) => {
   if (newValue === 0 || isNaN(newValue)) return;
 
   if (!element.classList.contains("footer")) {
@@ -492,7 +511,7 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
     }, 500);
   }
 
-  const deger = formatNumber(newValue, 0); // iki ondalık gösterim, locale ile
+  const deger = formatNumber(newValue, format ? 2 : 0); // iki ondalık gösterim, locale ile
   element.innerText = deger;
 }
 
