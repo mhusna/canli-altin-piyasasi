@@ -128,20 +128,33 @@ body {
   /* Tablo yazılarını büyüt */
   .table th,
   .table td {
-    font-size: 1.60rem;
-    line-height: 1.1;
+    line-height: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  .table th {
+    font-weight: bold;
+    font-size: 1.80rem;
+  }
+
+  .table td {
+    font-weight: 600;
+    font-size: 1.65rem;
+  }
+
   .navbar-has-container-alis,
   .navbar-has-container-satis {
     font-size: 1.60rem;
+    font-weight: 600;
+    font-size: 1.65rem;
   }
 
   .footer {
     font-size: 1.50rem;
+    font-weight: 600;
+    font-size: 1.65rem;
   }
 }
 
