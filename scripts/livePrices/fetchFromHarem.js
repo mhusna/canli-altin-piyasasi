@@ -346,7 +346,6 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-
 // Kullanıcı giriş yaptıysa, fiyatlarını getir
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -410,8 +409,8 @@ socket.on("price_changed", (data) => {
   const hasAlisElement = document.getElementById("has-alis");
   const hasSatisElement = document.getElementById("has-satis");
 
-  hasAlisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis);
-  hasSatisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis);
+  hasAlisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
+  hasSatisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
   //#endregion
 
   //#region Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
@@ -428,12 +427,12 @@ socket.on("price_changed", (data) => {
 });
 
 // helper: locale-aware format (2 ondalık, Türkçe)
-const formatNumber = (val) => {
+const formatNumber = (val, digits) => {
   const n = Number(val);
   if (isNaN(n)) return "-";
   return n.toLocaleString("tr-TR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
   });
 };
 
@@ -478,8 +477,6 @@ const handleRate = (currentValue, newValue) => {
 const checkValuesAndDisplay = (element, newValue, rate) => {
   if (newValue === 0 || isNaN(newValue)) return;
 
-  const originalBg = getComputedStyle(element).backgroundColor;
-
   if (!element.classList.contains("footer")) {
     element.style.transition = "background 0.5s ease-in-out";
 
@@ -495,7 +492,7 @@ const checkValuesAndDisplay = (element, newValue, rate) => {
     }, 500);
   }
 
-  const deger = formatNumber(newValue); // iki ondalık gösterim, locale ile
+  const deger = formatNumber(newValue, 0); // iki ondalık gösterim, locale ile
   element.innerText = deger;
 }
 
