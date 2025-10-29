@@ -110,6 +110,7 @@ body {
 .layout-table .table th,
 .layout-table .table td {
   padding: 12px;
+  text-align: center;
 }
 
 .main-cell {
