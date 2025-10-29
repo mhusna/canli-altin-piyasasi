@@ -12,6 +12,17 @@ body {
   background-color: #f8f9fa;
 }
 
+.backgroundColor {
+    background: linear-gradient(
+    to bottom,
+    #071535 0%,
+    #092a5f 35%,
+    rgb(11, 68, 129) 70%,
+    #0000ffcc 100%
+  );
+
+}
+
 .card {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   margin-bottom: 1rem;
