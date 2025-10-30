@@ -187,14 +187,6 @@ body {
   }
 }
 
-@media (min-width: 992px) {
-  .footer {
-    font-size: 1.20rem;
-    font-weight: 600;
-    font-size: 1.55rem;
-  }
-}
-
 /* ----------------------------- */
 /* Mobil görünüm */
 /* ----------------------------- */
