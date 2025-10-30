@@ -1,232 +1,622 @@
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-html,
 body {
-  width: 99.9%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f9fa;
+    height: 100vh;
+}
+
+.table {
+    margin: 0;
+    padding: 0;
 }
 
 .backgroundColor {
     background: linear-gradient(
-    to bottom,
-    #071535 0%,
-    #092a5f 35%,
-    rgb(11, 68, 129) 70%,
-    #0000ffcc 100%
-  );
+        to bottom,
+        #071535 0%,
+        #092a5f 35%,
+        rgb(11, 68, 129) 70%,
+        #0000ffcc 100%
+    );
 
+    color: white;
 }
 
-.card {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin-bottom: 1rem;
+/* Küçük telefonlar */
+@media screen and (max-width: 480px) {
+    .mainFlexContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 5px;
+    }
+
+    .navbarContent {
+        border-radius: 5px;
+        color: #fff;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        .logoContainer {
+            width: auto;
+            height: 50px;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        padding: 0 3px 0 3px;
+
+        .tableContent {
+            /* border: 1px solid green; */
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 5px;
+
+            width: 100%;
+
+            .card {
+                padding: 0 10;
+                .card-header {
+                    padding: 1;
+                }
+
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .table td,
+                .table th {
+                    padding: 2px;
+                }
+            }
+        }
+
+        .adContent {
+            display: none;
+        }
+    }
+
+    .footerContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 5px;
+        margin: 0 3px 0 3px;
+
+        .footerContainer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
 }
 
-.card-header {
-  font-weight: bold;
+/* Tablet dikey */
+@media screen and (min-device-width: 481px) and (max-device-width: 768px) {
+    .mainFlexContainer {
+        height: 100%;
+        padding: 0 3px 0 3px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .navbarContent {
+        border-radius: 5px;
+        color: #fff;
+
+        height: 15%;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .logoContainer {
+            width: auto;
+            height: 80%;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+
+        .tableContent {
+            /* border: 1px solid green; */
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 10px;
+
+            width: 100%;
+            height: auto;
+
+            .card {
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+
+        .adContent {
+            display: none;
+        }
+    }
 }
 
-/* Logo */
-.logo-container {
-  display: flex;
-  align-items: center;
-  width: 200px;
-  padding: 10px;
+/* Full HD TV & 1366px üzeri büyük ekranlar */
+@media screen and (min-width: 1600px) and (max-width: 2559px) {
+    .mainFlexContainer {
+        height: 100%;
+        padding: 0 3px 0 3px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .navbarContent {
+        border-radius: 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        font-weight: 700;
+
+        .logoContainer {
+            padding: 5px;
+            width: 200px;
+            height: 200px;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+
+            width: 80%;
+            height: 100%;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    width: 100%;
+
+                    text-align: center;
+                    font-weight: 700;
+
+                    font-size: 1.9rem;
+
+                    th {
+                        width: 33.3%;
+                        padding: 0;
+                    }
+
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+        .adContent {
+          display: block;
+          width: 18%;
+          height: 100%;
+          margin: auto;
+            object-fit: fill;
+
+            img {
+            border-radius: 5px;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .footerContent {
+        border-radius: 5px;
+        margin: 0 3px 0 3px;
+
+        display: flex;
+        justify-content: space-around;
+
+        font-weight: 700;
+        font-size: 1.8rem;
+
+        margin-bottom: 5px;
+    }
 }
 
-.logo-image {
-  width: 100%;
-  height: 120px;
-  object-fit: contain;
+/* 4K TV */
+@media screen and (min-width: 2560px) and (max-width: 3839px) {
+    .mainFlexContainer {
+        width: 100%;
+        height: 100%;
+        padding: 0 3px 0 3px;
+
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .navbarContent {
+        height: 15%;
+        border-radius: 5px;
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        font-weight: 700;
+
+        .logoContainer {
+            width: 200px;
+            height: 200px;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 2rem;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        height: auto;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+
+            width: 80%;
+            height: 100%;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    width: 100%;
+
+                    text-align: center;
+                    font-weight: 700;
+
+                    font-size: 2.2rem;
+
+                    th {
+                        width: 33.3%;
+                        padding: 5;
+                    }
+
+                    td {
+                        padding: 5;
+                    }
+                }
+            }
+        }
+
+        .adContent {
+            display: block;
+            width: 20%;
+            height: 100%;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .footerContent {
+        height: auto;
+        border-radius: 5px;
+        margin: 0 3px 0 3px;
+
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+
+        font-size: 1.6rem;
+    }
 }
 
-/* HAS bilgileri */
-.navbar-has-container {
-  text-align: right;
-}
+/* 4K ve üstü (8K vs.) */
+@media screen and (min-width: 3840px) {
+    .mainFlexContainer {
+        width: 100%;
+        height: 100%;
+        padding: 0 3px 0 3px;
 
-.navbar-has-container-alis {
-  margin-bottom: 5px;
-}
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
 
-/* Reklam alanı */
-.ad-cell {
-  width: 400px;
-  padding-right: 12px;
-}
+    .navbarContent {
+        height: 15%;
+        border-radius: 5px;
 
-.ad-wrapper {
-  position: relative;
-  height: 100%;
-  border-radius: 6px;
-  overflow: hidden;
-}
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
 
-.ad-image {
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  display: block;
-}
+        font-weight: 700;
 
-.container-fluid {
-  padding-left: 8px;
-  padding-right: 8px;
-}
+        .logoContainer {
+            width: 300px;
+            height: 300px;
+            object-fit: fill;
 
-/* Tablo responsive */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
 
-.layout-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-}
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 4rem;
+        }
 
-.layout-table td {
-  vertical-align: top;
-}
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
-.layout-table .table {
-  width: 100%;
-  table-layout: fixed;
-}
+            .alisContainer,
+            .satisContainer {
+                font-size: 4rem;
+            }
+        }
+    }
 
-.layout-table .table th:first-child,
-.layout-table .table td:first-child {
-  width: 42%;
-  word-wrap: break-word;
-}
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        height: auto;
 
-.layout-table .table th:nth-child(2),
-.layout-table .table td:nth-child(2),
-.layout-table .table th:nth-child(3),
-.layout-table .table td:nth-child(3) {
-  width: 29%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
-.layout-table .table th,
-.layout-table .table td {
-  padding: 12px;
-  text-align: center;
-}
+            width: 80%;
+            height: 100%;
 
-.main-cell {
-  width: 100%;
-}
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
 
-/* ----------------------------- */
-/* Masaüstü görünüm (büyük ekranlar) */
-/* ----------------------------- */
-@media (min-width: 769px) {
-  .layout-table {
-    display: table;
-  }
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
 
-  /* Tablo yazılarını büyüt */
-  .table th,
-  .table td {
-    line-height: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+                .card-header {
+                    font-size: 2rem;
+                }
 
-  .table th {
-    font-weight: bold;
-    font-size: 1.80rem;
-  }
+                .table {
+                    width: 100%;
 
-  .table td {
-    font-weight: 600;
-    font-size: 1.65rem;
-  }
+                    text-align: center;
+                    font-weight: 700;
 
-  .navbar-has-container-alis,
-  .navbar-has-container-satis {
-    font-size: 1.60rem;
-    font-weight: 600;
-    font-size: 1.65rem;
-  }
+                    font-size: 4.2rem;
 
-  .footer {
-    font-size: 1.50rem;
-    font-weight: 600;
-    font-size: 1.65rem;
-  }
-}
+                    th {
+                        width: 33.3%;
+                        padding: 5;
+                    }
 
-@media (min-width: 1044.99px) {
-  .ad-cell {
-    display: block !important;
-    width: 300px;
-  }
-}
+                    td {
+                        padding: 5;
+                    }
+                }
+            }
+        }
 
-@media (max-width: 1044px) {
-  .ad-cell {
-    display: none !important;
-  }
+        .adContent {
+            display: block;
+            width: 20%;
+            height: 100%;
+            object-fit: fill;
 
-  .layout-table .table th,
-  .layout-table .table td {
-    padding: 12px;
-  }
-}
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
 
-/* ----------------------------- */
-/* Mobil görünüm */
-/* ----------------------------- */
-@media (max-width: 768px) {
-  .layout-table {
-    display: block;
-    overflow-x: hidden;
-  }
+    .footerContent {
+        height: auto;
+        border-radius: 5px;
+        margin: 0 3px 0 3px;
 
-  .table-responsive {
-    overflow-x: visible;
-  }
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
 
-  table.table {
-    width: 100% !important;
-    table-layout: auto !important;
-  }
-
-  table.table th,
-  table.table td {
-    font-size: 13px;
-    padding: 6px 8px;
-    word-break: break-word;
-  }
-
-  .logo-container {
-    width: 120px;
-    padding: 0;
-  }
-
-  .logo-image {
-    height: 80px;
-  }
-
-  .navbar-title-container h2 {
-    font-size: 1.1rem;
-  }
-
-  .row > [class*="col-"] {
-    padding-left: 4px;
-    padding-right: 4px;
-  }
+        font-size: 1.6rem;
+    }
 }
