@@ -162,6 +162,7 @@ body {
         align-items: center;
 
         .logoContainer {
+            background-color: red;
             width: auto;
             height: 80%;
             object-fit: fill;
@@ -256,6 +257,7 @@ body {
         font-weight: 700;
 
         .logoContainer {
+            background-color: green;
             padding: 5px;
             width: 200px;
             height: 200px;
@@ -386,6 +388,7 @@ body {
         font-weight: 700;
 
         .logoContainer {
+            background-color: blue;
             width: 200px;
             height: 200px;
             object-fit: fill;
@@ -513,6 +516,8 @@ body {
         font-weight: 700;
 
         .logoContainer {
+        
+        background-color: black;
             width: 300px;
             height: 300px;
             object-fit: fill;
