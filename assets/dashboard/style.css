@@ -1,3 +1,11 @@
+/* Extra Small Mobile (Portrait): 320px – 480px */
+/* Small Mobile (Landscape): 481px – 600px */
+/* Small Tablets (Portrait): 601px – 768px */
+/* Large Tablets (Landscape): 769px – 1024px */
+/* Small Desktops and Laptops: 1025px – 1280px */
+/* Large Desktops and High-Resolution Screens: 1281px – 1440px */
+/* Extra-Large Desktops: 1441px and up */
+
 * {
     margin: 0;
     padding: 0;
@@ -11,6 +19,18 @@ body {
 .table {
     margin: 0;
     padding: 0;
+    text-align: center;
+
+    th {
+        width: 33.3%;
+    }
+}
+
+.mainFlexContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 5px;
 }
 
 .backgroundColor {
@@ -25,18 +45,10 @@ body {
     color: white;
 }
 
-/* Küçük telefonlar */
+/* Extra Small Mobile (Portrait): 320px – 480px */
 @media screen and (max-width: 480px) {
-    .mainFlexContainer {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        gap: 5px;
-    }
-
     .navbarContent {
         border-radius: 5px;
-        color: #fff;
 
         display: flex;
         flex-direction: column;
@@ -44,14 +56,9 @@ body {
         align-items: center;
 
         .logoContainer {
-            width: auto;
-            height: 50px;
-            object-fit: fill;
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
+            background-image: url('../../media/rumeli_75x75.png');
+            width: 75px;
+            height: 75px;
         }
 
         .titleContainer {
@@ -79,23 +86,116 @@ body {
             .satisContainer {
                 font-size: 1.2rem;
             }
+
+            button {
+                font-size: 1rem;
+                padding: 0;
+            }
         }
     }
 
     .content {
-        display: flex;
-        justify-content: flex-start;
+        display: block;
         padding: 0 3px 0 3px;
+        height: auto;
 
         .tableContent {
-            /* border: 1px solid green; */
-
             display: flex;
             flex-direction: column;
             justify-content: space-around;
             gap: 5px;
 
-            width: 100%;
+            .card {
+                padding: 0 10;
+                .card-header {
+                    padding: 0;
+                }
+
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table td,
+                .table th {
+                    padding: 2px;
+                }
+            }
+        }
+
+        .adContent {
+            display: none;
+        }
+    }
+
+    .footerContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        margin: 0 3px 0 3px;
+
+        .footerContainer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}
+
+/* Small Mobile (Landscape): 481px – 600px */
+@media (min-device-width: 481px) and (max-device-width: 600px) {
+    .navbarContent {
+        display: none;
+        border-radius: 5px;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .logoContainer {
+            background-image: url('../../media/rumeli_75x75.png');
+            width: 75px;
+            height: 75px;
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .content {
+        display: block;
+        padding: 0 3px 0 3px;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 5px;
 
             .card {
                 padding: 0 10;
@@ -140,31 +240,120 @@ body {
     }
 }
 
-/* Tablet dikey */
-@media screen and (min-device-width: 481px) and (max-device-width: 768px) {
-    .mainFlexContainer {
-        height: 100%;
-        padding: 0 3px 0 3px;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-    }
+/* Small Tablets (Portrait): 601px – 768px */
+@media screen and (min-device-width: 601px) and (max-device-width: 767px) {
 
     .navbarContent {
         border-radius: 5px;
-        color: #fff;
-
-        height: 15%;
+        color: yellow !important;
 
         display: flex;
         justify-content: space-around;
         align-items: center;
+        height: 130px;
+        gap: 10px;
+
+        .logoContainer {
+            img {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .content {
+        display: block;
+        padding: 0 3px 0 3px;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 5px;
+
+            .card {
+                padding: 0 10;
+                .card-header {
+                    padding: 1;
+                }
+
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table td,
+                .table th {
+                    padding: 2px;
+                }
+            }
+        }
+
+        .adContent {
+            display: none;
+        }
+    }
+
+    .footerContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 5px;
+        margin: 0 3px 0 3px;
+
+        .footerContainer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}
+
+/* Large Tablets (Landscape): 769px – 1024px */
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    .navbarContent {
+        border-radius: 5px;
+        color: #fff;
+        height: 150px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        gap: 12px;
 
         .logoContainer {
             background-color: red;
-            width: auto;
-            height: 80%;
+            width: 100px;
+            height: 100px;
             object-fit: fill;
 
             img {
@@ -193,6 +382,7 @@ body {
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
+            gap: 12px;
 
             .alisContainer,
             .satisContainer {
@@ -206,8 +396,6 @@ body {
         justify-content: flex-start;
 
         .tableContent {
-            /* border: 1px solid green; */
-
             display: flex;
             flex-direction: column;
             justify-content: space-around;
@@ -232,6 +420,249 @@ body {
         .adContent {
             display: none;
         }
+    }
+
+    .footerContent {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        gap: 5px;
+        margin: 0 3px 0 3px;
+
+        .footerContainer {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+    }
+}
+
+/* Small Desktops and Laptops: 1025px – 1280px */
+@media screen and (min-device-width: 1025px) and (max-device-width: 1280px) {
+    body {
+        font-size: 1.5rem;
+    }
+
+    .navbarContent {
+        border-radius: 5px;
+        color: #fff;
+        height: 175px;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 12px;
+
+        .logoContainer {
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            width: 80%;
+            height: calc(100vh - 175px - 50px - 24px);
+            /* height: 100%;     */
+
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    th,
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+        .adContent {
+            display: block;
+            width: 18%;
+            /* height: auto; */
+            margin: 0 auto;
+            object-fit: fill;
+
+            img {
+                border-radius: 5px;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .footerContent {
+        height: 50px;
+        border-radius: 5px;
+        margin: 0 3px 0 3px;
+
+        display: flex;
+        justify-content: space-around;
+    }
+}
+
+/* Large Desktops and High-Resolution Screens: 1281px – 1440px */
+@media screen and (min-device-width: 1281px) and (max-device-width: 1440px) {
+    .navbarContent {
+        border-radius: 5px;
+        color: #fff;
+        height: 175px;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        gap: 12px;
+
+        .logoContainer {
+            background-color: red;
+            width: 100px;
+            height: 100px;
+            object-fit: fill;
+
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        .titleContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+
+            .title {
+                font-size: 1.4rem;
+            }
+
+            .time {
+                font-size: 1.1rem;
+            }
+        }
+
+        .hasContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+
+            .alisContainer,
+            .satisContainer {
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            width: 80%;
+            height: calc(100vh - 175px - 50px - 24px);
+
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    th,
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+        .adContent {
+            display: block;
+            width: 18%;
+            /* height: auto; */
+            margin: 0 auto;
+            object-fit: fill;
+
+            img {
+                border-radius: 5px;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .footerContent {
+        height: 50px;
+        border-radius: 5px;
+        margin: 0 3px 0 3px;
+
+        display: flex;
+        justify-content: space-around;
     }
 }
 
@@ -319,16 +750,10 @@ body {
                 .table {
                     width: 100%;
 
-                    text-align: center;
                     font-weight: 700;
-
                     font-size: 1.9rem;
 
-                    th {
-                        width: 33.3%;
-                        padding: 0;
-                    }
-
+                    th,
                     td {
                         padding: 0;
                     }
@@ -337,14 +762,14 @@ body {
         }
 
         .adContent {
-          display: block;
-          width: 18%;
-          height: 100%;
-          margin: auto;
+            display: block;
+            width: 18%;
+            height: 100%;
+            margin: 0;
             object-fit: fill;
 
             img {
-            border-radius: 5px;
+                border-radius: 5px;
                 width: 100%;
                 height: 100%;
             }
@@ -367,18 +792,7 @@ body {
 
 /* 4K TV */
 @media screen and (min-width: 2560px) and (max-width: 3839px) {
-    .mainFlexContainer {
-        width: 100%;
-        height: 100%;
-        padding: 0 3px 0 3px;
-
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-    }
-
     .navbarContent {
-        height: 15%;
         border-radius: 5px;
 
         display: flex;
@@ -386,17 +800,12 @@ body {
         justify-content: space-around;
 
         font-weight: 700;
-
+        font-size: 3rem;
+        
         .logoContainer {
-            background-color: blue;
+            background-image: url('../../media/rumeli_200x200.png');
             width: 200px;
             height: 200px;
-            object-fit: fill;
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
         }
 
         .titleContainer {
@@ -404,7 +813,6 @@ body {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            font-size: 2rem;
         }
 
         .hasContainer {
@@ -412,11 +820,6 @@ body {
             flex-direction: column;
             justify-content: center;
             align-items: center;
-
-            .alisContainer,
-            .satisContainer {
-                font-size: 2rem;
-            }
         }
     }
 
@@ -424,19 +827,22 @@ body {
         display: flex;
         justify-content: flex-start;
         gap: 10px;
-        height: auto;
+        height: 100%;
 
+        font-weight: 700;
+        font-size: 3rem;
+        
         .tableContent {
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            justify-content: space-between;
 
             width: 80%;
             height: 100%;
 
             .flexTableContainer {
                 display: flex;
-                gap: 20px;
+                justify-content: space-around;
             }
 
             .card {
@@ -450,16 +856,7 @@ body {
                 .table {
                     width: 100%;
 
-                    text-align: center;
-                    font-weight: 700;
-
-                    font-size: 2.2rem;
-
-                    th {
-                        width: 33.3%;
-                        padding: 5;
-                    }
-
+                    th,
                     td {
                         padding: 5;
                     }
@@ -469,28 +866,27 @@ body {
 
         .adContent {
             display: block;
-            width: 20%;
-            height: 100%;
-            object-fit: fill;
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
+            background-image: url('../../media/rumeli_ad_825x1100.png');
+            width: 500px;
+            height: 1070px;
+            object-fit: contain;
         }
     }
 
     .footerContent {
-        height: auto;
         border-radius: 5px;
         margin: 0 3px 0 3px;
+        height: 30%;
 
         display: flex;
         justify-content: space-around;
         text-align: center;
 
-        font-size: 1.6rem;
+        font-size: 3rem;
     }
+
+
+
 }
 
 /* 4K ve üstü (8K vs.) */
@@ -516,8 +912,7 @@ body {
         font-weight: 700;
 
         .logoContainer {
-        
-        background-color: black;
+            background-color: black;
             width: 300px;
             height: 300px;
             object-fit: fill;
@@ -583,16 +978,10 @@ body {
                 .table {
                     width: 100%;
 
-                    text-align: center;
                     font-weight: 700;
-
                     font-size: 4.2rem;
 
-                    th {
-                        width: 33.3%;
-                        padding: 5;
-                    }
-
+                    th,
                     td {
                         padding: 5;
                     }
