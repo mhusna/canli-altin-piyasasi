@@ -151,6 +151,7 @@ body {
         border-radius: 5px;
 
         display: flex;
+        flex-direction: column;
         justify-content: space-around;
         align-items: center;
 
@@ -259,7 +260,8 @@ body {
         gap: 10px;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_logo/rumeli_75x75.png");
+            background-color: red;
+            /* background-image: url("../../media/rumeli_logo/rumeli_75x75.png"); */
             width: 75px;
             height: 75px;
         }
@@ -366,7 +368,9 @@ body {
         gap: 12px;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_logo/rumeli_100x100.png");
+            /* background-image: url("../../media/rumeli_logo/rumeli_100x100.png"); */
+            
+            background-color: white;
             width: 100px;
             height: 100px;
         }
@@ -467,7 +471,8 @@ body {
         gap: 12px;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_logo/rumeli_150x150.png");
+            /* background-image: url("../../media/rumeli_logo/rumeli_150x150.png"); */
+            background-color: darkorange;
             width: 150px;
             height: 150px;
         }
@@ -568,7 +573,8 @@ body {
         gap: 12px;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_logo/rumeli_150x150.png");
+            /* background-image: url("../../media/rumeli_logo/rumeli_150x150.png"); */
+            background-color: fuchsia;
             width: 150px;
             height: 150px;
         }
@@ -678,7 +684,8 @@ body {
         gap: 12px;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_logo/rumeli_150x150.png");
+            /* background-image: url("../../media/rumeli_logo/rumeli_150x150.png"); */
+            background-color: lightgreen;
             width: 150px;
             height: 150px;
         }
@@ -795,7 +802,8 @@ body {
         font-weight: 700;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_logo/rumeli_150x150.png");
+            /* background-image: url("../../media/rumeli_logo/rumeli_150x150.png"); */
+            background-color: yellow;
             width: 150px;
             height: 150px;
         }
@@ -901,7 +909,8 @@ body {
         font-size: 3rem;
 
         .logoContainer {
-            background-image: url("../../media/rumeli_200x200.png");
+            /* background-image: url("../../media/rumeli_200x200.png"); */
+            background-color: aqua;
             width: 200px;
             height: 200px;
         }
@@ -1007,7 +1016,8 @@ body {
         font-weight: 700;
 
         .logoContainer {
-            background-color: black;
+            /* background-color: black; */
+            background-color: brown;
             width: 300px;
             height: 300px;
             object-fit: fill;
