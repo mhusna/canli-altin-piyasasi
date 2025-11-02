@@ -415,29 +415,54 @@ async function loadPrices(uid) {
 // --- Kullanıcı girişi kontrolü ---
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    const tokenResult = await user.getIdTokenResult(true);
+    const topButtons = document.getElementById('topButtons');
+    
+    if (tokenResult.claims.admin) {
+      topButtons.innerHTML = `
+      <button id="newUserBtn" class="btn btn-primary px-3 py-2 fw-semibold me-2">
+        ➕ Yeni Kullanıcı Ekle
+      </button>
+      <button id="homeBtn" class="btn btn-secondary px-3 py-2 fw-semibold me-2">
+        🏠 Ana Sayfa
+      </button>
+      <button id="logoutBtn" class="btn btn-danger px-3 py-2 fw-semibold">
+        🔒 Çıkış Yap
+      </button>`;
+    }
+    else {
+      topButtons.innerHTML = `
+      <button id="homeBtn" class="btn btn-secondary px-3 py-2 fw-semibold me-2">
+        🏠 Ana Sayfa
+      </button>
+      <button id="logoutBtn" class="btn btn-danger px-3 py-2 fw-semibold">
+        🔒 Çıkış Yap
+      </button>`;
+    }
+
+    if(document.getElementById("newUserBtn")) {
+      document.getElementById("newUserBtn").addEventListener("click", () => {
+        window.location.href = "/register.html";
+      });
+    }
+    document.getElementById("homeBtn").addEventListener("click", () => {
+      window.location.href = "/livePrices.html"; // Ana sayfa linki
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          window.location.href = "/index.html"; // Çıkış sonrası yönlendirme
+        })
+        .catch((error) => {
+          console.error("Çıkış yapılamadı:", error);
+          alert("Çıkış sırasında bir hata oluştu!");
+        });
+    });
+
     await loadPrices(user.uid);
     saveBtn.onclick = () => savePrices(user.uid);
   } else {
     window.location.href = "index.html"; // giriş yoksa login sayfasına yönlendir
   }
-});
-
-
-document.getElementById("newUserBtn").addEventListener("click", () => {
-  window.location.href = "/register.html";
-});
-
-document.getElementById("homeBtn").addEventListener("click", () => {
-  window.location.href = "/livePrices.html"; // Ana sayfa linki
-});
-
-document.getElementById("logoutBtn").addEventListener("click", () => {
-  signOut(auth)
-    .then(() => {
-      window.location.href = "/index.html"; // Çıkış sonrası yönlendirme
-    })
-    .catch((error) => {
-      console.error("Çıkış yapılamadı:", error);
-      alert("Çıkış sırasında bir hata oluştu!");
-    });
 });
