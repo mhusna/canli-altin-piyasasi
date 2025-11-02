@@ -1,11 +1,469 @@
-/* Tabloyu yumuşak şekilde göstermek için fade efekti */
-#priceCard {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-    display: none;
+/* Extra Small Mobile (Portrait): 320px – 480px */
+/* Small Mobile (Landscape): 481px – 600px */
+/* Small Tablets (Portrait): 601px – 768px */
+/* Large Tablets (Landscape): 769px – 1024px */
+/* Small Desktops and Laptops: 1025px – 1280px */
+/* Large Desktops and High-Resolution Screens: 1281px – 1440px */
+/* Extra-Large Desktops: 1441px and up */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-#priceCard.show {
-    opacity: 1;
-    display: block;
+body {
+    height: 100vh;
+}
+
+.table {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+
+    th {
+        width: 33.3%;
+    }
+}
+
+.mainFlexContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+
+    padding: 0 3px;
+}
+
+.backgroundColor {
+    background: linear-gradient(
+        to bottom,
+        #071535 0%,
+        #092a5f 35%,
+        rgb(11, 68, 129) 70%,
+        #0000ffcc 100%
+    );
+
+    color: white;
+}
+
+/* Extra Small Mobile (Portrait): 320px – 480px */
+@media screen and (max-width: 480px) {
+    .content {
+        display: block;
+        height: auto;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 5px;
+
+            .card {
+                padding: 0 10;
+                .card-header {
+                    padding: 0;
+                }
+
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table td,
+                .table th {
+                    padding: 2px;
+                }
+            }
+        }
+
+        .adContent {
+            display: none;
+        }
+    }
+}
+
+/* Small Mobile (Landscape): 481px – 600px */
+@media (min-width: 481px) and (max-width: 600px) {
+    .content {
+        display: block;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 5px;
+
+            .card {
+                padding: 0 10;
+                .card-header {
+                    padding: 1;
+                }
+
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    text-align: center;
+                    width: 100%;
+                }
+
+                .table td,
+                .table th {
+                    padding: 2px;
+                }
+            }
+        }
+    }
+}
+
+/* Small Tablets (Portrait): 601px – 768px */
+@media (min-width: 601px) and (max-width: 767px) {
+    .content {
+        display: block;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 100%;
+            gap: 33px;
+
+            .flexTableContainer {
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                width: 100%;
+
+                gap: 33px;
+
+                .card {
+                    padding: 0 10;
+                    .card-header {
+                        padding: 1;
+                    }
+
+                    .card-body {
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    .table td,
+                    .table th {
+                        padding: 2px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+/* Large Tablets (Landscape): 769px – 1024px */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .content {
+        display: flex;
+        justify-content: flex-start;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 10px;
+
+            width: 100%;
+            height: auto;
+
+            .card {
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    width: 100%;
+                }
+            }
+        }
+
+        .adContent {
+            display: none;
+        }
+    }
+}
+
+/* Small Desktops and Laptops: 1025px – 1280px */
+@media screen and (min-width: 1025px) and (max-width: 1280px) {
+    body {
+        font-size: 1.5rem;
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            gap: 10px;
+
+            width: 100%;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 10px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    th,
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+/* Large Desktops and High-Resolution Screens: 1281px – 1440px */
+@media screen and (min-width: 1281px) and (max-width: 1440px) {
+    body {
+        font-size: 1.7rem;
+        font-weight: 600;
+    }
+    
+    .content {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        width: 100%;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 10px;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 15px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    th,
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+@media screen and (min-width: 1441px) and (max-width: 1599px) {
+    body {
+        font-size: 1.8rem;
+        font-weight: 700;
+    }
+
+    .content {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            gap: 10px;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 15px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    th,
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+    
+}
+
+/* Full HD TV & 1366px üzeri büyük ekranlar */
+@media screen and (min-width: 1600px) and (max-width: 2559px) {
+    body {
+        font-size: 1.9rem;
+        font-weight: 800;
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        gap: 15px;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    width: 100%;
+
+                    font-weight: 700;
+                    font-size: 1.9rem;
+
+                    th,
+                    td {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+/* 4K TV */
+@media screen and (min-width: 2560px) and (max-width: 3839px) {
+    body {
+        font-size: 2.5rem;
+        font-weight: 800;
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;     
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .table {
+                    width: 100%;
+
+                    th,
+                    td {
+                        padding: 5;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+/* 4K ve üstü (8K vs.) */
+@media screen and (min-width: 3840px) {
+    body {
+        font-size: 3rem;
+        font-weight: 800;
+    }
+
+    .content {
+        display: flex;
+        justify-content: flex-start;
+        gap: 10px;
+        height: auto;
+
+        .tableContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            .flexTableContainer {
+                display: flex;
+                gap: 20px;
+            }
+
+            .card {
+                width: 50%;
+                padding: 0 10;
+                .card-body {
+                    padding: 0;
+                    margin: 0;
+                }
+
+                .card-header {
+                    font-size: 2rem;
+                }
+
+                .table {
+                    width: 100%;
+
+                    font-weight: 700;
+                    font-size: 4.2rem;
+
+                    th,
+                    td {
+                        padding: 5;
+                    }
+                }
+            }
+        }
+    }
 }

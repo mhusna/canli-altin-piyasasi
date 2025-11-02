@@ -31,22 +31,6 @@ const db = getFirestore(app);
 // --- Ürün listesi ---
 const EXCHANGE_TYPES = [
   {
-    id: "HAS",
-    haremId: "ALTIN",
-    haremAlis: 0,
-    haremSatis: 0,
-    alisMilyem: 1,
-    satisMilyem: 1,
-    alisKar: 0,
-    satisKar: 0,
-    alisHesap: function () {
-      return Number(this.haremAlis) * this.alisMilyem + Number(this.alisKar);
-    },
-    satisHesap: function () {
-      return Number(this.haremSatis) * this.satisMilyem + Number(this.satisKar);
-    },
-  },
-  {
     id: "BILEZIK22",
     haremId: "ALTIN",
     haremAlis: 0,
@@ -285,7 +269,7 @@ const EXCHANGE_TYPES = [
     },
     satisHesap: function () {
       // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
-      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+      return (Number(this.haremSatis) * 10) * this.satisMilyem + Number(this.satisKar);
     },
   },
   {
@@ -303,7 +287,7 @@ const EXCHANGE_TYPES = [
     },
     satisHesap: function () {
       // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
-      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+      return (Number(this.haremSatis) * 10) * this.satisMilyem + Number(this.satisKar);
     },
   },
   {
@@ -359,21 +343,35 @@ const EXCHANGE_TYPES = [
 const tableBody = document.getElementById("priceTable");
 const saveBtn = document.getElementById("saveBtn");
 const loadingMessage = document.getElementById("loadingMessage");
-const priceCard = document.getElementById("priceCard");
+const content = document.getElementsByClassName("content")[0];
 
 // --- Ürünleri tabloya ekle ---
-function renderTable(data = {}) {
-  tableBody.innerHTML = "";
+function fillTableWithData(data = {}) {
   EXCHANGE_TYPES.forEach((item) => {
-    const existing = data[item.id] || {};
-    tableBody.innerHTML += `
-      <tr>
-        <td class="fw-semibold">${item.id}</td>
-        <td><input type="number" class="form-control" id="alis_${item.id}" 
-          value="${existing.alis > 0 ? existing.alis : ""}" placeholder="${item.alisMilyem}"></td>
-        <td><input type="number" class="form-control" id="satis_${item.id}" 
-          value="${existing.satis > 0 ? existing.satis : ""}" placeholder="${item.satisMilyem}"></td>
-      </tr>
+    const urunSatir = document.getElementById(item.id);
+    if (!urunSatir) return;
+
+    const alisElement = urunSatir.querySelector(".alis");
+    const satisElement = urunSatir.querySelector(".satis");
+
+    alisElement.innerHTML += `
+      <input 
+        type="number"
+        class="form-control"
+        id="alis_${item.id}" 
+        value="${data[item.id].alis > 0 ? data[item.id].alis : ""}"
+        placeholder="${item.alisMilyem}"
+      >
+    `;
+
+    satisElement.innerHTML += `
+      <input 
+        type="number"
+        class="form-control"
+        id="satis_${item.id}" 
+        value="${data[item.id].satis > 0 ? data[item.id].satis : ""}"
+        placeholder="${item.satisMilyem}"
+      >
     `;
   });
 }
@@ -396,8 +394,8 @@ async function savePrices(uid) {
 async function loadPrices(uid) {
   // Spinner'ı göster, tabloyu gizle
   loadingMessage.style.display = "block";
-  priceCard.style.display = "none";
-  priceCard.classList.remove("show");
+  content.style.display = "none";
+  content.classList.remove("show");
 
   const pricesData = {};
   for (const item of EXCHANGE_TYPES) {
@@ -406,12 +404,12 @@ async function loadPrices(uid) {
     if (snap.exists()) pricesData[item.id] = snap.data();
   }
 
-  renderTable(pricesData);
+  fillTableWithData(pricesData);
 
   // Spinner'ı gizle, tabloyu göster (fade-in ile)
   loadingMessage.style.display = "none";
-  priceCard.style.display = "block";
-  setTimeout(() => priceCard.classList.add("show"), 10);
+  content.style.display = "block";
+  setTimeout(() => content.classList.add("show"), 10);
 }
 
 // --- Kullanıcı girişi kontrolü ---
