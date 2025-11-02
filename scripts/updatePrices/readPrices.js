@@ -402,6 +402,7 @@ async function loadPrices(uid) {
     const ref = doc(db, "users", uid, "prices", item.id);
     const snap = await getDoc(ref);
     if (snap.exists()) pricesData[item.id] = snap.data();
+    else pricesData[item.id] = { alis: 0, satis: 0};
   }
 
   fillTableWithData(pricesData);

@@ -35,6 +35,10 @@ body {
     padding: 0 3px;
 }
 
+.tableContent {
+    width: 100%;
+}
+
 .backgroundColor {
     background: linear-gradient(
         to bottom,
