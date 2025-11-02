@@ -1,0 +1,166 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  font-size: clamp(12px, 1.4vw, 30px) !important;
+  font-weight: 700 !important;
+}
+table {
+  height: 100%;
+  margin: 0 !important;
+  text-align: center;
+}
+table th,
+table td {
+  width: 33.3%;
+  align-content: center;
+}
+.backgroundColor {
+  background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
+  color: white !important;
+}
+.navbarContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 12vh;
+}
+.navbarContainer .logoContainer {
+  padding: 1%;
+}
+.navbarContainer .logoContainer img {
+  width: 100%;
+  height: 100%;
+}
+.navbarContainer .titleTimeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5%;
+}
+.navbarContainer .titleTimeContainer .titleContainer,
+.navbarContainer .titleTimeContainer .timeContainer {
+  text-align: center;
+}
+.navbarContainer .hasMainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 25%;
+}
+.navbarContainer .hasMainContainer .hasContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5%;
+  height: 50%;
+}
+.navbarContainer .hasMainContainer .hasContainer .alisContainer,
+.navbarContainer .hasMainContainer .hasContainer .satisContainer {
+  display: flex;
+  gap: 3%;
+}
+.navbarContainer .hasMainContainer .hasContainer .alisContainer .title,
+.navbarContainer .hasMainContainer .hasContainer .satisContainer .title {
+  width: 55%;
+  display: flex;
+  justify-content: flex-end;
+}
+.navbarContainer .hasMainContainer .hasContainer .alisContainer .alis,
+.navbarContainer .hasMainContainer .hasContainer .satisContainer .alis,
+.navbarContainer .hasMainContainer .hasContainer .alisContainer .satis,
+.navbarContainer .hasMainContainer .hasContainer .satisContainer .satis {
+  width: 45%;
+}
+.navbarContainer .settingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.content {
+  display: flex;
+  gap: 1%;
+  width: 100%;
+  flex: 1;
+  /* en kritik satır */
+  overflow: hidden;
+  /* dış overflow engelle */
+}
+.content .tableContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1%;
+  width: 80%;
+  flex: 1;
+  min-height: 0;
+  /* flex child overflow bug fix */
+}
+.content .tableContent .flexTableContainer {
+  display: flex;
+  gap: 1%;
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  /* flex child overflow bug fix */
+}
+.content .tableContent .flexTableContainer .card {
+  width: 50%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.content .tableContent .flexTableContainer .card .card-body {
+  padding: 0;
+  flex: 1;
+}
+.content .adContent {
+  padding: 0.3%;
+  width: 20%;
+}
+.content .adContent img {
+  width: 100%;
+  height: 100%;
+}
+.footerContainer {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: auto;
+  min-height: 8vh;
+}
+.footerContainer .priceContainer {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+}
+.footerContainer .priceContainer .alisContainer,
+.footerContainer .priceContainer .satisContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+  width: 100%;
+  height: 50%;
+}
+.footerContainer .priceContainer .alisContainer .title,
+.footerContainer .priceContainer .satisContainer .title {
+  width: 60%;
+  display: flex;
+  justify-content: flex-end;
+}
+.footerContainer .priceContainer .alisContainer .alis,
+.footerContainer .priceContainer .satisContainer .alis,
+.footerContainer .priceContainer .alisContainer .satis,
+.footerContainer .priceContainer .satisContainer .satis {
+  width: 40%;
+}
