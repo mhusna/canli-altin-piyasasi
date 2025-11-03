@@ -1,0 +1,69 @@
+*{
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.backgroundColor {
+    background: linear-gradient(
+        to bottom,
+        #071535 0%,
+        #092a5f 35%,
+        rgb(11, 68, 129) 70%,
+        #0000ffcc 100%
+    );
+
+    color: white !important;
+}
+
+.buttonsContainer {  
+  display: flex;
+  justify-content: center;
+  gap: 1%;
+  height: 50px;
+  margin-top: 10px;
+  
+  button {
+    font-size: 20px;
+  }
+}
+
+.imageContainer {
+  height: 50px;
+
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  label {
+    font-size: 25px;
+    line-height: 50px;
+    width: 50%;
+    text-align: right;
+  }
+
+  input {
+    width: 50%;
+    text-align: center;
+    align-content: center;
+  }
+}
+
+.uploadBtnContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .uploadBtn {
+    width: 155px;
+    height: 55px;
+    font-size: 25px;
+  }
+}

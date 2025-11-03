@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logo Yükle</title>
+  <link rel="stylesheet" href="/assets/uploadLogos/style.css">
+</head>
+<body>
+  <div id="topButtons" class="buttonsContainer"></div>
+
+  <div class="imageContainer">
+    <label for="logoInput">
+      Logo seç
+    </label>
+    <input type="file" id="logoInput" accept="image/*">
+  </div>
+
+  <div class="imageContainer">
+    <label for="adInput">
+      Reklam resimi seç
+    </label>
+    <input type="file" id="adInput" accept="image/*">
+  </div>
+
+  <div class="uploadBtnContainer">
+    <button id="uploadBtn" class="uploadBtn backgroundColor">Yükle</button>
+  </div>
+
+  <script type="module" src="scripts/uploadLogos/uploadLogos.js"></script>
+</body>
+</html>

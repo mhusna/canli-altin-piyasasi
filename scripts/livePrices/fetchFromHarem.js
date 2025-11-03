@@ -2,6 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebas
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
 const EXCHANGE_TYPES = [
   {
     id: "HAS",
@@ -360,10 +362,29 @@ const firebaseConfig = {
   measurementId: "G-V3YHGPSB8M",
 };
 
+// Supabase ayarları
+const supabaseUrl = "https://oybvsqonvawnkztnhwec.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95YnZzcW9udmF3bmt6dG5od2VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMjMwMDIsImV4cCI6MjA3NzY5OTAwMn0.OPa9rGvmFVAocrzlNPLx-8AJ7IF-Wcm58jlS4zXEYW0";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 // DB'den kârları oku.
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+
+// Supabase yükleme fonksiyonu
+const setImage = async (userId) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("logo_url, ad_url")
+    .eq("id", userId)
+    .single();
+
+  if (data) {
+    document.getElementById("logo").src = data.logo_url;
+    document.getElementById("reklam").src = data.ad_url;
+  }
+};
 
 // Kullanıcı giriş yaptıysa, fiyatlarını getir
 onAuthStateChanged(auth, async (user) => {
@@ -387,6 +408,8 @@ onAuthStateChanged(auth, async (user) => {
       }
     });
   });
+
+  await setImage(uid);
 });
 
 const socket = io("https://socketweb.haremaltin.com", {

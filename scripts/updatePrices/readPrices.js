@@ -414,6 +414,9 @@ onAuthStateChanged(auth, async (user) => {
         <button id="homeBtn" class="homeBtn backgroundColor">
           🏠 Ana Sayfa
         </button>
+        <button id="addImage" class="addImage backgroundColor">
+          Logo Yükle
+        </button>
         <button id="logoutBtn" class="logoutBtn backgroundColor">
           🔒 Çıkış Yap
         </button>
@@ -423,6 +426,9 @@ onAuthStateChanged(auth, async (user) => {
       topButtons.innerHTML = `
         <button id="homeBtn" class="homeBtn backgroundColor">
           🏠 Ana Sayfa
+        </button>
+        <button id="addImage" class="addImage backgroundColor">
+          Logo Yükle
         </button>
         <button id="logoutBtn" class="logoutBtn backgroundColor">
           🔒 Çıkış Yap
@@ -435,6 +441,11 @@ onAuthStateChanged(auth, async (user) => {
         window.location.href = "/register.html";
       });
     }
+
+    document.getElementById("addImage").addEventListener("click", () => {
+      window.location.href = "/uploadLogos.html";
+    });
+
     document.getElementById("homeBtn").addEventListener("click", () => {
       window.location.href = "/livePrices.html"; // Ana sayfa linki
     });

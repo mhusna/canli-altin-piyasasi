@@ -1,0 +1,130 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+
+// Firebase ayarları
+const firebaseConfig = {
+  apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
+  authDomain: "canli-altin-app.firebaseapp.com",
+  projectId: "canli-altin-app",
+  storageBucket: "canli-altin-app.firebasestorage.app",
+  messagingSenderId: "675863034125",
+  appId: "1:675863034125:web:301006180c35a5f0549844",
+  measurementId: "G-V3YHGPSB8M"
+};
+
+// Supabase ayarları
+const supabaseUrl = "https://oybvsqonvawnkztnhwec.supabase.co";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95YnZzcW9udmF3bmt6dG5od2VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMjMwMDIsImV4cCI6MjA3NzY5OTAwMn0.OPa9rGvmFVAocrzlNPLx-8AJ7IF-Wcm58jlS4zXEYW0";
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// Firebase başlat
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const logoInput = document.getElementById("logoInput");
+const adInput = document.getElementById("adInput");
+const uploadBtn = document.getElementById("uploadBtn");
+
+let currentUser = null;
+
+// Kullanıcıyı bekle
+onAuthStateChanged(auth, async (user) => {
+  if (user) {
+    currentUser = user;
+
+     const tokenResult = await user.getIdTokenResult(true);
+        const topButtons = document.getElementById('topButtons');
+        
+        if (tokenResult.claims.admin) {
+          topButtons.innerHTML = `
+            <button id="newUserBtn" class="newUserBtn backgroundColor">
+              ➕ Yeni Kullanıcı Ekle
+            </button>
+            <button id="homeBtn" class="homeBtn backgroundColor">
+              🏠 Ana Sayfa
+            </button>
+            <button id="logoutBtn" class="logoutBtn backgroundColor">
+              🔒 Çıkış Yap
+            </button>
+          `;
+        }
+        else {
+          topButtons.innerHTML = `
+            <button id="homeBtn" class="homeBtn backgroundColor">
+              🏠 Ana Sayfa
+            </button>
+            <button id="logoutBtn" class="logoutBtn backgroundColor">
+              🔒 Çıkış Yap
+            </button>
+          `;
+        }
+    
+        if(document.getElementById("newUserBtn")) {
+          document.getElementById("newUserBtn").addEventListener("click", () => {
+            window.location.href = "/register.html";
+          });
+        }
+    
+        document.getElementById("homeBtn").addEventListener("click", () => {
+          window.location.href = "/livePrices.html"; // Ana sayfa linki
+        });
+    
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+          signOut(auth)
+            .then(() => {
+              window.location.href = "/index.html"; // Çıkış sonrası yönlendirme
+            })
+            .catch((error) => {
+              console.error("Çıkış yapılamadı:", error);
+              alert("Çıkış sırasında bir hata oluştu!");
+            });
+        });
+
+  } else {
+    window.location.href = "index.html";
+  }
+});
+
+// Supabase yükleme fonksiyonu
+const uploadToServer = async (preName, bucketName, file) => {
+  const safeName = file.name.replace(/[^a-zA-Z0-9.]/g, "_");
+  const path = `users/${currentUser.uid}/${preName}_${Date.now()}_${safeName}`;
+
+  const { data, error } = await supabase.storage
+    .from(bucketName)
+    .upload(path, file, { upsert: true });
+
+  if (error) {
+    console.error("Yükleme hatası:", error);
+    alert("Yükleme hatası: " + error.message);
+    return null;
+  }
+
+  const { data: urlData } = supabase.storage.from(bucketName).getPublicUrl(path);
+  return urlData.publicUrl;
+};
+
+uploadBtn.addEventListener("click", async () => {
+  const logo = logoInput.files[0];
+  const ad = adInput.files[0];
+
+  if (!logo || !ad) {
+    alert("Lütfen bir dosya seçin.");
+    return;
+  }
+
+  const logoPublicUrl = await uploadToServer('logo', 'logos', logo);
+  const adPublicUrl = await uploadToServer('ad', 'ads', ad);
+
+  if (!logoPublicUrl || !adPublicUrl) return;
+
+  await supabase.from("profiles").upsert({
+    id: currentUser.uid,
+    logo_url: logoPublicUrl,
+    ad_url: adPublicUrl,
+    updated_at: new Date().toISOString()
+  });
+
+  alert("Yükleme başarılı!");
+});
