@@ -29,7 +29,8 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // --- Ürün listesi ---
-const EXCHANGE_TYPES = [
+const EXCHANGE_TYPES = 
+[
   {
     id: "BILEZIK22",
     haremId: "ALTIN",
@@ -351,13 +352,20 @@ function fillTableWithData(data = {}) {
     const alisElement = urunSatir.querySelector(".alis");
     const satisElement = urunSatir.querySelector(".satis");
 
+    let alisValue = 0;
+    let satisValue = 0;
+
+    if(data[item.id].alis != 0) alisValue = data[item.id].alis;
+    if(data[item.id].satis != 0) satisValue = data[item.id].satis;
+
     alisElement.innerHTML += `
       <input 
         type="number"
         class="form-control"
         id="alis_${item.id}" 
-        value="${data[item.id].alis > 0 ? data[item.id].alis : ""}"
+        value="${alisValue}"
         placeholder="${item.alisMilyem}"
+        max="0"
       >
     `;
 
@@ -366,10 +374,22 @@ function fillTableWithData(data = {}) {
         type="number"
         class="form-control"
         id="satis_${item.id}" 
-        value="${data[item.id].satis > 0 ? data[item.id].satis : ""}"
+        value="${satisValue}"
         placeholder="${item.satisMilyem}"
       >
     `;
+
+    const input = document.getElementById(`alis_${item.id}`);
+    input.addEventListener('input', function () {
+      let val = this.value;
+      if (val === "" || val === "-") {
+        this.value = "-";
+        return;
+      }
+      if (!val.startsWith("-")) {
+        this.value = "-" + val.replace(/-/g, "");
+      }
+    });
   });
 }
 
