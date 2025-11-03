@@ -340,10 +340,7 @@ const EXCHANGE_TYPES = [
   },
 ];
 
-const tableBody = document.getElementById("priceTable");
 const saveBtn = document.getElementById("saveBtn");
-const loadingMessage = document.getElementById("loadingMessage");
-const content = document.getElementsByClassName("content")[0];
 
 // --- Ürünleri tabloya ekle ---
 function fillTableWithData(data = {}) {
@@ -392,11 +389,6 @@ async function savePrices(uid) {
 
 // --- Firestore'dan mevcut fiyatları oku ---
 async function loadPrices(uid) {
-  // Spinner'ı göster, tabloyu gizle
-  loadingMessage.style.display = "block";
-  content.style.display = "none";
-  content.classList.remove("show");
-
   const pricesData = {};
   for (const item of EXCHANGE_TYPES) {
     const ref = doc(db, "users", uid, "prices", item.id);
@@ -406,11 +398,6 @@ async function loadPrices(uid) {
   }
 
   fillTableWithData(pricesData);
-
-  // Spinner'ı gizle, tabloyu göster (fade-in ile)
-  loadingMessage.style.display = "none";
-  content.style.display = "block";
-  setTimeout(() => content.classList.add("show"), 10);
 }
 
 // --- Kullanıcı girişi kontrolü ---
@@ -421,24 +408,26 @@ onAuthStateChanged(auth, async (user) => {
     
     if (tokenResult.claims.admin) {
       topButtons.innerHTML = `
-      <button id="newUserBtn" class="btn btn-primary px-3 py-2 fw-semibold me-2">
-        ➕ Yeni Kullanıcı Ekle
-      </button>
-      <button id="homeBtn" class="btn btn-secondary px-3 py-2 fw-semibold me-2">
-        🏠 Ana Sayfa
-      </button>
-      <button id="logoutBtn" class="btn btn-danger px-3 py-2 fw-semibold">
-        🔒 Çıkış Yap
-      </button>`;
+        <button id="newUserBtn" class="newUserBtn backgroundColor">
+          ➕ Yeni Kullanıcı Ekle
+        </button>
+        <button id="homeBtn" class="homeBtn backgroundColor">
+          🏠 Ana Sayfa
+        </button>
+        <button id="logoutBtn" class="logoutBtn backgroundColor">
+          🔒 Çıkış Yap
+        </button>
+      `;
     }
     else {
       topButtons.innerHTML = `
-      <button id="homeBtn" class="btn btn-secondary px-3 py-2 fw-semibold me-2">
-        🏠 Ana Sayfa
-      </button>
-      <button id="logoutBtn" class="btn btn-danger px-3 py-2 fw-semibold">
-        🔒 Çıkış Yap
-      </button>`;
+        <button id="homeBtn" class="homeBtn backgroundColor">
+          🏠 Ana Sayfa
+        </button>
+        <button id="logoutBtn" class="logoutBtn backgroundColor">
+          🔒 Çıkış Yap
+        </button>
+      `;
     }
 
     if(document.getElementById("newUserBtn")) {
