@@ -6,17 +6,9 @@ function getCurrentTime() {
     return `${hours}:${minutes}:${seconds}`;
 }
 
-function getCurrentDate() {
-    const now = new Date();
-    const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth() + 1).padStart(2, '0'); // ay 0-11 olduğundan +1
-    const year = now.getFullYear();
-    return `${day}.${month}.${year}`; // örn: "03.11.2025"
-}
-
 setInterval(() => {
     const timeElement = document.querySelector('.timeContainer');
     if (timeElement) {
-        timeElement.textContent = `${getCurrentDate()} || ${getCurrentTime()}`;
+        timeElement.textContent = `${getCurrentTime()}`;
     }
 }, 1000);
