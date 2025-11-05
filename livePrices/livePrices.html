@@ -5,20 +5,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kuyumcu Fiyat Ekranı</title>
-  <link rel="stylesheet" href="assets/livePrices/style.css">
+  <link rel="stylesheet" href="./livePrices.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
     crossorigin="anonymous" />
-
 </head>
 
 <body>
   <div class="navbarContainer backgroundColor">
     <div class="logoContainer">
-      <img id="logo" src="media/rumeli_logo/rumeli_100x100.png" alt="Rumeli Logo">
+      <img id="logo" src="" alt="Logo yükleyin..">
     </div>
     <div class="titleTimeContainer">
-      <div class="titleContainer">Kapalı Çarşı Altın Fiyatları</div>
-      <div class="timeContainer">02.11.2025</div>
+      <div class="titleContainer">Kapalı Çarşı Perakende Altın Fiyatları</div>
+      <div class="timeContainer">00.00.0000</div>
     </div>
     <div class="hasMainContainer">
       <div class="hasContainer">
@@ -30,12 +29,12 @@
           <div class="title">HAS SATIŞ: </div>
           <div id="has-satis" class="satis">0.00</div>
         </div>
+        <div class="settingContainer">
+          <button id="goToUpdateBtn">
+            ⚙️ Ayarlar
+          </button>
+        </div>
       </div>
-    </div>
-    <div class="settingContainer">
-      <button id="goToUpdateBtn" class="btn btn-light text-dark fw-semibold border border-dark">
-        ⚙️ Ayarlar
-      </button>
     </div>
   </div>
 
@@ -204,7 +203,7 @@
       </div>
     </div>
     <div class="adContent">
-      <img id="reklam" src="media/rumeli_reklam/rumeli_reklam_390x520.png" alt="Rumeli Reklam">
+      <img id="reklam" src="" alt="Reklam resmi yükleyin..">
     </div>
   </div>
 
@@ -229,7 +228,7 @@
         <div class="satis footer">0.00</div>
       </div>
     </div>
-    <div  id="GUMUSTRY" class="priceContainer">
+    <div id="GUMUSTRY" class="priceContainer">
       <div class="alisContainer">
         <div class="title">GÜMÜŞ ALIŞ: </div>
         <div class="alis footer">0.00</div>
@@ -242,11 +241,11 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-  crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
-  <script type="module" src="./scripts/livePrices/fetchFromHarem.js"></script>
-  <script src="./scripts/livePrices/time.js"></script>
-  <script src="./scripts/livePrices/goToUpdate.js"></script>
+  <script type="module" src="./fetchFromHarem.js"></script>
+  <script src="./time.js"></script>
+  <script src="./goToUpdate.js"></script>
 </body>
 
 </html>

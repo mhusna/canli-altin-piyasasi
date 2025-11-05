@@ -3,6 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!btn) return;
 
   btn.addEventListener("click", () => {
-    window.location.href = "updatePrices.html";
+    window.location.href = "../updatePrices/updatePrices.html";
   });
 });

@@ -11,7 +11,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  font-size: clamp(12px, 1.4vw, 30px) !important;
+  font-size: clamp(12px, 2.3vw, 35px) !important;
   font-weight: 700 !important;
 }
 table {
@@ -60,8 +60,7 @@ table td {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 5%;
-  height: 50%;
+  height: 45%;
 }
 .navbarContainer .hasMainContainer .hasContainer .alisContainer,
 .navbarContainer .hasMainContainer .hasContainer .satisContainer {
@@ -81,9 +80,19 @@ table td {
   width: 45%;
 }
 .navbarContainer .settingContainer {
+  padding-bottom: 5px;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.navbarContainer .settingContainer button {
   display: flex;
-  justify-content: center;
   align-items: center;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  height: 25px;
+  font-size: 15px;
 }
 .content {
   display: flex;

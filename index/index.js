@@ -28,7 +28,7 @@ loginForm.addEventListener("submit", async (e) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
     console.log("Giriş başarılı!");
-    window.location.href = "livePrices.html"; // yönlendirme
+    window.location.href = "../livePrices/livePrices.html"; // yönlendirme
   } catch (error) {
     alert("Giriş hatası: " + error.message);
   }
@@ -37,6 +37,6 @@ loginForm.addEventListener("submit", async (e) => {
 // Kullanıcı zaten giriş yaptıysa otomatik yönlendir
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    window.location.href = "livePrices.html";
+    window.location.href = "../livePrices/livePrices.html";
   }
 });

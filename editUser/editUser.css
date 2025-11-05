@@ -1,0 +1,10 @@
+.backgroundColor {
+  background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
+  color: white !important;
+}
+.buttonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}

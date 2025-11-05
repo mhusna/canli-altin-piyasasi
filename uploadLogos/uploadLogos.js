@@ -33,13 +33,14 @@ onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
 
-     const tokenResult = await user.getIdTokenResult(true);
-        const topButtons = document.getElementById('topButtons');
-        
-        if (tokenResult.claims.admin) {
-          topButtons.innerHTML = `
-            <button id="newUserBtn" class="newUserBtn backgroundColor">
-              ➕ Yeni Kullanıcı Ekle
+    const tokenResult = await user.getIdTokenResult(true);
+    const topButtons = document.getElementById('topButtons');
+
+    if (tokenResult.claims.admin) {
+      topButtons.innerHTML = `
+      
+            <button id="adminPanelBtn" class="newUserBtn backgroundColor">
+              Admin Paneli
             </button>
             <button id="homeBtn" class="homeBtn backgroundColor">
               🏠 Ana Sayfa
@@ -48,9 +49,9 @@ onAuthStateChanged(auth, async (user) => {
               🔒 Çıkış Yap
             </button>
           `;
-        }
-        else {
-          topButtons.innerHTML = `
+    }
+    else {
+      topButtons.innerHTML = `
             <button id="homeBtn" class="homeBtn backgroundColor">
               🏠 Ana Sayfa
             </button>
@@ -58,31 +59,31 @@ onAuthStateChanged(auth, async (user) => {
               🔒 Çıkış Yap
             </button>
           `;
-        }
-    
-        if(document.getElementById("newUserBtn")) {
-          document.getElementById("newUserBtn").addEventListener("click", () => {
-            window.location.href = "/register.html";
-          });
-        }
-    
-        document.getElementById("homeBtn").addEventListener("click", () => {
-          window.location.href = "/livePrices.html"; // Ana sayfa linki
+    }
+
+    if (document.getElementById("adminPanelBtn")) {
+      document.getElementById("adminPanelBtn").addEventListener("click", () => {
+        window.location.href = "../adminPanel/adminPanel.html";
+      });
+    }
+
+    document.getElementById("homeBtn").addEventListener("click", () => {
+      window.location.href = "../livePrices/livePrices.html"; // Ana sayfa linki
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          window.location.href = "../index.html"; // Çıkış sonrası yönlendirme
+        })
+        .catch((error) => {
+          console.error("Çıkış yapılamadı:", error);
+          alert("Çıkış sırasında bir hata oluştu!");
         });
-    
-        document.getElementById("logoutBtn").addEventListener("click", () => {
-          signOut(auth)
-            .then(() => {
-              window.location.href = "/index.html"; // Çıkış sonrası yönlendirme
-            })
-            .catch((error) => {
-              console.error("Çıkış yapılamadı:", error);
-              alert("Çıkış sırasında bir hata oluştu!");
-            });
-        });
+    });
 
   } else {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   }
 });
 

@@ -1,0 +1,112 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+
+h6 {
+  margin-bottom: 0;
+}
+
+.backgroundColor {
+    background: linear-gradient(
+        to bottom,
+        #071535 0%,
+        #092a5f 35%,
+        rgb(11, 68, 129) 70%,
+        #0000ffcc 100%
+    );
+
+    color: white !important;
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+
+  .buttonsContainer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .usersInfoContainer {    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    height: 100%;
+    gap: 10px;
+    overflow: hidden;
+
+    .countContainer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50%;
+      height: 30px;
+      gap: 10px;
+    }
+
+    .displayContainer {
+      width: 50%;
+      height: 100%;
+
+      display: flex;
+      gap: 5px;
+      flex-direction: column;
+
+      .titleContainer {
+        min-width: 70%;
+        padding: 5px;
+
+        display: flex;
+        justify-content: space-around;
+        margin: 0 auto;
+
+        h6 {
+          width: 30%;
+          text-align: center;
+        }
+      }
+
+      .userList {
+        height: 100%;
+        overflow-y: auto;
+
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .userContainer {
+        justify-content: space-between !important;
+        background-color: lightgray;
+        border-radius: 5px;
+
+        .userMail,
+        .dayCount,
+        .islemler {
+          width: 30%;
+          text-align: center;
+          align-content: center;
+        }
+
+        .islemler {
+          display: flex;
+          justify-content: center;
+          gap: 5px;
+        }
+      }
+    }
+  }
+}
+

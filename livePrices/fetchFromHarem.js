@@ -276,7 +276,7 @@ const EXCHANGE_TYPES = [
     },
     satisHesap: function () {
       // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
-      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+      return (Number(this.haremSatis) * 10) * this.satisMilyem + Number(this.satisKar);
     },
   },
   {
@@ -295,7 +295,7 @@ const EXCHANGE_TYPES = [
     },
     satisHesap: function () {
       // 10 tane çeyreğe eşit olduğundan * 10 yapıldı.
-      return (Number(this.haremSatis) * 10)* this.satisMilyem + Number(this.satisKar);
+      return (Number(this.haremSatis) * 10) * this.satisMilyem + Number(this.satisKar);
     },
   },
   {
@@ -389,7 +389,7 @@ const setImage = async (userId) => {
 // Kullanıcı giriş yaptıysa, fiyatlarını getir
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
     return;
   }
 
@@ -436,11 +436,11 @@ const manageSocketConnection = () => {
 socket.on("price_changed", (data) => {
   const items = Object.values(data);
   const firstItem = Object.values(items[1]);
-  
+
   // Ürünleri haremden oku ve haremAlis - haremSatis alanlarını doldur.
   firstItem.forEach((item) => {
     EXCHANGE_TYPES.forEach((type) => {
-      if(item.code === type.haremId) {
+      if (item.code === type.haremId) {
         type.haremAlis = item.alis;
         type.haremSatis = item.satis;
       }
