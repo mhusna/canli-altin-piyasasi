@@ -46,9 +46,6 @@ table td {
   justify-content: center;
   gap: 5%;
 }
-.navbarContainer .titleTimeContainer .titleContainer {
-  font-size: clamp(12px, 2vw, 30px);
-}
 .navbarContainer .titleTimeContainer .titleContainer,
 .navbarContainer .titleTimeContainer .timeContainer {
   text-align: center;
@@ -83,7 +80,7 @@ table td {
 .navbarContainer .hasMainContainer .hasContainer .satisContainer .satis {
   width: 45%;
 }
-.navbarContainer .hasMainContainer .settingContainer {
+.navbarContainer .settingContainer {
   display: flex;
   justify-content: center;
   align-items: center;
