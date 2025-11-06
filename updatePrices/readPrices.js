@@ -44,6 +44,8 @@ const EXCHANGE_TYPES = [
   { id: "TEK_ESKI", haremId: "TEK_ESKI", alisMilyem: 1, satisMilyem: 1 },
   { id: "ATA_YENI", haremId: "ATA_YENI", alisMilyem: 1, satisMilyem: 1 },
   { id: "RESAT", haremId: "ATA_YENI", alisMilyem: 1, satisMilyem: 1 },
+  { id: "GRAMESE_YENI", haremId: "CEYREK_YENI", alisMilyem: 1, satisMilyem: 1 },
+  { id: "GRAMESE_ESKI", haremId: "CEYREK_ESKI", alisMilyem: 1, satisMilyem: 1 },
   { id: "USDTRY", haremId: "USDTRY", alisMilyem: 1, satisMilyem: 1 },
   { id: "EURTRY", haremId: "EURTRY", alisMilyem: 1, satisMilyem: 1 },
   { id: "GUMUSTRY", haremId: "GUMUSTRY", alisMilyem: 1000, satisMilyem: 1000 },
