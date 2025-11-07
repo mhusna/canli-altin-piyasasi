@@ -419,7 +419,7 @@ const socket = io("https://socketweb.haremaltin.com", {
 const manageSocketConnection = () => {
   const currentHour = new Date().getHours();
 
-  if (currentHour >= 0 && currentHour < 10) {
+  if (currentHour >= 0 && currentHour < 9) {
     if (socket.connected) {
       socket.disconnect();
       console.log("Socket bağlantısı kapatıldı (Gece 12 - Sabah 10 arası).");
