@@ -418,15 +418,15 @@ const socket = io("https://socketweb.haremaltin.com", {
 const manageSocketConnection = () => {
   const currentHour = new Date().getHours();
 
-  if (currentHour >= 0 && currentHour < 9) {
+  if (currentHour >= 0 && currentHour < 6) {
     if (socket.connected) {
       socket.disconnect();
-      console.log("Socket bağlantısı kapatıldı (Gece 12 - Sabah 10 arası).");
+      console.log("Socket bağlantısı kapatıldı (Gece 12 - Sabah 6 arası).");
     }
   } else {
     if (!socket.connected) {
       socket.connect();
-      console.log("Socket bağlantısı tekrar açıldı (Sabah 10 sonrası).");
+      console.log("Socket bağlantısı tekrar açıldı (Sabah 6 sonrası).");
     }
   }
 };
