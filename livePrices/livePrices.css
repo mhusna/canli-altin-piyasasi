@@ -23,6 +23,8 @@ table th,
 table td {
   width: 33.3%;
   align-content: center;
+  font-size: clamp(12px, 2.5vw, 40px) !important;
+  line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .backgroundColor {
   background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
@@ -45,6 +47,8 @@ table td {
   flex-direction: column;
   justify-content: center;
   gap: 5%;
+  font-size: clamp(12px, 2.5vw, 40px) !important;
+  line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .navbarContainer .titleTimeContainer .titleContainer,
 .navbarContainer .titleTimeContainer .timeContainer {
@@ -55,6 +59,8 @@ table td {
   flex-direction: column;
   justify-content: space-around;
   width: 25%;
+  font-size: clamp(12px, 2.5vw, 40px) !important;
+  line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .navbarContainer .hasMainContainer .hasContainer {
   display: flex;
@@ -80,10 +86,11 @@ table td {
   width: 45%;
 }
 .navbarContainer .settingContainer {
-  padding-bottom: 5px;
+  padding-bottom: 8px;
   display: inline-flex;
   justify-content: flex-end;
   align-items: flex-start;
+  width: 90%;
 }
 .navbarContainer .settingContainer button {
   display: flex;
@@ -91,8 +98,9 @@ table td {
   background-color: white;
   color: black;
   border-radius: 10px;
-  height: 25px;
-  font-size: 15px;
+  padding: 4px 7px;
+  font-size: clamp(12px, 2vw, 28px) !important;
+  line-height: clamp(12px, 2vw, 28px) !important;
 }
 .content {
   display: flex;
@@ -151,6 +159,8 @@ table td {
   flex-direction: column;
   width: 30%;
   height: 100%;
+  font-size: clamp(12px, 2.5vw, 40px) !important;
+  line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .footerContainer .priceContainer .alisContainer,
 .footerContainer .priceContainer .satisContainer {
