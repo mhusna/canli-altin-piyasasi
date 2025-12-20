@@ -95,6 +95,7 @@ async function savePrices(uid) {
       await setDoc(ref, { alis, satis }, { merge: true });
     }
     alert("✅ Fiyatlar başarıyla kaydedildi!");
+    window.location.href = "../livePrices/livePrices.html";
   } catch (error) {
     console.error("❌ Fiyat kaydı hatası:", error);
     alert("Hata oluştu: " + error.message);
@@ -119,7 +120,6 @@ async function loadPrices(uid) {
 }
 
 // ------------------- AUTH DURUMUNU KONTROL ET -------------------
-const saveBtn = document.getElementById("saveBtn");
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -128,7 +128,6 @@ onAuthStateChanged(auth, async (user) => {
     return;
   }
 
-  debugger
   console.log("Aktif kullanıcı UID:", user.uid);
 
   // 🔹 Admin kontrolü
@@ -139,6 +138,7 @@ onAuthStateChanged(auth, async (user) => {
 
   if (adminSnap.exists()) {
     topButtons.innerHTML = topButtons.innerHTML.concat(`
+      <button id="saveBtn" class="backgroundColor">💾 Kaydet</button>
       <button id="adminPanelBtn" class="newUserBtn backgroundColor">Admin Paneli</button>
       <button id="homeBtn" class="homeBtn backgroundColor">🏠 Ana Sayfa</button>
       <button id="addImage" class="addImage backgroundColor">Logo Yükle</button>
@@ -146,6 +146,7 @@ onAuthStateChanged(auth, async (user) => {
     `);
   } else {
     topButtons.innerHTML = topButtons.innerHTML.concat(`
+      <button id="saveBtn" class="backgroundColor">💾 Kaydet</button>
       <button id="homeBtn" class="homeBtn backgroundColor">🏠 Ana Sayfa</button>
       <button id="addImage" class="addImage backgroundColor">Logo Yükle</button>
       <button id="logoutBtn" class="logoutBtn backgroundColor">🔒 Çıkış Yap</button>
@@ -173,7 +174,10 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = "../livePrices/livePrices.html";
   });
 
+  document.getElementById("saveBtn").addEventListener("click", () => {
+    savePrices(user.uid);
+  });
+
   // 🔹 Fiyatları yükle ve kaydet
   await loadPrices(user.uid);
-  saveBtn.onclick = () => savePrices(user.uid);
 });
