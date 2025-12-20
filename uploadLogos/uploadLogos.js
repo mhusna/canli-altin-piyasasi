@@ -1,6 +1,15 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import {
+  getAuth,
+  signOut,
+  onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 // Firebase ayarları
 const firebaseConfig = {
@@ -21,24 +30,29 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 // Firebase başlat
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
 const logoInput = document.getElementById("logoInput");
 const adInput = document.getElementById("adInput");
 const uploadBtn = document.getElementById("uploadBtn");
 
 let currentUser = null;
+let isAdmin = false;
 
 // Kullanıcıyı bekle
 onAuthStateChanged(auth, async (user) => {
   if (user) {
     currentUser = user;
 
-    const tokenResult = await user.getIdTokenResult(true);
+    // tokenResult = await user.getIdTokenResult(true);
     const topButtons = document.getElementById('topButtons');
 
-    if (tokenResult.claims.admin) {
+    const adminRef = doc(db, "admins", user.uid);
+    const adminSnap = await getDoc(adminRef);
+    
+    if (adminSnap.exists()) {
+      isAdmin = true;
       topButtons.innerHTML = `
-      
             <button id="adminPanelBtn" class="newUserBtn backgroundColor">
               Admin Paneli
             </button>
@@ -51,6 +65,8 @@ onAuthStateChanged(auth, async (user) => {
           `;
     }
     else {
+      // Admin değilse reklam yükleme alanını gizle
+      document.getElementById('ad-container').style.display = 'none';
       topButtons.innerHTML = `
             <button id="homeBtn" class="homeBtn backgroundColor">
               🏠 Ana Sayfa
@@ -60,6 +76,33 @@ onAuthStateChanged(auth, async (user) => {
             </button>
           `;
     }
+
+    // if (tokenResult.claims.admin) {
+    //   topButtons.innerHTML = `
+    //         <button id="adminPanelBtn" class="newUserBtn backgroundColor">
+    //           Admin Paneli
+    //         </button>
+    //         <button id="homeBtn" class="homeBtn backgroundColor">
+    //           🏠 Ana Sayfa
+    //         </button>
+    //         <button id="logoutBtn" class="logoutBtn backgroundColor">
+    //           🔒 Çıkış Yap
+    //         </button>
+    //       `;
+    // }
+    // else {
+    //   // Admin değilse reklam yükleme alanını gizle
+    //   // document.getElementById('ad-container').style.display = 'none';
+
+    //   topButtons.innerHTML = `
+    //         <button id="homeBtn" class="homeBtn backgroundColor">
+    //           🏠 Ana Sayfa
+    //         </button>
+    //         <button id="logoutBtn" class="logoutBtn backgroundColor">
+    //           🔒 Çıkış Yap
+    //         </button>
+    //       `;
+    // }
 
     if (document.getElementById("adminPanelBtn")) {
       document.getElementById("adminPanelBtn").addEventListener("click", () => {
@@ -110,22 +153,33 @@ uploadBtn.addEventListener("click", async () => {
   const logo = logoInput.files[0];
   const ad = adInput.files[0];
 
-  if (!logo || !ad) {
+  if (!logo || (isAdmin && !ad)) {
     alert("Lütfen bir dosya seçin.");
     return;
   }
 
   const logoPublicUrl = await uploadToServer('logo', 'logos', logo);
-  const adPublicUrl = await uploadToServer('ad', 'ads', ad);
 
-  if (!logoPublicUrl || !adPublicUrl) return;
+  let adPublicUrl = null;
+  if(isAdmin) {
+    adPublicUrl = await uploadToServer('ad', 'ads', ad);
+  }
+
+  if (!logoPublicUrl || (isAdmin && !adPublicUrl)) return;
 
   await supabase.from("profiles").upsert({
     id: currentUser.uid,
     logo_url: logoPublicUrl,
-    ad_url: adPublicUrl,
     updated_at: new Date().toISOString()
   });
+
+  if (isAdmin) {
+    await supabase.from("ads").upsert({
+      id: currentUser.uid,
+      ad_url: adPublicUrl,
+      updated_at: new Date().toISOString()
+    });
+  }
 
   alert("Yükleme başarılı!");
 });

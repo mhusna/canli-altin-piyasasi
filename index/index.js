@@ -37,7 +37,6 @@ loginForm.addEventListener("submit", async (e) => {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    debugger
   } catch (error) {
     alert("Giriş hatası: " + error.message);
   }

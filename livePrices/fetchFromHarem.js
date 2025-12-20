@@ -373,16 +373,33 @@ const auth = getAuth(app);
 
 // Supabase yükleme fonksiyonu
 const setImage = async (userId) => {
-  const { data, error } = await supabase
+  const { data: profileData, error } = await supabase
     .from("profiles")
     .select("logo_url, ad_url")
     .eq("id", userId)
     .single();
 
-  if (data) {
-    document.getElementById("logo").src = data.logo_url;
-    document.getElementById("reklam").src = data.ad_url;
+  const { data: adData, error: adError } = await supabase
+    .from("ads")
+    .select("ad_url")
+    .single();
+
+  try {
+    const logoElem = document.getElementById("logo");
+    if (profileData && profileData.logo_url && logoElem) {
+      logoElem.src = profileData.logo_url;
+    }
+
+    const reklamElem = document.getElementById("reklam");
+    if (adData && adData.ad_url && reklamElem) {
+      reklamElem.src = adData.ad_url;
+    }
+  } catch (e) {
+    console.error("setImage DOM error:", e);
   }
+
+  if (error) console.error("Supabase profiles error:", error);
+  if (adError) console.error("Supabase ads error:", adError);
 };
 
 // Kullanıcı giriş yaptıysa, fiyatlarını getir
