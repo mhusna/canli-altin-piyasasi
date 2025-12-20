@@ -92,7 +92,7 @@ form.addEventListener("submit", async (e) => {
 
     message.textContent = "✅ Kayıt başarılı! Kullanıcı Firestore'a eklendi.";
     message.className = "mt-3 text-center text-success";
-    form.reset();
+    window.location.href = "../livePrices/adminPanel.html";
 
   } catch (error) {
     message.textContent = "❌ Hata: " + error.message;
