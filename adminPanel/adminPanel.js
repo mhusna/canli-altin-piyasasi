@@ -2,7 +2,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
@@ -57,54 +57,45 @@ async function handleSuccessClick(uid) {
   }
 }
 
-function handleDeleteClick(uid) {
-  // Kullanıcı bilgilerini bul
-  const userInfo = array.find(user => user.uid === uid);
+async function handleDeleteClick(uid) {
+  try {
+    // Önce Firestore'dan kullanıcıyı al (onay mesajı için email almak üzere)
+    const userRef = doc(db, "users", uid);
+    const userSnap = await getDoc(userRef);
+    const userEmail = userSnap.exists() && userSnap.data().email;
 
-  if (!userInfo) {
-    alert('❌ Kullanıcı bulunamadı!');
-    console.error('Kullanıcı bulunamadı:', uid);
-    return;
-  }
-
-  // Onay dialogu göster
-  const confirmDelete = confirm(
-    `🗑️ Kullanıcıyı silmek istediğinizden emin misiniz?\n\n` +
-    `📧 Email: ${userInfo.mail}\n` +
-    `🆔 UID: ${userInfo.uid}\n\n` +
-    `⚠️ Bu işlem geri alınamaz!`
-  );
-
-  if (confirmDelete) {
-    try {
-      // Array'den kullanıcıyı çıkar
-      const userIndex = array.findIndex(user => user.uid === uid);
-
-      if (userIndex !== -1) {
-        // Kullanıcıyı array'den sil
-        const deletedUser = array.splice(userIndex, 1)[0];
-
-        console.log('Silinen kullanıcı:', deletedUser);
-
-        // Başarı mesajı
-        alert(`✅ Kullanıcı başarıyla silindi!\n📧 ${deletedUser.mail}`);
-
-        // Sayfayı yenile / UI'ı güncelle
-        refreshUserList();
-
-        // API çağrısı yapabilirsiniz (isteğe bağlı)
-        deleteUserOnServer(uid);
-
-      } else {
-        throw new Error('Kullanıcı indexi bulunamadı');
-      }
-
-    } catch (error) {
-      console.error('Silme işlemi sırasında hata:', error);
-      alert('❌ Kullanıcı silinirken hata oluştu!');
+    if (!userSnap.exists() && !userEmail) {
+      alert('❌ Kullanıcı bulunamadı!');
+      console.error('Kullanıcı bulunamadı:', uid);
+      return;
     }
-  } else {
-    console.log('Silme işlemi iptal edildi');
+
+    const confirmDelete = confirm(
+      `🗑️ Kullanıcıyı silmek istediğinizden emin misiniz?\n\n` +
+      `📧 Email: ${userEmail}\n` +
+      `🆔 UID: ${uid}\n\n` +
+      `⚠️ Bu işlem geri alınamaz!`
+    );
+
+    if (!confirmDelete) {
+      console.log('Silme işlemi iptal edildi');
+      return;
+    }
+
+    // Firestore'dan sil
+    await deleteDoc(userRef);
+
+    alert(`✅ Kullanıcı başarıyla silindi!\n📧 ${userEmail}`);
+
+    // Firestore'dan yeniden yükle ve UI'ı güncelle
+    await loadAllUsers();
+
+    // Opsiyonel: sunucudan silme çağrısı
+    deleteUserOnServer(uid);
+
+  } catch (error) {
+    console.error('Silme işlemi sırasında hata:', error);
+    alert('❌ Kullanıcı silinirken hata oluştu!');
   }
 }
 
