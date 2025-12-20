@@ -138,18 +138,18 @@ onAuthStateChanged(auth, async (user) => {
   const topButtons = document.getElementById("topButtons");
 
   if (adminSnap.exists()) {
-    topButtons.innerHTML = `
+    topButtons.innerHTML = topButtons.innerHTML.concat(`
       <button id="adminPanelBtn" class="newUserBtn backgroundColor">Admin Paneli</button>
       <button id="homeBtn" class="homeBtn backgroundColor">🏠 Ana Sayfa</button>
       <button id="addImage" class="addImage backgroundColor">Logo Yükle</button>
       <button id="logoutBtn" class="logoutBtn backgroundColor">🔒 Çıkış Yap</button>
-    `;
+    `);
   } else {
-    topButtons.innerHTML = `
+    topButtons.innerHTML = topButtons.innerHTML.concat(`
       <button id="homeBtn" class="homeBtn backgroundColor">🏠 Ana Sayfa</button>
       <button id="addImage" class="addImage backgroundColor">Logo Yükle</button>
       <button id="logoutBtn" class="logoutBtn backgroundColor">🔒 Çıkış Yap</button>
-    `;
+    `);
   }
 
   // 🔹 Buton event'leri
