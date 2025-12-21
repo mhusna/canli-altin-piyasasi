@@ -432,6 +432,9 @@ const socket = io("https://socketweb.haremaltin.com", {
   transports: ["websocket"],
 });
 
+// ilk okuma durumu true olarak ayarlandı
+let firstRead = true;
+
 const manageSocketConnection = () => {
   const currentHour = new Date().getHours();
 
@@ -485,7 +488,7 @@ socket.on("price_changed", (data) => {
     //#endregion
 
     // Eğer price_changed başarılıysa, hata bildirimini gizle
-    hideFetchError();
+    !firstRead && hideFetchError();
   } catch (err) {
     console.error("price_changed handler error:", err);
     showFetchError();
@@ -495,12 +498,14 @@ socket.on("price_changed", (data) => {
 // fetch hata container yardımcıları
 const _getFetchErrorElem = () => document.getElementById("fetch-error-container");
 const showFetchError = () => {
+  firstRead = true;
   const el = _getFetchErrorElem();
   if (el) el.style.display = "block";
 };
 const hideFetchError = () => {
+  firstRead = false;
   const el = _getFetchErrorElem();
-  if (el) el.style.display = "none";
+  if (el && el.style.display === "block" || el.style.display === "flex") el.style.display = "none";
 };
 
 // Socket bağlantı/hata olayları
