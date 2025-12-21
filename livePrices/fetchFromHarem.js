@@ -450,38 +450,91 @@ const manageSocketConnection = () => {
 
 // Socket olayları
 socket.on("price_changed", (data) => {
-  const items = Object.values(data);
-  const firstItem = Object.values(items[1]);
+  try {
+    const items = Object.values(data);
+    const firstItem = Object.values(items[1]);
 
-  // Ürünleri haremden oku ve haremAlis - haremSatis alanlarını doldur.
-  firstItem.forEach((item) => {
-    EXCHANGE_TYPES.forEach((type) => {
-      if (item.code === type.haremId) {
-        type.haremAlis = item.alis;
-        type.haremSatis = item.satis;
-      }
+    // Ürünleri haremden oku ve haremAlis - haremSatis alanlarını doldur.
+    firstItem.forEach((item) => {
+      EXCHANGE_TYPES.forEach((type) => {
+        if (item.code === type.haremId) {
+          type.haremAlis = item.alis;
+          type.haremSatis = item.satis;
+        }
+      });
     });
-  });
 
-  //#region Has alış - satış fiyatlarını ekrana yaz.
-  const hasAlisElement = document.getElementById("has-alis");
-  const hasSatisElement = document.getElementById("has-satis");
+    //#region Has alış - satış fiyatlarını ekrana yaz.
+    const hasAlisElement = document.getElementById("has-alis");
+    const hasSatisElement = document.getElementById("has-satis");
 
-  hasAlisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
-  hasSatisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
-  //#endregion
+    if (hasAlisElement) hasAlisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
+    if (hasSatisElement) hasSatisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
+    //#endregion
 
-  //#region Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
-  EXCHANGE_TYPES.forEach((type) => {
+    //#region Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
+    EXCHANGE_TYPES.forEach((type) => {
 
-    // Alış ve satış fiyatlarını hesapla.
-    const totalAlis = type.alisHesap();
-    const totalSatis = type.satisHesap();
+      // Alış ve satış fiyatlarını hesapla.
+      const totalAlis = type.alisHesap();
+      const totalSatis = type.satisHesap();
 
-    // Ekrana yansıt.
-    findElementAndFill(type.id, totalAlis, totalSatis, type.format);
-  });
-  //#endregion
+      // Ekrana yansıt.
+      findElementAndFill(type.id, totalAlis, totalSatis, type.format);
+    });
+    //#endregion
+
+    // Eğer price_changed başarılıysa, hata bildirimini gizle
+    hideFetchError();
+  } catch (err) {
+    console.error("price_changed handler error:", err);
+    showFetchError();
+  }
+});
+
+// fetch hata container yardımcıları
+const _getFetchErrorElem = () => document.getElementById("fetch-error-container");
+const showFetchError = () => {
+  const el = _getFetchErrorElem();
+  if (el) el.style.display = "block";
+};
+const hideFetchError = () => {
+  const el = _getFetchErrorElem();
+  if (el) el.style.display = "none";
+};
+
+// Socket bağlantı/hata olayları
+socket.on("connect", () => {
+  console.log("Socket connected");
+  hideFetchError();
+});
+
+socket.on("connect_error", (err) => {
+  console.error("Socket connect_error:", err);
+  // Eğer daha önce hiç bağlanamadıysa veya bağlantı hatası alındıysa hata göster
+  showFetchError();
+});
+
+socket.on("error", (err) => {
+  console.error("Socket error:", err);
+  showFetchError();
+});
+
+socket.on("reconnect_error", (err) => {
+  console.error("Socket reconnect_error:", err);
+  showFetchError();
+});
+
+socket.on("disconnect", (reason) => {
+  console.warn("Socket disconnected:", reason);
+  // Eğer disconnect istemli olarak client tarafından yapıldıysa (örn. gece kapatma), hata gösterme
+  if (reason === "io client disconnect") {
+    hideFetchError();
+    return;
+  }
+
+  // Diğer durumlarda hata göster
+  showFetchError();
 });
 
 // helper: locale-aware format (2 ondalık, Türkçe)
