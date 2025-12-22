@@ -9,6 +9,8 @@ import {
   doc,
   setDoc,
   getDoc,
+  collection,
+  onSnapshot,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 // --- Firebase Config ---
@@ -102,20 +104,35 @@ async function savePrices(uid) {
   }
 }
 
-// ------------------- FIRESTORE’DAN FİYATLARI OKU -------------------
-async function loadPrices(uid) {
-  const pricesData = {};
+// ------------------- FIRESTORE’DAN FİYATLARI (GERÇEK ZAMANLI) OKU -------------------
+function loadPrices(uid) {
   try {
-    for (const item of EXCHANGE_TYPES) {
-      const ref = doc(db, "users", uid, "prices", item.id);
-      const snap = await getDoc(ref);
-      if (snap.exists()) pricesData[item.id] = snap.data();
-      else pricesData[item.id] = { alis: 0, satis: 0 };
-    }
-    fillTableWithData(pricesData);
+    const pricesRef = collection(db, "users", uid, "prices");
+
+    // Gerçek zamanlı dinleyici: Firestore'daki herhangi bir değişiklikte tetiklenir
+    onSnapshot(
+      pricesRef,
+      (snapshot) => {
+        const pricesData = {};
+        snapshot.forEach((docSnap) => {
+          pricesData[docSnap.id] = docSnap.data();
+        });
+
+        // Eksik türler için varsayılan değerler ekle
+        EXCHANGE_TYPES.forEach((item) => {
+          if (!pricesData[item.id]) pricesData[item.id] = { alis: 0, satis: 0 };
+        });
+
+        fillTableWithData(pricesData);
+      },
+      (error) => {
+        console.error("❌ Fiyat dinleyici hatası:", error);
+        alert("Fiyatlar dinlenemiyor: " + error.message);
+      }
+    );
   } catch (error) {
-    console.error("❌ Fiyat okuma hatası:", error);
-    alert("Fiyatlar yüklenemedi: " + error.message);
+    console.error("❌ Fiyat dinleyici kurulurken hata:", error);
+    alert("Fiyat dinleyici kurulamadı: " + error.message);
   }
 }
 
