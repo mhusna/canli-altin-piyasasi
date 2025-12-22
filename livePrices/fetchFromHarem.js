@@ -432,6 +432,43 @@ const socket = io("https://socketweb.haremaltin.com", {
   transports: ["websocket"],
 });
 
+// Son fiyat güncelleme zamanını izle
+let lastPriceUpdate = Date.now();
+// Uyarı göstergesi kontrol süresi (ms)
+const STALE_THRESHOLD_MS = 3000; // 3 saniye
+
+function ensureStaleWarningElement() {
+  let el = document.getElementById("staleWarning");
+  if (!el) {
+    el = document.createElement("div");
+    el.id = "staleWarning";
+    el.innerText = "GÜNCEL FİYAT OKUNAMADI !";
+    el.style.position = "fixed";
+    el.style.right = "10px";
+    el.style.zIndex = "9999";
+    el.style.background = "#f00";
+    el.style.color = "#fff";
+    el.style.padding = "10px 10px";
+    el.style.borderRadius = "6px";
+    el.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
+    el.style.fontWeight = "600";
+    el.style.opacity = "0.9";
+    el.style.display = "none";
+    document.body.appendChild(el);
+  }
+  return el;
+}
+
+function showStaleWarning() {
+  const el = ensureStaleWarningElement();
+  el.style.display = "block";
+}
+
+function hideStaleWarning() {
+  const el = document.getElementById("staleWarning");
+  if (el) el.style.display = "none";
+}
+
 const manageSocketConnection = () => {
   const currentHour = new Date().getHours();
 
@@ -482,6 +519,34 @@ socket.on("price_changed", (data) => {
     findElementAndFill(type.id, totalAlis, totalSatis, type.format);
   });
   //#endregion
+
+  // Gelen her fiyat değişiminde zaman damgasını güncelle
+  lastPriceUpdate = Date.now();
+  // Eğer daha önce uyarı görünüyorsa gizle
+  hideStaleWarning();
+});
+
+// Socket bağlantı durum olayları
+socket.on("connect", () => {
+  console.log("Socket connected");
+  // Bağlandıktan sonra son güncellemeden uzun süre geçtiyse uyarıyı kontrol et
+  if (Date.now() - lastPriceUpdate <= STALE_THRESHOLD_MS) hideStaleWarning();
+});
+
+socket.on("disconnect", (reason) => {
+  console.warn("Socket disconnected:", reason);
+  showStaleWarning();
+});
+
+socket.on("connect_error", (err) => {
+  console.error("Socket connect_error:", err);
+  showStaleWarning();
+});
+
+socket.on("reconnect", (attempt) => {
+  console.log("Socket reconnected, attempt:", attempt);
+  // yeniden bağlandığında uyarıyı gizle; gerçek fiyat güncellemesi gelince de gizlenecek
+  hideStaleWarning();
 });
 
 // helper: locale-aware format (2 ondalık, Türkçe)
@@ -556,3 +621,13 @@ const checkValuesAndDisplay = (element, newValue, rate, format) => {
 
 // Saat kontrolü için interval
 setInterval(manageSocketConnection, 3000);
+
+// Periyodik kontrol: eğer son güncelleme STALE_THRESHOLD_MS'den uzun ise uyarı göster
+setInterval(() => {
+  const now = Date.now();
+  if (!socket.connected || now - lastPriceUpdate > STALE_THRESHOLD_MS) {
+    showStaleWarning();
+  } else {
+    hideStaleWarning();
+  }
+}, 1000);
