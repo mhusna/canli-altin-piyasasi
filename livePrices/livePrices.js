@@ -151,3 +151,7 @@ setInterval(() => {
     hideStaleWarning();
   }
 }, 1000);
+
+setInterval(async () => {
+  await checkUserIsExpired(uid, db, auth);
+}, 5 * 60 * 1000);

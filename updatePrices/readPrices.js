@@ -61,3 +61,7 @@ onAuthStateChanged(auth, async (user) => {
 
   await getProfits(user.uid, db, EXCHANGE_TYPES);
 });
+
+setInterval(async () => {
+  await checkUserIsExpired(uid, db, auth);
+}, 5 * 60 * 1000);
