@@ -3,7 +3,7 @@ import { signOut } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth
 
 // Supabase importları
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.31.0/+esm";
-import { supabaseUrl, supabaseAnonKey } from "./models.js";
+import { supabaseUrl, supabaseAnonKey } from "../livePrices/utils/models.js";
 
 
 /**

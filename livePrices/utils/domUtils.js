@@ -87,7 +87,7 @@ const checkValuesAndDisplay = (element, newValue, rate, format) => {
  * @param {*} digits 
  * @returns 
  */
-const formatNumber = (val, digits) => {
+export const formatNumber = (val, digits) => {
   const n = Number(val);
   if (isNaN(n)) return "-";
   return n.toLocaleString("tr-TR", {

@@ -12,46 +12,13 @@ import {
   collection,
   onSnapshot,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
-// --- Firebase Config ---
-const firebaseConfig = {
-  apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
-  authDomain: "canli-altin-app.firebaseapp.com",
-  databaseURL:
-    "https://canli-altin-app-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "canli-altin-app",
-  storageBucket: "canli-altin-app.appspot.com", // 🔧 düzeltildi
-  messagingSenderId: "675863034125",
-  appId: "1:675863034125:web:301006180c35a5f0549844",
-  measurementId: "G-V3YHGPSB8M",
-};
+import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
+import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ------------------- ÜRÜN TANIMLARI -------------------
-const EXCHANGE_TYPES = [
-  { id: "BILEZIK22", haremId: "ALTIN", alisMilyem: 0.912, satisMilyem: 0.93 },
-  { id: "AYAR8", haremId: "ALTIN", alisMilyem: 0.32, satisMilyem: 0 },
-  { id: "AYAR14", haremId: "ALTIN", alisMilyem: 0.575, satisMilyem: 0 },
-  { id: "AYAR18", haremId: "ALTIN", alisMilyem: 0.7, satisMilyem: 0 },
-  { id: "AYAR22", haremId: "ALTIN", alisMilyem: 0.912, satisMilyem: 0.93 },
-  { id: "AYAR24", haremId: "ALTIN", alisMilyem: 0.995, satisMilyem: 1 },
-  { id: "CEYREK_YENI", haremId: "CEYREK_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "CEYREK_ESKI", haremId: "CEYREK_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "YARIM_YENI", haremId: "YARIM_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "YARIM_ESKI", haremId: "YARIM_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "TEK_YENI", haremId: "TEK_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "TEK_ESKI", haremId: "TEK_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "ATA_YENI", haremId: "ATA_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "RESAT", haremId: "ATA_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "GRAMESE_YENI", haremId: "CEYREK_YENI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "GRAMESE_ESKI", haremId: "CEYREK_ESKI", alisMilyem: 1, satisMilyem: 1 },
-  { id: "USDTRY", haremId: "USDTRY", alisMilyem: 1, satisMilyem: 1 },
-  { id: "EURTRY", haremId: "EURTRY", alisMilyem: 1, satisMilyem: 1 },
-  { id: "GUMUSTRY", haremId: "GUMUSTRY", alisMilyem: 1000, satisMilyem: 1000 },
-];
 
 // ------------------- TABLOYA VERİ EKLE -------------------
 function fillTableWithData(data = {}) {
@@ -140,12 +107,11 @@ function loadPrices(uid) {
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    console.warn("Kullanıcı oturum açmamış, yönlendiriliyor...");
     window.location.href = "../index.html";
     return;
   }
 
-  console.log("Aktif kullanıcı UID:", user.uid);
+  await checkUserIsExpired(user.uid, db, auth);
 
   // 🔹 Admin kontrolü
   const adminRef = doc(db, "admins", user.uid);

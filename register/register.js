@@ -7,17 +7,7 @@ import {
   serverTimestamp,
   Timestamp
 } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
-  authDomain: "canli-altin-app.firebaseapp.com",
-  databaseURL: "https://canli-altin-app-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "canli-altin-app",
-  storageBucket: "canli-altin-app.appspot.com", // ✅ doğru format
-  messagingSenderId: "675863034125",
-  appId: "1:675863034125:web:301006180c35a5f0549844",
-  measurementId: "G-V3YHGPSB8M"
-};
+import { firebaseConfig } from "../models/commonModels.js";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

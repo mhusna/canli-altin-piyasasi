@@ -10,17 +10,8 @@ import {
   doc,
   getDoc,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-
-// Firebase ayarları
-const firebaseConfig = {
-  apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
-  authDomain: "canli-altin-app.firebaseapp.com",
-  projectId: "canli-altin-app",
-  storageBucket: "canli-altin-app.firebasestorage.app",
-  messagingSenderId: "675863034125",
-  appId: "1:675863034125:web:301006180c35a5f0549844",
-  measurementId: "G-V3YHGPSB8M"
-};
+import { checkUserIsExpired } from "../utils/userUtils.js";
+import { firebaseConfig } from "../models/commonModels.js";
 
 // Supabase ayarları
 const supabaseUrl = "https://oybvsqonvawnkztnhwec.supabase.co";
@@ -42,6 +33,7 @@ let isAdmin = false;
 // Kullanıcıyı bekle
 onAuthStateChanged(auth, async (user) => {
   if (user) {
+    await checkUserIsExpired(user.uid, db, auth);
     currentUser = user;
 
     // tokenResult = await user.getIdTokenResult(true);
@@ -76,33 +68,6 @@ onAuthStateChanged(auth, async (user) => {
             </button>
           `;
     }
-
-    // if (tokenResult.claims.admin) {
-    //   topButtons.innerHTML = `
-    //         <button id="adminPanelBtn" class="newUserBtn backgroundColor">
-    //           Admin Paneli
-    //         </button>
-    //         <button id="homeBtn" class="homeBtn backgroundColor">
-    //           🏠 Ana Sayfa
-    //         </button>
-    //         <button id="logoutBtn" class="logoutBtn backgroundColor">
-    //           🔒 Çıkış Yap
-    //         </button>
-    //       `;
-    // }
-    // else {
-    //   // Admin değilse reklam yükleme alanını gizle
-    //   // document.getElementById('ad-container').style.display = 'none';
-
-    //   topButtons.innerHTML = `
-    //         <button id="homeBtn" class="homeBtn backgroundColor">
-    //           🏠 Ana Sayfa
-    //         </button>
-    //         <button id="logoutBtn" class="logoutBtn backgroundColor">
-    //           🔒 Çıkış Yap
-    //         </button>
-    //       `;
-    // }
 
     if (document.getElementById("adminPanelBtn")) {
       document.getElementById("adminPanelBtn").addEventListener("click", () => {

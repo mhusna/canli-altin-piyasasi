@@ -3,15 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebas
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDIGME8_6gN9bI1SCadrsx93QhQRCfC-dM",
-  authDomain: "canli-altin-app.firebaseapp.com",
-  projectId: "canli-altin-app",
-  storageBucket: "canli-altin-app.firebasestorage.app",
-  messagingSenderId: "675863034125",
-  appId: "1:675863034125:web:301006180c35a5f0549844",
-};
+import { firebaseConfig } from "../models/commonModels.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
