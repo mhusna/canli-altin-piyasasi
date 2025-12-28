@@ -1,6 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getFirestore, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { getFirestore, } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
 import { getProfitsAndFillArray, fillPricesToExchangeTypes } from "../utils/priceUtils.js";
 import { findElementAndFill, formatNumber } from "../utils/domUtils.js";

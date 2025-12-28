@@ -14,6 +14,7 @@ import {
 import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
 import { getProfits, saveProfits } from "../utils/priceUtils.js";
+import { handleTopButtons } from "../utils/domUtils.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -54,8 +55,8 @@ onAuthStateChanged(auth, async (user) => {
     window.location.href = "../livePrices/livePrices.html";
   });
 
-  document.getElementById("saveBtn").addEventListener("click", () => {
-    saveProfits(user.uid, db, EXCHANGE_TYPES);
+  document.getElementById("saveBtn").addEventListener("click", async () => {
+    await saveProfits(user.uid, db, EXCHANGE_TYPES);
   });
 
   await getProfits(user.uid, db, EXCHANGE_TYPES);

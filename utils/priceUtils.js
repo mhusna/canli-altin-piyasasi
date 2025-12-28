@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { collection, doc, getDocs, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 
 /**
  * Kullanıcının kâr bilgilerini alır ve EXCHANGE_TYPES dizisine set eder.
@@ -49,6 +49,8 @@ export const fillPricesToExchangeTypes = (data, targetArray) => {
 export const saveProfits = async (uid, db, targetArray) => {
   try {
     for (const item of targetArray) {
+      if (item.id === "HAS") continue;
+
       const alis = parseFloat(document.getElementById(`alis_${item.id}`).value || 0);
       const satis = parseFloat(document.getElementById(`satis_${item.id}`).value || 0);
 
