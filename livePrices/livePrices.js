@@ -2,8 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebas
 import { getFirestore, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
-import { getAndSetProfits, fillPricesToExchangeTypes } from "./utils/priceUtils.js";
-import { findElementAndFill, formatNumber } from "./utils/domUtils.js";
+import { getProfitsAndFillArray, fillPricesToExchangeTypes } from "../utils/priceUtils.js";
+import { findElementAndFill, formatNumber } from "../utils/domUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
 
 
@@ -104,7 +104,7 @@ socket.on("price_changed", async (data) => {
 
   // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
   fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
-  await getAndSetProfits(auth.currentUser.uid, db, EXCHANGE_TYPES);
+  await getProfitsAndFillArray(auth.currentUser.uid, db, EXCHANGE_TYPES);
   calculateAndDisplayPrices();
 
   //Has alış - satış fiyatlarını ekrana yaz.

@@ -100,12 +100,32 @@ export const formatNumber = (val, digits) => {
  * Saat bilgisini döndürür.
  * @returns 
  */
-function getCurrentTime() {
+const getCurrentTime = () => {
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
   const minutes = String(now.getMinutes()).padStart(2, '0');
   const seconds = String(now.getSeconds()).padStart(2, '0');
   return `${hours}:${minutes}:${seconds}`;
+}
+
+export const handleTopButtons = (topButtonsContainer, isAdmin) => {
+  if (isAdmin) {
+    topButtonsContainer.innerHTML = topButtonsContainer.innerHTML.concat(`
+      <button id="saveBtn" class="backgroundColor">💾 Kaydet</button>
+      <button id="adminPanelBtn" class="newUserBtn backgroundColor">Admin Paneli</button>
+      <button id="homeBtn" class="homeBtn backgroundColor">🏠 Ana Sayfa</button>
+      <button id="addImage" class="addImage backgroundColor">Logo Yükle</button>
+      <button id="logoutBtn" class="logoutBtn backgroundColor">🔒 Çıkış Yap</button>
+    `);
+  }
+  else {
+    topButtonsContainer.innerHTML = topButtonsContainer.innerHTML.concat(`
+      <button id="saveBtn" class="backgroundColor">💾 Kaydet</button>
+      <button id="homeBtn" class="homeBtn backgroundColor">🏠 Ana Sayfa</button>
+      <button id="addImage" class="addImage backgroundColor">Logo Yükle</button>
+      <button id="logoutBtn" class="logoutBtn backgroundColor">🔒 Çıkış Yap</button>
+    `);
+  }
 }
 
 /** Saat bilgisini günceller. */
