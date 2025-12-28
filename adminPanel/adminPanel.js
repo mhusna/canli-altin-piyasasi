@@ -145,7 +145,7 @@ async function loadAllUsers() {
       ? user.expireDate.toDate()
       : new Date(user.expireDate);
 
-    userElements.push(createInfoElement(uid, user.email, signUpDate, expireDate));
+    userElements.push(createInfoElement(uid, user.email, new Date(), expireDate));
   });
 
   userList.innerHTML = userElements.join('');
