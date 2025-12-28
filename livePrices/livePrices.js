@@ -425,10 +425,9 @@ const manageSocketConnection = () => {
   }
 };
 
-//Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
+// Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
 const calculateAndDisplayPrices = () => {
   EXCHANGE_TYPES.forEach((type) => {
-
     // Alış ve satış fiyatlarını hesapla.
     const totalAlis = type.alisHesap();
     const totalSatis = type.satisHesap();

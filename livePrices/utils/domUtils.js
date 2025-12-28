@@ -95,3 +95,33 @@ const formatNumber = (val, digits) => {
     maximumFractionDigits: digits,
   });
 };
+
+/**
+ * Saat bilgisini döndürür.
+ * @returns 
+ */
+function getCurrentTime() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+/** Saat bilgisini günceller. */
+setInterval(() => {
+  const timeElement = document.querySelector('.timeContainer');
+  if (timeElement) {
+    timeElement.textContent = `${getCurrentTime()}`;
+  }
+}, 1000);
+
+/** Ayarlar butonuna tıklanınca yönlendirme yapar. */
+document.addEventListener("DOMContentLoaded", () => {
+  const btn = document.getElementById("goToUpdateBtn");
+  if (!btn) return;
+
+  btn.addEventListener("click", () => {
+    window.location.href = "../updatePrices/updatePrices.html";
+  });
+});
