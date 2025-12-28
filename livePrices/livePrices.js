@@ -2,11 +2,9 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebas
 import { getFirestore, } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
-import { getProfitsAndFillArray, fillPricesToExchangeTypes } from "../utils/priceUtils.js";
+import { getProfitsAndFillArray, fillPricesToExchangeTypes, listenProfitsAndRefreshLivePrices } from "../utils/priceUtils.js";
 import { findElementAndFill, formatNumber } from "../utils/domUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
-
-
 
 // DB'den kârları oku.
 const app = initializeApp(firebaseConfig);
@@ -93,6 +91,8 @@ onAuthStateChanged(auth, async (user) => {
   }
   await checkUserIsExpired(user.uid, db, auth);
   await setImage(user.uid);
+  await listenProfitsAndRefreshLivePrices(user.uid, db, EXCHANGE_TYPES);
+
 });
 
 /**

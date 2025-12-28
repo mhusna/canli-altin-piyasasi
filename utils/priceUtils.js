@@ -138,3 +138,38 @@ const fillTableWithData = (data = {}, targetArray) => {
     });
   });
 }
+
+export const listenProfitsAndRefreshLivePrices = (uid, db, targetArray) => {
+  try {
+    const pricesRef = collection(db, "users", uid, "prices");
+
+    // Gerçek zamanlı dinleyici: Firestore'daki herhangi bir değişiklikte tetiklenir
+    onSnapshot(
+      pricesRef,
+      (snapshot) => {
+        const pricesData = {};
+        snapshot.forEach((docSnap) => {
+          pricesData[docSnap.id] = docSnap.data();
+        });
+
+        // Eksik türler için varsayılan değerler ekle
+        targetArray.forEach((item) => {
+          if (!pricesData[item.id]) pricesData[item.id] = { alis: 0, satis: 0 };
+        });
+
+        snapshot.docChanges().forEach((change) => {
+          if (change.type === "modified") {
+            window.location.href = window.location.href;
+          }
+        });
+      },
+      (error) => {
+        console.error("❌ Fiyat dinleyici hatası:", error);
+        alert("Fiyatlar dinlenemiyor: " + error.message);
+      }
+    );
+  } catch (error) {
+    console.error("❌ Fiyat dinleyici kurulurken hata:", error);
+    alert("Fiyat dinleyici kurulamadı: " + error.message);
+  }
+}
