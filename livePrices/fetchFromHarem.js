@@ -1,7 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+import { getFirestore, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.31.0/+esm";
+import { checkUserIsExpired, setImage } from "./utils/userUtils.js";
+import { getAndSetProfits, fillPricesToExchangeTypes } from "./utils/priceUtils.js";
+import { findElementAndFill } from "./utils/domUtils.js";
 
 const EXCHANGE_TYPES = [
   {
@@ -361,72 +363,10 @@ const firebaseConfig = {
   measurementId: "G-V3YHGPSB8M",
 };
 
-// Supabase ayarları
-const supabaseUrl = "https://oybvsqonvawnkztnhwec.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95YnZzcW9udmF3bmt6dG5od2VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIxMjMwMDIsImV4cCI6MjA3NzY5OTAwMn0.OPa9rGvmFVAocrzlNPLx-8AJ7IF-Wcm58jlS4zXEYW0";
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
 // DB'den kârları oku.
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-
-// Supabase yükleme fonksiyonu
-const setImage = async (userId) => {
-  const { data: profileData, error } = await supabase
-    .from("profiles")
-    .select("logo_url, ad_url")
-    .eq("id", userId)
-    .single();
-
-  const { data: adData, error: adError } = await supabase
-    .from("ads")
-    .select("ad_url")
-    .single();
-
-  try {
-    const logoElem = document.getElementById("logo");
-    if (profileData && profileData.logo_url && logoElem) {
-      logoElem.src = profileData.logo_url;
-    }
-
-    const reklamElem = document.getElementById("reklam");
-    if (adData && adData.ad_url && reklamElem) {
-      reklamElem.src = adData.ad_url;
-    }
-  } catch (e) {
-    console.error("setImage DOM error:", e);
-  }
-
-  if (error) console.error("Supabase profiles error:", error);
-  if (adError) console.error("Supabase ads error:", adError);
-};
-
-// Kullanıcı giriş yaptıysa, fiyatlarını getir
-onAuthStateChanged(auth, async (user) => {
-  if (!user) {
-    window.location.href = "../index.html";
-    return;
-  }
-
-  const uid = user.uid;
-  const pricesCol = collection(db, "users", uid, "prices");
-  const snapshot = await getDocs(pricesCol);
-
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-    const productId = doc.id; // Örn: "BILEZIK22"
-
-    EXCHANGE_TYPES.find((type) => {
-      if (type.id === productId) {
-        type.satisKar = data.satis.toFixed(2);
-        type.alisKar = data.alis.toFixed(2);
-      }
-    });
-  });
-
-  await setImage(uid);
-});
 
 const socket = io("https://socketweb.haremaltin.com", {
   transports: ["websocket"],
@@ -485,30 +425,8 @@ const manageSocketConnection = () => {
   }
 };
 
-// Socket olayları
-socket.on("price_changed", (data) => {
-  const items = Object.values(data);
-  const firstItem = Object.values(items[1]);
-
-  // Ürünleri haremden oku ve haremAlis - haremSatis alanlarını doldur.
-  firstItem.forEach((item) => {
-    EXCHANGE_TYPES.forEach((type) => {
-      if (item.code === type.haremId) {
-        type.haremAlis = item.alis;
-        type.haremSatis = item.satis;
-      }
-    });
-  });
-
-  //#region Has alış - satış fiyatlarını ekrana yaz.
-  const hasAlisElement = document.getElementById("has-alis");
-  const hasSatisElement = document.getElementById("has-satis");
-
-  hasAlisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
-  hasSatisElement.innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
-  //#endregion
-
-  //#region Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
+//Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
+const calculateAndDisplayPrices = () => {
   EXCHANGE_TYPES.forEach((type) => {
 
     // Alış ve satış fiyatlarını hesapla.
@@ -518,7 +436,36 @@ socket.on("price_changed", (data) => {
     // Ekrana yansıt.
     findElementAndFill(type.id, totalAlis, totalSatis, type.format);
   });
-  //#endregion
+}
+
+/**
+ * Girişi dinler, expire kontrolü yapar ve logoları yükler.
+ */
+onAuthStateChanged(auth, async (user) => {
+  /** Tarayıcıdan yetkisiz girişleri engellemek için gerekli. */
+  if (!user) {
+    window.location.href = "../index.html";
+    return;
+  }
+  await checkUserIsExpired(user.uid, db, auth);
+  await setImage(user.uid);
+});
+
+/**
+ * Ana metot, haremden güncel fiyatları alır.
+ */
+socket.on("price_changed", async (data) => {
+  const items = Object.values(data);
+  const haremData = Object.values(items[1]);
+
+  // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
+  fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
+  await getAndSetProfits(auth.currentUser.uid, db, EXCHANGE_TYPES);
+  calculateAndDisplayPrices();
+
+  //Has alış - satış fiyatlarını ekrana yaz.
+  document.getElementById("has-alis").innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
+  document.getElementById("has-satis").innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
 
   // Gelen her fiyat değişiminde zaman damgasını güncelle
   lastPriceUpdate = Date.now();
@@ -528,7 +475,6 @@ socket.on("price_changed", (data) => {
 
 // Socket bağlantı durum olayları
 socket.on("connect", () => {
-  console.log("Socket connected");
   // Bağlandıktan sonra son güncellemeden uzun süre geçtiyse uyarıyı kontrol et
   if (Date.now() - lastPriceUpdate <= STALE_THRESHOLD_MS) hideStaleWarning();
 });
@@ -548,76 +494,6 @@ socket.on("reconnect", (attempt) => {
   // yeniden bağlandığında uyarıyı gizle; gerçek fiyat güncellemesi gelince de gizlenecek
   hideStaleWarning();
 });
-
-// helper: locale-aware format (2 ondalık, Türkçe)
-const formatNumber = (val, digits) => {
-  const n = Number(val);
-  if (isNaN(n)) return "-";
-  return n.toLocaleString("tr-TR", {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits,
-  });
-};
-
-// helper: parse displayed (ör. "5.850,00" -> 5850.00)
-const parseDisplayNumber = (str) => {
-  if (typeof str === "number") return str;
-  if (!str) return 0;
-  const cleaned = String(str)
-    .replace(/\s/g, "")
-    .replace(/\./g, "")
-    .replace(",", ".");
-  const n = Number(cleaned);
-  return isNaN(n) ? 0 : n;
-};
-
-// Fiyat güncelleme fonksiyonları
-const findElementAndFill = (code, alis, satis, format) => {
-  const urunSatir = document.getElementById(code);
-  if (!urunSatir) return;
-
-  const alisElement = urunSatir.querySelector(".alis");
-  const satisElement = urunSatir.querySelector(".satis");
-
-  // karşılaştırmaları numeric yap
-  const currentAlis = parseDisplayNumber(alisElement.innerText);
-  const currentSatis = parseDisplayNumber(satisElement.innerText);
-
-  const alisDown = handleRate(currentAlis, Number(alis));
-  const satisDown = handleRate(currentSatis, Number(satis));
-
-  checkValuesAndDisplay(alisElement, alis, alisDown, format);
-  checkValuesAndDisplay(satisElement, satis, satisDown, format);
-};
-
-// Fiyat arttı mı azaldı mı belirler.
-const handleRate = (currentValue, newValue) => {
-  if (currentValue > newValue) return "down";
-  else if (currentValue < newValue) return "up";
-  return "equal"
-}
-
-const checkValuesAndDisplay = (element, newValue, rate, format) => {
-  if (newValue === 0 || isNaN(newValue)) return;
-
-  if (!element.classList.contains("footer")) {
-    element.style.transition = "background 0.5s ease-in-out";
-
-    if (rate === "down") {
-      element.style.background = "#ffd6d6ff"; // kırmızı
-    } else if (rate === "up") {
-      element.style.background = "#e1ffd6ff"; // yeşil
-    }
-
-    // 2 saniye sonra geri griye dönsün
-    setTimeout(() => {
-      element.style.background = "#fff";
-    }, 500);
-  }
-
-  const deger = formatNumber(newValue, format ? 2 : 0); // iki ondalık gösterim, locale ile
-  element.innerText = deger;
-}
 
 // Saat kontrolü için interval
 setInterval(manageSocketConnection, 3000);
