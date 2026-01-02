@@ -11,7 +11,10 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-const socket = io("https://socketweb.haremaltin.com", {
+// const socket = io("https://socketweb.haremaltin.com", {
+//   transports: ["websocket"],
+// });
+const socket = io("https://hrmsocketonly.haremaltin.com", {
   transports: ["websocket"],
 });
 
