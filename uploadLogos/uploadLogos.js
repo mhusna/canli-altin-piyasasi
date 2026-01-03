@@ -1,15 +1,15 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import {
   getAuth,
   signOut,
   onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-auth.js";
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 import {
   getFirestore,
   doc,
   getDoc,
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 import { checkUserIsExpired } from "../utils/userUtils.js";
 import { firebaseConfig } from "../models/commonModels.js";
 import { supabaseUrl, supabaseAnonKey } from "../utils/models.js";
