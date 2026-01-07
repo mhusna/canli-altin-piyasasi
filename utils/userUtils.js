@@ -1,8 +1,8 @@
-import { doc, getDoc } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
-import { signOut } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+import { doc, getDoc } from "firebase/firestore";
+import { signOut } from "firebase/auth";
 
 // Supabase importları
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.31.0/+esm";
+import { createClient } from "@supabase/supabase-js";
 import { supabaseUrl, supabaseAnonKey } from "./models.js";
 
 

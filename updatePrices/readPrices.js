@@ -1,16 +1,16 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
+import { initializeApp } from "firebase/app";
 import {
   getAuth,
   signOut,
   onAuthStateChanged,
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
+} from "firebase/auth";
 import {
   getFirestore,
   doc,
   getDoc,
   collection,
   onSnapshot,
-} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+} from "firebase/firestore";
 import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
 import { getProfits, saveProfits } from "../utils/priceUtils.js";

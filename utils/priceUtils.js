@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import { collection, doc, getDocs, setDoc, onSnapshot } from "firebase/firestore";
 
 /**
  * Kullanıcının kâr bilgilerini alır ve EXCHANGE_TYPES dizisine set eder.
