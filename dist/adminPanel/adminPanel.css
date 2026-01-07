@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+}
+h6 {
+  margin-bottom: 0;
+}
+.backgroundColor {
+  background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
+  color: white !important;
+}
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+.mainContainer .buttonsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.mainContainer .usersInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  gap: 10px;
+  overflow: hidden;
+}
+.mainContainer .usersInfoContainer .countContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 30px;
+  gap: 10px;
+}
+.mainContainer .usersInfoContainer .displayContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+}
+.mainContainer .usersInfoContainer .displayContainer .titleContainer {
+  min-width: 70%;
+  padding: 5px;
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+}
+.mainContainer .usersInfoContainer .displayContainer .titleContainer h6 {
+  width: 30%;
+  text-align: center;
+}
+.mainContainer .usersInfoContainer .displayContainer .userList {
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.mainContainer .usersInfoContainer .displayContainer .userContainer {
+  justify-content: space-between !important;
+  background-color: lightgray;
+  border-radius: 5px;
+}
+.mainContainer .usersInfoContainer .displayContainer .userContainer .userMail,
+.mainContainer .usersInfoContainer .displayContainer .userContainer .dayCount,
+.mainContainer .usersInfoContainer .displayContainer .userContainer .islemler {
+  width: 30%;
+  text-align: center;
+  align-content: center;
+}
+.mainContainer .usersInfoContainer .displayContainer .userContainer .islemler {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+}

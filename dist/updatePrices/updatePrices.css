@@ -1,0 +1,54 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+body {
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(12px, 1.4vw, 30px) !important;
+}
+.backgroundColor {
+  background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
+  color: white !important;
+}
+.contentContainer {
+  flex: 1;
+}
+.contentContainer .tableFlexContainer {
+  display: flex;
+  height: 33.3%;
+}
+.contentContainer .tableFlexContainer .card {
+  width: 50%;
+  height: 100%;
+}
+.contentContainer .tableFlexContainer .card .card-header {
+  padding: clamp(0px, 0.2vw, 6px);
+}
+.contentContainer .tableFlexContainer .card .card-body {
+  padding: 0;
+}
+.contentContainer .tableFlexContainer .card .card-body .table {
+  height: 100%;
+}
+.contentContainer .tableFlexContainer .card .card-body .table th,
+.contentContainer .tableFlexContainer .card .card-body .table td {
+  width: 33.3%;
+  padding: 0;
+  text-align: center;
+  align-items: center;
+  align-content: center;
+  line-height: clamp(18px, 1.8vw, 100px);
+}
+.contentContainer .tableFlexContainer .card .card-body .table th input,
+.contentContainer .tableFlexContainer .card .card-body .table td input {
+  height: clamp(18px, 1.8vw, 100px);
+}
+.footerContainer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  gap: 1%;
+}
