@@ -29,6 +29,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules[\\/](core-js|regenerator-runtime|@babel[\\/]runtime)/,
         use: {
           loader: "babel-loader"
         }

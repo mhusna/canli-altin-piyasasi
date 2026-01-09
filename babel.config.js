@@ -1,4 +1,5 @@
 module.exports = {
+  sourceType: "unambiguous",
   presets: [
     [
       "@babel/preset-env",
@@ -10,7 +11,7 @@ module.exports = {
           ie: "11",
           safari: "7"
         },
-        modules: false
+        modules: "auto"
       }
     ]
   ],
