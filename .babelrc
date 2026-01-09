@@ -8,5 +8,14 @@
         "targets": "> 0.25%, last 15 versions, not dead, ie >= 9"
       }
     ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true,
+        "corejs": false
+      }
+    ]
   ]
 }

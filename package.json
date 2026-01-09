@@ -8,15 +8,15 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@babel/plugin-transform-runtime": "^7.28.5",
     "@babel/preset-env": "^7.26.0",
+    "@babel/runtime": "^7.28.4",
     "babel-loader": "^9.2.1",
     "core-js": "^3.39.0",
     "regenerator-runtime": "^0.14.1",
     "webpack": "^5.96.1",
     "webpack-cli": "^5.1.4"
   },
-  "optionalDependencies": {},
-  "peerDependencies": {},
   "engines": {},
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
