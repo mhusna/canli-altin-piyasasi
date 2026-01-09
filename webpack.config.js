@@ -2,6 +2,7 @@ const path = require("path");
 
 module.exports = {
   mode: "production",
+  target: ["web", "es5"],
   entry: {
     index: ["core-js/stable", "regenerator-runtime/runtime", "./index/index.js"],
     livePrices: ["core-js/stable", "regenerator-runtime/runtime", "./livePrices/livePrices.js"],
@@ -28,7 +29,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules\/(?!(firebase|@firebase|@supabase)\/).*/,
+        exclude: /node_modules[\\/](core-js|regenerator-runtime)/,
         use: {
           loader: "babel-loader"
         }
