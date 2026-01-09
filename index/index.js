@@ -3,6 +3,11 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, doc, getDoc } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import { firebaseConfig } from "../models/commonModels.js";
+import $ from "jquery";
+import "popper.js";
+import "bootstrap";
+
+window.jQuery = window.$ = $;
 
 // Firebase'i başlat
 const app = initializeApp(firebaseConfig);
@@ -38,7 +43,7 @@ onAuthStateChanged(auth, async (user) => {
     const expireDate = userData.expireDate?.toDate
       ? userData.expireDate.toDate()
       : new Date(userData.expireDate);
-    
+
     const currentDate = new Date();
 
     if (currentDate > expireDate) {

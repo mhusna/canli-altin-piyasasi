@@ -5,6 +5,12 @@ import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
 import { getProfitsAndFillArray, fillPricesToExchangeTypes, listenProfitsAndRefreshLivePrices } from "../utils/priceUtils.js";
 import { findElementAndFill, formatNumber } from "../utils/domUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
+import io from "socket.io-client";
+import $ from "jquery";
+import "popper.js";
+import "bootstrap";
+
+window.jQuery = window.$ = $;
 
 // DB'den kârları oku.
 const app = initializeApp(firebaseConfig);
