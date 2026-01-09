@@ -3,9 +3,14 @@
     [
       "@babel/preset-env",
       {
-        "useBuiltIns": "usage",
+        "useBuiltIns": "entry",
         "corejs": 3,
-        "targets": "> 0.25%, last 15 versions, not dead, ie >= 9"
+        "targets": {
+          "chrome": "38",
+          "ie": "11",
+          "safari": "7"
+        },
+        "modules": false
       }
     ]
   ],

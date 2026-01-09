@@ -3,17 +3,26 @@ const path = require("path");
 module.exports = {
   mode: "production",
   entry: {
-    index: "./index/index.js",
-    livePrices: "./livePrices/livePrices.js",
-    adminPanel: "./adminPanel/adminPanel.js",
-    uploadLogos: "./uploadLogos/uploadLogos.js",
-    updatePrices: "./updatePrices/readPrices.js",
-    register: "./register/register.js",
-    editUser: "./editUser/editUser.js"
+    index: ["core-js/stable", "regenerator-runtime/runtime", "./index/index.js"],
+    livePrices: ["core-js/stable", "regenerator-runtime/runtime", "./livePrices/livePrices.js"],
+    adminPanel: ["core-js/stable", "regenerator-runtime/runtime", "./adminPanel/adminPanel.js"],
+    uploadLogos: ["core-js/stable", "regenerator-runtime/runtime", "./uploadLogos/uploadLogos.js"],
+    updatePrices: ["core-js/stable", "regenerator-runtime/runtime", "./updatePrices/readPrices.js"],
+    register: ["core-js/stable", "regenerator-runtime/runtime", "./register/register.js"],
+    editUser: ["core-js/stable", "regenerator-runtime/runtime", "./editUser/editUser.js"]
   },
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "[name].bundle.js"
+    filename: "[name].bundle.js",
+    environment: {
+      arrowFunction: false,
+      bigIntLiteral: false,
+      const: false,
+      destructuring: false,
+      dynamicImport: false,
+      forOf: false,
+      module: false
+    }
   },
   module: {
     rules: [
