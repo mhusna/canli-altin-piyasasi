@@ -16,7 +16,7 @@ body {
     -webkit-flex-direction: column;
     flex-direction: column;
     min-height: 100vh;
-    font-size: 1.5vw !important;
+    font-size: 2vw !important;
     font-weight: 700 !important;
 }
 table {
@@ -28,7 +28,7 @@ table th,
 table td {
     width: 33.3%;
     vertical-align: middle;
-    font-size: 1.5vw !important;
+    font-size: 2vw !important;
     line-height: 1.2 !important;
 }
 .backgroundColor {
@@ -63,7 +63,6 @@ table td {
 .navbarContainer .logoContainer img {
     width: 100%;
     height: 100%;
-}
 .navbarContainer .titleTimeContainer {
     display: -webkit-box;
     display: -webkit-flex;
