@@ -36,7 +36,7 @@ function ensureStaleWarningElement() {
     el.id = "staleWarning";
     el.innerText = "!";
     el.style.position = "fixed";
-    el.style.right = "600px";
+    el.style.right = "28%";
     el.style.top = "0px";
     el.style.zIndex = "9999";
     el.style.background = "#f00";
