@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { checkUserIsExpired, setImage } from "../utils/userUtils.js";
+import { checkUserIsExpired, setImage, subscribeToImageChanges } from "../utils/userUtils.js";
 import { getProfitsAndFillArray, fillPricesToExchangeTypes, listenProfitsAndRefreshLivePrices } from "../utils/priceUtils.js";
 import { findElementAndFill, formatNumber } from "../utils/domUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
@@ -102,6 +102,8 @@ onAuthStateChanged(auth, async (user) => {
   await setImage(user.uid);
   await listenProfitsAndRefreshLivePrices(user.uid, db, EXCHANGE_TYPES);
 
+  // Supabase Realtime ile resim değişikliklerini dinle
+  subscribeToImageChanges(user.uid);
 });
 
 /**

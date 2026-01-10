@@ -66,3 +66,55 @@ export const setImage = async (userId) => {
   if (error) console.error("Logo yüklenirken hata meydana geldi:", error);
   if (adError) console.error("Reklam yüklenirken hata meydana geldi:", adError);
 };
+
+/**
+ * Resim değişikliklerini Supabase Realtime ile dinler ve DOM'u günceller.
+ * @param {string} userId 
+ */
+export const subscribeToImageChanges = (userId) => {
+  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  // Profiles tablosundaki logo değişikliklerini dinle
+  supabase
+    .channel('profiles-changes')
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'profiles',
+        filter: 'id=eq.' + userId
+      },
+      function (payload) {
+        var logoElem = document.getElementById("logo");
+        if (payload.new.logo_url && logoElem) {
+          // Cache'i bypass etmek için timestamp ekle
+          logoElem.src = payload.new.logo_url + '?t=' + Date.now();
+          console.log("Logo güncellendi:", payload.new.logo_url);
+        }
+      }
+    )
+    .subscribe();
+
+  // Ads tablosundaki reklam değişikliklerini dinle
+  supabase
+    .channel('ads-changes')
+    .on(
+      'postgres_changes',
+      {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'ads'
+      },
+      function (payload) {
+        var reklamElem = document.getElementById("reklam");
+        if (payload.new.ad_url && reklamElem) {
+          reklamElem.src = payload.new.ad_url + '?t=' + Date.now();
+          console.log("Reklam güncellendi:", payload.new.ad_url);
+        }
+      }
+    )
+    .subscribe();
+
+  console.log("Supabase Realtime subscription başlatıldı.");
+};
