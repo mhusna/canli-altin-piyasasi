@@ -11,7 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    font-size: clamp(12px, 2.5vw, 40px) !important;
+    font-size: clamp(12px, 2.7vw, 40px) !important;
     font-weight: 700 !important;
 }
 table {
@@ -23,8 +23,8 @@ table th,
 table td {
     width: 33.3%;
     align-content: center;
-    font-size: clamp(12px, 2.5vw, 40px) !important;
-    line-height: clamp(12px, 2.5vw, 40px) !important;
+    font-size: clamp(12px, 2.7vw, 40px) !important;
+    line-height: clamp(12px, 2.7vw, 40px) !important;
 }
 .backgroundColor {
     background: linear-gradient(
