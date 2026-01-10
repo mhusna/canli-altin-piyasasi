@@ -58,7 +58,6 @@ export const saveProfits = async (uid, db, targetArray) => {
       await setDoc(ref, { alis, satis }, { merge: true });
     }
     alert("✅ Fiyatlar başarıyla kaydedildi!");
-    window.location.href = "../livePrices/livePrices.html";
   } catch (error) {
     console.error("❌ Fiyat kaydı hatası:", error);
     alert("Hata oluştu: " + error.message);
