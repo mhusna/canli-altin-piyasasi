@@ -32,6 +32,9 @@ table td {
   font-size: 2vw !important;
   line-height: 0.5 !important;
 }
+table th {
+  font-size: 1.8vw !important;
+}
 .backgroundColor {
   background: -webkit-linear-gradient(top, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
   background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
@@ -45,6 +48,8 @@ table td {
   -webkit-justify-content: space-between;
   justify-content: space-between;
   height: 12vh;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 }
 .navbarContainer .logoContainer {
   padding: 1%;
@@ -225,8 +230,11 @@ table td {
   -webkit-justify-content: space-around;
   justify-content: space-around;
   width: 100%;
-  height: auto;
+  height: 8vh;
   min-height: 8vh;
+  max-height: 10vh;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 }
 .footerContainer .priceContainer {
   display: -webkit-box;

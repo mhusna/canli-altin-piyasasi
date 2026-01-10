@@ -34,6 +34,10 @@ table {
     font-size: 2vw !important;
     line-height: 0.5 !important;
   }
+
+  th {
+    font-size: 1.8vw !important;
+  }
 }
 
 .backgroundColor {
@@ -50,6 +54,8 @@ table {
   -webkit-justify-content: space-between;
   justify-content: space-between;
   height: 12vh;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 
   .logoContainer {
     padding: 1%;
@@ -248,8 +254,11 @@ table {
   -webkit-justify-content: space-around;
   justify-content: space-around;
   width: 100%;
-  height: auto;
+  height: 8vh;
   min-height: 8vh;
+  max-height: 10vh;
+  -webkit-flex-shrink: 0;
+  flex-shrink: 0;
 
   .priceContainer {
     display: -webkit-box;
