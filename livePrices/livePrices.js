@@ -34,14 +34,14 @@ function ensureStaleWarningElement() {
   if (!el) {
     el = document.createElement("div");
     el.id = "staleWarning";
-    el.innerText = "GÜNCEL FİYAT OKUNAMADI !";
+    el.innerText = "!";
     el.style.position = "fixed";
-    el.style.right = "6px";
-    el.style.top = "110px";
+    el.style.right = "600px";
+    el.style.top = "0px";
     el.style.zIndex = "9999";
     el.style.background = "#f00";
     el.style.color = "#fff";
-    el.style.padding = "10px 10px";
+    el.style.padding = "15px 30px";
     el.style.borderRadius = "6px";
     el.style.boxShadow = "0 2px 6px rgba(0,0,0,0.2)";
     el.style.fontWeight = "600";
