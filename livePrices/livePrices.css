@@ -11,8 +11,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100dvh;
-    font-size: clamp(12px, 2.5vw, 38px) !important;
-    font-weight: 700 !important;
+    font-size: clamp(12px, 2.5vw, 40px) !important;
+    font-weight: 800 !important;
 }
 table {
     height: 100%;
