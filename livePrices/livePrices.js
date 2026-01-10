@@ -108,6 +108,11 @@ onAuthStateChanged(auth, async (user) => {
  * Ana metot, haremden güncel fiyatları alır.
  */
 socket.on("price_changed", async (data) => {
+  // Kullanıcı henüz giriş yapmadıysa işlemi atla
+  if (!auth.currentUser) {
+    return;
+  }
+
   const items = Object.values(data);
   const haremData = Object.values(items[1]);
 
@@ -162,5 +167,8 @@ setInterval(() => {
 }, 1000);
 
 setInterval(async () => {
-  await checkUserIsExpired(uid, db, auth);
+  // Kullanıcı giriş yapmışsa expire kontrolü yap
+  if (auth.currentUser) {
+    await checkUserIsExpired(auth.currentUser.uid, db, auth);
+  }
 }, 5 * 60 * 1000);
