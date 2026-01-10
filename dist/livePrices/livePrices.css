@@ -1,185 +1,191 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 html,
 body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100dvh;
-  font-size: clamp(12px, 2.3vw, 35px) !important;
-  font-weight: 700 !important;
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    font-size: clamp(12px, 2.5vw, 38px) !important;
+    font-weight: 700 !important;
 }
 table {
-  height: 100%;
-  margin: 0 !important;
-  text-align: center;
+    height: 100%;
+    margin: 0 !important;
+    text-align: center;
 }
 table th,
 table td {
-  width: 33.3%;
-  align-content: center;
-  font-size: clamp(12px, 2.5vw, 40px) !important;
-  line-height: clamp(12px, 2.5vw, 40px) !important;
+    width: 33.3%;
+    align-content: center;
+    font-size: clamp(12px, 2.5vw, 40px) !important;
+    line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .backgroundColor {
-  background: linear-gradient(to bottom, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
-  color: white !important;
+    background: linear-gradient(
+        to bottom,
+        #071535 0%,
+        #092a5f 35%,
+        #0b4481 70%,
+        #0000ffcc 100%
+    );
+    color: white !important;
 }
 .navbarContainer {
-  display: flex;
-  justify-content: space-between;
-  height: 12vh;
+    display: flex;
+    justify-content: space-between;
+    height: 12vh;
 }
 .navbarContainer .logoContainer {
-  padding: 1%;
+    padding: 1%;
 }
 .navbarContainer .logoContainer img {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .navbarContainer .titleTimeContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5%;
-  font-size: clamp(12px, 2.5vw, 40px) !important;
-  line-height: clamp(12px, 2.5vw, 40px) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5%;
+    font-size: clamp(12px, 2.5vw, 40px) !important;
+    line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .navbarContainer .titleTimeContainer .titleContainer,
 .navbarContainer .titleTimeContainer .timeContainer {
-  text-align: center;
+    text-align: center;
 }
 .navbarContainer .hasMainContainer {
-  display: flex;
-  align-items: center;
-  width: 30%;
-  font-size: clamp(12px, 2.3vw, 40px) !important;
-  line-height: clamp(12px, 2.3vw, 40px) !important;
+    display: flex;
+    align-items: center;
+    width: 30%;
+    font-size: clamp(12px, 2.3vw, 40px) !important;
+    line-height: clamp(12px, 2.3vw, 40px) !important;
 }
 .navbarContainer .hasMainContainer .hasContainer {
-  width: 90%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
 }
 .navbarContainer .hasMainContainer .hasContainer .alisContainer,
 .navbarContainer .hasMainContainer .hasContainer .satisContainer {
-  display: flex;
-  gap: 3%;
+    display: flex;
+    gap: 3%;
 }
 .navbarContainer .hasMainContainer .hasContainer .alisContainer .title,
 .navbarContainer .hasMainContainer .hasContainer .satisContainer .title {
-  width: 50%;
-  display: flex;
-  justify-content: flex-end;
+    width: 50%;
+    display: flex;
+    justify-content: flex-end;
 }
 .navbarContainer .hasMainContainer .hasContainer .alisContainer .alis,
 .navbarContainer .hasMainContainer .hasContainer .satisContainer .alis,
 .navbarContainer .hasMainContainer .hasContainer .alisContainer .satis,
 .navbarContainer .hasMainContainer .hasContainer .satisContainer .satis {
-  width: 30%;
+    width: 30%;
 }
 .navbarContainer .settingContainer {
-  padding-bottom: 8px;
-  display: inline-flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-  width: auto;
+    padding-bottom: 8px;
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    width: auto;
 }
 .navbarContainer .settingContainer button {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  color: black;
-  border-radius: 10px;
-  padding: 4px 7px;
-  font-size: clamp(12px, 2vw, 28px) !important;
-  line-height: clamp(12px, 2vw, 28px) !important;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 4px 7px;
+    font-size: clamp(12px, 2vw, 28px) !important;
+    line-height: clamp(12px, 2vw, 28px) !important;
 }
 .content {
-  display: flex;
-  gap: 1%;
-  width: 100%;
-  flex: 1;
-  /* en kritik satır */
-  overflow: hidden;
-  /* dış overflow engelle */
+    display: flex;
+    gap: 1%;
+    width: 100%;
+    flex: 1;
+    /* en kritik satır */
+    overflow: hidden;
+    /* dış overflow engelle */
 }
 .content .tableContent {
-  display: flex;
-  flex-direction: column;
-  gap: 1%;
-  width: 80%;
-  flex: 1;
-  min-height: 0;
-  /* flex child overflow bug fix */
+    display: flex;
+    flex-direction: column;
+    gap: 1%;
+    width: 80%;
+    flex: 1;
+    min-height: 0;
+    /* flex child overflow bug fix */
 }
 .content .tableContent .flexTableContainer {
-  display: flex;
-  gap: 1%;
-  width: 100%;
-  flex: 1;
-  min-height: 0;
-  /* flex child overflow bug fix */
+    display: flex;
+    gap: 1%;
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    /* flex child overflow bug fix */
 }
 .content .tableContent .flexTableContainer .card {
-  width: 50%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+    width: 50%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 .content .tableContent .flexTableContainer .card .card-body {
-  padding: 0;
-  flex: 1;
+    padding: 0;
+    flex: 1;
 }
 .content .adContent {
-  padding: 0.3%;
-  width: 20%;
+    padding: 0.3%;
+    width: 20%;
 }
 .content .adContent img {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 .footerContainer {
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  height: auto;
-  min-height: 8vh;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: auto;
+    min-height: 8vh;
 }
 .footerContainer .priceContainer {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  height: 100%;
-  font-size: clamp(12px, 2.5vw, 40px) !important;
-  line-height: clamp(12px, 2.5vw, 40px) !important;
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+    height: 100%;
+    font-size: clamp(12px, 2.5vw, 40px) !important;
+    line-height: clamp(12px, 2.5vw, 40px) !important;
 }
 .footerContainer .priceContainer .alisContainer,
 .footerContainer .priceContainer .satisContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2%;
-  width: 100%;
-  height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+    width: 100%;
+    height: 50%;
 }
 .footerContainer .priceContainer .alisContainer .title,
 .footerContainer .priceContainer .satisContainer .title {
-  width: 60%;
-  display: flex;
-  justify-content: flex-end;
+    width: 60%;
+    display: flex;
+    justify-content: flex-end;
 }
 .footerContainer .priceContainer .alisContainer .alis,
 .footerContainer .priceContainer .satisContainer .alis,
 .footerContainer .priceContainer .alisContainer .satis,
 .footerContainer .priceContainer .satisContainer .satis {
-  width: 40%;
+    width: 40%;
 }
