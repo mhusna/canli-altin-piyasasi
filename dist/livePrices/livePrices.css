@@ -28,9 +28,9 @@ table {
 table th,
 table td {
   width: 33.3%;
-  vertical-align: middle;
-  font-size: 1.9vw !important;
-  line-height: 0.9 !important;
+  vertical-align: middle !important;
+  font-size: 2vw !important;
+  line-height: 0.5 !important;
 }
 .backgroundColor {
   background: -webkit-linear-gradient(top, #071535 0%, #092a5f 35%, #0b4481 70%, #0000ffcc 100%);
