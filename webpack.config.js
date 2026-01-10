@@ -28,10 +28,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
         exclude: /node_modules[\\/](core-js|regenerator-runtime|@babel[\\/]runtime)/,
         use: {
-          loader: "babel-loader"
+          loader: "babel-loader",
+          options: {
+            sourceType: "unambiguous"
+          }
         }
       }
     ]

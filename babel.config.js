@@ -16,7 +16,9 @@ module.exports = {
     ]
   ],
   plugins: [
-    ["@babel/plugin-transform-runtime", { "regenerator": true }]
+    ["@babel/plugin-transform-runtime", { "regenerator": true }],
+    "@babel/plugin-transform-optional-chaining",
+    "@babel/plugin-transform-nullish-coalescing-operator"
   ],
   exclude: [
     /node_modules[\\/]core-js/,
