@@ -67,54 +67,98 @@ export const setImage = async (userId) => {
   if (adError) console.error("Reklam yüklenirken hata meydana geldi:", adError);
 };
 
+// Son bilinen URL'leri saklamak için değişkenler
+var lastLogoUrl = null;
+var lastAdUrl = null;
+
 /**
- * Resim değişikliklerini Supabase Realtime ile dinler ve DOM'u günceller.
+ * Resim değişikliklerini polling ile kontrol eder ve DOM'u günceller.
+ * Eski Smart TV tarayıcılarıyla uyumlu çalışır (WebSocket gerektirmez).
  * @param {string} userId 
+ * @param {number} intervalMs - Kontrol aralığı (varsayılan: 30000ms = 30 saniye)
  */
-export const subscribeToImageChanges = (userId) => {
-  const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export var subscribeToImageChanges = function (userId, intervalMs) {
+  if (intervalMs === undefined) {
+    intervalMs = 30000; // Varsayılan 30 saniye
+  }
 
-  // Profiles tablosundaki logo değişikliklerini dinle
-  supabase
-    .channel('profiles-changes')
-    .on(
-      'postgres_changes',
-      {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'profiles',
-        filter: 'id=eq.' + userId
-      },
-      function (payload) {
-        var logoElem = document.getElementById("logo");
-        if (payload.new.logo_url && logoElem) {
-          // Cache'i bypass etmek için timestamp ekle
-          logoElem.src = payload.new.logo_url + '?t=' + Date.now();
-          console.log("Logo güncellendi:", payload.new.logo_url);
+  var supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+  // İlk yüklemede mevcut URL'leri kaydet
+  var initializeUrls = function () {
+    supabase
+      .from("profiles")
+      .select("logo_url")
+      .eq("id", userId)
+      .single()
+      .then(function (result) {
+        if (result.data && result.data.logo_url) {
+          lastLogoUrl = result.data.logo_url;
         }
-      }
-    )
-    .subscribe();
+      });
 
-  // Ads tablosundaki reklam değişikliklerini dinle
-  supabase
-    .channel('ads-changes')
-    .on(
-      'postgres_changes',
-      {
-        event: 'UPDATE',
-        schema: 'public',
-        table: 'ads'
-      },
-      function (payload) {
-        var reklamElem = document.getElementById("reklam");
-        if (payload.new.ad_url && reklamElem) {
-          reklamElem.src = payload.new.ad_url + '?t=' + Date.now();
-          console.log("Reklam güncellendi:", payload.new.ad_url);
+    supabase
+      .from("ads")
+      .select("ad_url")
+      .single()
+      .then(function (result) {
+        if (result.data && result.data.ad_url) {
+          lastAdUrl = result.data.ad_url;
         }
-      }
-    )
-    .subscribe();
+      });
+  };
 
-  console.log("Supabase Realtime subscription başlatıldı.");
+  // Değişiklikleri kontrol eden fonksiyon
+  var checkForChanges = function () {
+    // Logo değişikliğini kontrol et
+    supabase
+      .from("profiles")
+      .select("logo_url")
+      .eq("id", userId)
+      .single()
+      .then(function (result) {
+        if (result.data && result.data.logo_url) {
+          if (lastLogoUrl !== null && result.data.logo_url !== lastLogoUrl) {
+            var logoElem = document.getElementById("logo");
+            if (logoElem) {
+              logoElem.src = result.data.logo_url + '?t=' + Date.now();
+              console.log("Logo güncellendi:", result.data.logo_url);
+            }
+          }
+          lastLogoUrl = result.data.logo_url;
+        }
+      })
+      .catch(function (err) {
+        console.error("Logo kontrol hatası:", err);
+      });
+
+    // Reklam değişikliğini kontrol et
+    supabase
+      .from("ads")
+      .select("ad_url")
+      .single()
+      .then(function (result) {
+        if (result.data && result.data.ad_url) {
+          if (lastAdUrl !== null && result.data.ad_url !== lastAdUrl) {
+            var reklamElem = document.getElementById("reklam");
+            if (reklamElem) {
+              reklamElem.src = result.data.ad_url + '?t=' + Date.now();
+              console.log("Reklam güncellendi:", result.data.ad_url);
+            }
+          }
+          lastAdUrl = result.data.ad_url;
+        }
+      })
+      .catch(function (err) {
+        console.error("Reklam kontrol hatası:", err);
+      });
+  };
+
+  // İlk URL'leri kaydet
+  initializeUrls();
+
+  // Belirli aralıklarla kontrol et
+  setInterval(checkForChanges, intervalMs);
+
+  console.log("Resim değişiklik kontrolü başlatıldı (polling, her " + (intervalMs / 1000) + " saniyede bir).");
 };
