@@ -81,6 +81,9 @@ const manageSocketConnection = () => {
 // Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
 const calculateAndDisplayPrices = () => {
   EXCHANGE_TYPES.forEach((type) => {
+    if (type.haremAlis === 0 || type.haremSatis === 0) {
+      return;
+    }
     // Alış ve satış fiyatlarını hesapla.
     const totalAlis = type.alisHesap();
     const totalSatis = type.satisHesap();
