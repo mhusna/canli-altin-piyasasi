@@ -1,11 +1,11 @@
-import { io } from "socket.io-client";
+const { io } = require("socket.io-client");
 
 // Cache için global değişkenler (cold start'lar arasında korunur)
 let cachedPrices = null;
 let lastUpdateTime = 0;
 const CACHE_TTL_MS = 500; // 500ms cache
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       error: error.message,
     });
   }
-}
+};
 
 function fetchPriceFromSocket() {
   return new Promise((resolve, reject) => {
@@ -87,13 +87,13 @@ function fetchPriceFromSocket() {
     socket.on("connect_error", (err) => {
       clearTimeout(timeout);
       socket.disconnect();
-      reject(new Error(`Socket connection error: ${err.message}`));
+      reject(new Error("Socket connection error: " + err.message));
     });
 
     socket.on("error", (err) => {
       clearTimeout(timeout);
       socket.disconnect();
-      reject(new Error(`Socket error: ${err.message}`));
+      reject(new Error("Socket error: " + err.message));
     });
   });
 }
