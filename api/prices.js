@@ -59,22 +59,14 @@ module.exports = async function handler(req, res) {
 
 function fetchPriceFromWebSocket() {
   return new Promise((resolve, reject) => {
+    // Socket.IO Engine.IO protocol - EIO=4 for v4
     const wsUrl = "wss://hrmsocketonly.haremaltin.com/socket.io/?EIO=4&transport=websocket";
 
     const ws = new WebSocket(wsUrl, {
       headers: {
         "Origin": "https://www.haremaltin.com",
-        "Referer": "https://www.haremaltin.com/",
-        "Host": "hrmsocketonly.haremaltin.com",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept-Language": "tr-TR,tr;q=0.9,en-US;q=0.8,en;q=0.7",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-        "Sec-WebSocket-Extensions": "permessage-deflate; client_max_window_bits",
-        "Sec-WebSocket-Version": "13"
-      },
-      perMessageDeflate: false
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      }
     });
 
     const timeout = setTimeout(() => {
@@ -89,12 +81,15 @@ function fetchPriceFromWebSocket() {
     ws.on("message", (data) => {
       const message = data.toString();
 
-      // Socket.IO protocol
+      // Socket.IO protocol: 0 = open, 2 = ping, 3 = pong, 4 = message
+      // 42 = message with event data
       if (message.startsWith("42")) {
         try {
+          // Remove "42" prefix and parse JSON
           const jsonStr = message.substring(2);
           const parsed = JSON.parse(jsonStr);
 
+          // parsed = ["price_changed", {...data...}]
           if (parsed[0] === "price_changed" && parsed[1]) {
             clearTimeout(timeout);
             ws.close();
@@ -107,6 +102,7 @@ function fetchPriceFromWebSocket() {
           console.error("JSON parse error:", e.message);
         }
       } else if (message === "2") {
+        // Ping - respond with pong
         ws.send("3");
       }
     });
