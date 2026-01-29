@@ -5,7 +5,6 @@ import { checkUserIsExpired, setImage, subscribeToImageChanges } from "../utils/
 import { getProfitsAndFillArray, fillPricesToExchangeTypes, listenProfitsAndRefreshLivePrices } from "../utils/priceUtils.js";
 import { findElementAndFill, formatNumber } from "../utils/domUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
-import io from "socket.io-client";
 import $ from "jquery";
 import "popper.js";
 import "bootstrap";
@@ -17,17 +16,16 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// const socket = io("https://socketweb.haremaltin.com", {
-//   transports: ["websocket"],
-// });
-const socket = io("https://hrmsocketonly.haremaltin.com", {
-  transports: ["websocket"],
-});
-
 // Son fiyat güncelleme zamanını izle
 let lastPriceUpdate = Date.now();
 // Uyarı göstergesi kontrol süresi (ms)
-const STALE_THRESHOLD_MS = 3000; // 3 saniye
+const STALE_THRESHOLD_MS = 5000; // 5 saniye (polling için artırıldı)
+// Polling interval (ms)
+const POLLING_INTERVAL_MS = 1500; // 1.5 saniye
+// Polling interval ID
+let pollingIntervalId = null;
+// Polling aktif mi?
+let isPollingActive = false;
 
 function ensureStaleWarningElement() {
   let el = document.getElementById("staleWarning");
@@ -62,22 +60,6 @@ function hideStaleWarning() {
   if (el) el.style.display = "none";
 }
 
-const manageSocketConnection = () => {
-  const currentHour = new Date().getHours();
-
-  if (currentHour >= 0 && currentHour < 6) {
-    if (socket.connected) {
-      socket.disconnect();
-      console.log("Socket bağlantısı kapatıldı (Gece 12 - Sabah 6 arası).");
-    }
-  } else {
-    if (!socket.connected) {
-      socket.connect();
-      console.log("Socket bağlantısı tekrar açıldı (Sabah 6 sonrası).");
-    }
-  }
-};
-
 // Ürünlerin alış - satış fiyatlarını hesapla ve ekrana yansıt.
 const calculateAndDisplayPrices = () => {
   EXCHANGE_TYPES.forEach((type) => {
@@ -94,6 +76,99 @@ const calculateAndDisplayPrices = () => {
 }
 
 /**
+ * API'den fiyatları çek ve işle
+ */
+async function fetchPricesFromAPI() {
+  // Kullanıcı henüz giriş yapmadıysa işlemi atla
+  if (!auth.currentUser) {
+    return;
+  }
+
+  try {
+    const response = await fetch("/api/prices");
+    const result = await response.json();
+
+    if (!result.success) {
+      console.error("API error:", result.error);
+      showStaleWarning();
+      return;
+    }
+
+    const haremData = result.data;
+
+    // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
+    fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
+    await getProfitsAndFillArray(auth.currentUser.uid, db, EXCHANGE_TYPES);
+    calculateAndDisplayPrices();
+
+    // Has alış - satış fiyatlarını ekrana yaz.
+    document.getElementById("has-alis").innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
+    document.getElementById("has-satis").innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
+
+    // Gelen her fiyat değişiminde zaman damgasını güncelle
+    lastPriceUpdate = Date.now();
+    // Eğer daha önce uyarı görünüyorsa gizle
+    hideStaleWarning();
+
+  } catch (error) {
+    console.error("Fetch error:", error);
+    showStaleWarning();
+  }
+}
+
+/**
+ * Polling'i başlat
+ */
+function startPolling() {
+  if (isPollingActive) return;
+
+  const currentHour = new Date().getHours();
+  // Gece 12 - Sabah 6 arası polling yapma
+  if (currentHour >= 0 && currentHour < 6) {
+    console.log("Gece saatleri - polling başlatılmadı.");
+    return;
+  }
+
+  isPollingActive = true;
+  console.log("Fiyat polling başlatıldı.");
+
+  // İlk fetch'i hemen yap
+  fetchPricesFromAPI();
+
+  // Sonra interval ile devam et
+  pollingIntervalId = setInterval(fetchPricesFromAPI, POLLING_INTERVAL_MS);
+}
+
+/**
+ * Polling'i durdur
+ */
+function stopPolling() {
+  if (!isPollingActive) return;
+
+  isPollingActive = false;
+  if (pollingIntervalId) {
+    clearInterval(pollingIntervalId);
+    pollingIntervalId = null;
+  }
+  console.log("Fiyat polling durduruldu.");
+}
+
+/**
+ * Saat kontrolü ile polling yönetimi
+ */
+const managePolling = () => {
+  const currentHour = new Date().getHours();
+
+  if (currentHour >= 0 && currentHour < 6) {
+    stopPolling();
+  } else {
+    if (!isPollingActive && auth.currentUser) {
+      startPolling();
+    }
+  }
+};
+
+/**
  * Girişi dinler, expire kontrolü yapar ve logoları yükler.
  */
 onAuthStateChanged(auth, async (user) => {
@@ -108,64 +183,18 @@ onAuthStateChanged(auth, async (user) => {
 
   // Supabase Realtime ile resim değişikliklerini dinle
   subscribeToImageChanges(user.uid);
-});
 
-/**
- * Ana metot, haremden güncel fiyatları alır.
- */
-socket.on("price_changed", async (data) => {
-  // Kullanıcı henüz giriş yapmadıysa işlemi atla
-  if (!auth.currentUser) {
-    return;
-  }
-
-  const items = Object.values(data);
-  const haremData = Object.values(items[1]);
-
-  // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
-  fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
-  await getProfitsAndFillArray(auth.currentUser.uid, db, EXCHANGE_TYPES);
-  calculateAndDisplayPrices();
-
-  //Has alış - satış fiyatlarını ekrana yaz.
-  document.getElementById("has-alis").innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
-  document.getElementById("has-satis").innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
-
-  // Gelen her fiyat değişiminde zaman damgasını güncelle
-  lastPriceUpdate = Date.now();
-  // Eğer daha önce uyarı görünüyorsa gizle
-  hideStaleWarning();
-});
-
-// Socket bağlantı durum olayları
-socket.on("connect", () => {
-  // Bağlandıktan sonra son güncellemeden uzun süre geçtiyse uyarıyı kontrol et
-  if (Date.now() - lastPriceUpdate <= STALE_THRESHOLD_MS) hideStaleWarning();
-});
-
-socket.on("disconnect", (reason) => {
-  console.warn("Socket disconnected:", reason);
-  showStaleWarning();
-});
-
-socket.on("connect_error", (err) => {
-  console.error("Socket connect_error:", err);
-  showStaleWarning();
-});
-
-socket.on("reconnect", (attempt) => {
-  console.log("Socket reconnected, attempt:", attempt);
-  // yeniden bağlandığında uyarıyı gizle; gerçek fiyat güncellemesi gelince de gizlenecek
-  hideStaleWarning();
+  // Kullanıcı giriş yaptıktan sonra polling'i başlat
+  startPolling();
 });
 
 // Saat kontrolü için interval
-setInterval(manageSocketConnection, 3000);
+setInterval(managePolling, 3000);
 
 // Periyodik kontrol: eğer son güncelleme STALE_THRESHOLD_MS'den uzun ise uyarı göster
 setInterval(() => {
   const now = Date.now();
-  if (!socket.connected || now - lastPriceUpdate > STALE_THRESHOLD_MS) {
+  if (!isPollingActive || now - lastPriceUpdate > STALE_THRESHOLD_MS) {
     showStaleWarning();
   } else {
     hideStaleWarning();
