@@ -1,9 +1,9 @@
-const { io } = require("socket.io-client");
+const WebSocket = require("ws");
 
-// Cache için global değişkenler (cold start'lar arasında korunur)
+// Cache için global değişkenler
 let cachedPrices = null;
 let lastUpdateTime = 0;
-const CACHE_TTL_MS = 500; // 500ms cache
+const CACHE_TTL_MS = 500;
 
 module.exports = async function handler(req, res) {
   // CORS headers
@@ -15,7 +15,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).end();
   }
 
-  // Cache hala geçerliyse cached veriyi döndür
+  // Cache kontrolü
   const now = Date.now();
   if (cachedPrices && now - lastUpdateTime < CACHE_TTL_MS) {
     return res.status(200).json({
@@ -27,7 +27,7 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const priceData = await fetchPriceFromSocket();
+    const priceData = await fetchPriceFromWebSocket();
     cachedPrices = priceData;
     lastUpdateTime = Date.now();
 
@@ -40,7 +40,6 @@ module.exports = async function handler(req, res) {
   } catch (error) {
     console.error("Price fetch error:", error.message);
 
-    // Hata durumunda eski cache varsa onu döndür
     if (cachedPrices) {
       return res.status(200).json({
         success: true,
@@ -58,42 +57,64 @@ module.exports = async function handler(req, res) {
   }
 };
 
-function fetchPriceFromSocket() {
+function fetchPriceFromWebSocket() {
   return new Promise((resolve, reject) => {
+    // Socket.IO Engine.IO protocol - EIO=4 for v4
+    const wsUrl = "wss://hrmsocketonly.haremaltin.com/socket.io/?EIO=4&transport=websocket";
+
+    const ws = new WebSocket(wsUrl, {
+      headers: {
+        "Origin": "https://www.haremaltin.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+      }
+    });
+
     const timeout = setTimeout(() => {
-      socket.disconnect();
-      reject(new Error("Socket timeout - no data received"));
-    }, 8000); // 8 saniye timeout
+      ws.close();
+      reject(new Error("WebSocket timeout"));
+    }, 8000);
 
-    const socket = io("https://hrmsocketonly.haremaltin.com", {
-      transports: ["websocket"],
-      timeout: 5000,
-      reconnection: false,
+    ws.on("open", () => {
+      console.log("WebSocket connected");
     });
 
-    socket.on("connect", () => {
-      console.log("Socket connected to Harem");
+    ws.on("message", (data) => {
+      const message = data.toString();
+
+      // Socket.IO protocol: 0 = open, 2 = ping, 3 = pong, 4 = message
+      // 42 = message with event data
+      if (message.startsWith("42")) {
+        try {
+          // Remove "42" prefix and parse JSON
+          const jsonStr = message.substring(2);
+          const parsed = JSON.parse(jsonStr);
+
+          // parsed = ["price_changed", {...data...}]
+          if (parsed[0] === "price_changed" && parsed[1]) {
+            clearTimeout(timeout);
+            ws.close();
+
+            const items = Object.values(parsed[1]);
+            const haremData = Object.values(items[1]);
+            resolve(haremData);
+          }
+        } catch (e) {
+          console.error("JSON parse error:", e.message);
+        }
+      } else if (message === "2") {
+        // Ping - respond with pong
+        ws.send("3");
+      }
     });
 
-    socket.on("price_changed", (data) => {
+    ws.on("error", (err) => {
       clearTimeout(timeout);
-      socket.disconnect();
-
-      const items = Object.values(data);
-      const haremData = Object.values(items[1]);
-      resolve(haremData);
+      ws.close();
+      reject(new Error("WebSocket error: " + err.message));
     });
 
-    socket.on("connect_error", (err) => {
+    ws.on("close", () => {
       clearTimeout(timeout);
-      socket.disconnect();
-      reject(new Error("Socket connection error: " + err.message));
-    });
-
-    socket.on("error", (err) => {
-      clearTimeout(timeout);
-      socket.disconnect();
-      reject(new Error("Socket error: " + err.message));
     });
   });
 }

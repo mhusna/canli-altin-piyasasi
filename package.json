@@ -24,6 +24,7 @@
     "firebase": "^11.0.0",
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
-    "socket.io-client": "^4.7.5"
+    "socket.io-client": "^4.7.5",
+    "ws": "^8.19.0"
   }
 }
