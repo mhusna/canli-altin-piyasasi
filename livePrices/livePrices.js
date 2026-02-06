@@ -17,11 +17,17 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 
-// const socket = io("https://socketweb.haremaltin.com", {
-//   transports: ["websocket"],
-// });
-const socket = io("https://hrmsocketonly.haremaltin.com", {
-  transports: ["websocket"],
+const socket = io('https://sse.datshop.com.tr', {
+  auth: {
+    socket_key: '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' // ← Buraya kendi key'inizi yazın
+  },
+  query: {
+    socket_key: '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' // ← Buraya kendi key'inizi yazın (yedek)
+  },
+  transports: ['polling', 'websocket'],
+  reconnection: true,
+  reconnectionAttempts: Infinity,
+  reconnectionDelay: 1000
 });
 
 // Son fiyat güncelleme zamanını izle
@@ -118,6 +124,9 @@ socket.on("price_changed", async (data) => {
   if (!auth.currentUser) {
     return;
   }
+
+  console.log("Fiyat değişikliği geldi:", data);
+  debugger;
 
   const items = Object.values(data);
   const haremData = Object.values(items[1]);
