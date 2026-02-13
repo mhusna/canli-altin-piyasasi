@@ -21,9 +21,8 @@ const auth = getAuth(app);
  * Ana metot, haremden güncel fiyatları alır.
  */
 const getDataFromAPI = async () => {
-  const response = await fetch("http://209.38.183.158/");
+  const response = await fetch("https://164.92.237.230.sslip.io/");
   const data = await response.json();
-  console.log(data);
 
   // Kullanıcı henüz giriş yapmadıysa işlemi atla
   if (!auth.currentUser) {
