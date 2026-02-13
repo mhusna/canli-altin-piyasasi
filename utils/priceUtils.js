@@ -32,9 +32,9 @@ export const getProfitsAndFillArray = async (userId, db, targetArray) => {
 export const fillPricesToExchangeTypes = (data, targetArray) => {
   data.forEach((item) => {
     targetArray.forEach((exchange) => {
-      if (item.code === exchange.haremId) {
-        exchange.haremAlis = item.alis;
-        exchange.haremSatis = item.satis;
+      if (item.symbol === exchange.haremId) {
+        exchange.haremAlis = item.bid;
+        exchange.haremSatis = item.ask;
       }
     });
   });
