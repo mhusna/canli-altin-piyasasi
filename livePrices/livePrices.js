@@ -31,18 +31,24 @@ const getDataFromAPI = async () => {
         data = await response.json();
       } catch (fetchError) {
         // Fetch başarısız olduysa XMLHttpRequest kullan
-        console.warn("Fetch başarısız, XMLHttpRequest kullanılıyor:", fetchError);
+        const fetchErrorMsg = "Fetch başarısız, XMLHttpRequest kullanılıyor: " + fetchError.message;
+        console.warn(fetchErrorMsg);
+        alert(fetchErrorMsg);
         data = await getDataViaXHR();
       }
     } else {
       // Fetch desteklenmiyor, XMLHttpRequest kullan
-      console.warn("Fetch desteklenmiyor, XMLHttpRequest kullanılıyor");
+      const noFetchMsg = "Fetch desteklenmiyor, XMLHttpRequest kullanılıyor";
+      console.warn(noFetchMsg);
+      alert(noFetchMsg);
       data = await getDataViaXHR();
     }
     
     // Null/undefined kontrolü
     if (!data) {
-      console.error("Veri alınamadı");
+      const noDataMsg = "Veri alınamadı";
+      console.error(noDataMsg);
+      alert(noDataMsg);
       return;
     }
 
@@ -68,7 +74,9 @@ const getDataFromAPI = async () => {
     // Eğer daha önce uyarı görünüyorsa gizle
     hideStaleWarning();
   } catch (error) {
-    console.error("getDataFromAPI hatasında:", error);
+    const errorMsg = "getDataFromAPI hatasında: " + error.message;
+    console.error(errorMsg);
+    alert(errorMsg);
   }
 }
 
@@ -87,19 +95,31 @@ const getDataViaXHR = () => {
           const data = JSON.parse(xhr.responseText);
           resolve(data);
         } catch (parseError) {
-          reject(new Error("JSON parse hatası: " + parseError.message));
+          const parseErrorMsg = "JSON parse hatası: " + parseError.message;
+          console.error(parseErrorMsg);
+          alert(parseErrorMsg);
+          reject(new Error(parseErrorMsg));
         }
       } else {
-        reject(new Error("HTTP Hatası: " + xhr.status));
+        const statusErrorMsg = "HTTP Hatası: " + xhr.status;
+        console.error(statusErrorMsg);
+        alert(statusErrorMsg);
+        reject(new Error(statusErrorMsg));
       }
     };
     
     xhr.onerror = () => {
-      reject(new Error("Ağ hatası"));
+      const networkErrorMsg = "Ağ hatası";
+      console.error(networkErrorMsg);
+      alert(networkErrorMsg);
+      reject(new Error(networkErrorMsg));
     };
     
     xhr.ontimeout = () => {
-      reject(new Error("İstek timeout"));
+      const timeoutErrorMsg = "İstek timeout";
+      console.error(timeoutErrorMsg);
+      alert(timeoutErrorMsg);
+      reject(new Error(timeoutErrorMsg));
     };
     
     xhr.send();
