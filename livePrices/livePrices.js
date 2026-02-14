@@ -21,30 +21,89 @@ const auth = getAuth(app);
  * Ana metot, haremden güncel fiyatları alır.
  */
 const getDataFromAPI = async () => {
-  const response = await fetch("https://164.92.237.230.sslip.io/");
-  const data = await response.json();
+  try {
+    let data;
+    
+    // Fetch desteği kontrol et
+    if (typeof fetch !== 'undefined') {
+      try {
+        const response = await fetch("https://164.92.237.230.sslip.io/");
+        data = await response.json();
+      } catch (fetchError) {
+        // Fetch başarısız olduysa XMLHttpRequest kullan
+        console.warn("Fetch başarısız, XMLHttpRequest kullanılıyor:", fetchError);
+        data = await getDataViaXHR();
+      }
+    } else {
+      // Fetch desteklenmiyor, XMLHttpRequest kullan
+      console.warn("Fetch desteklenmiyor, XMLHttpRequest kullanılıyor");
+      data = await getDataViaXHR();
+    }
+    
+    // Null/undefined kontrolü
+    if (!data) {
+      console.error("Veri alınamadı");
+      return;
+    }
 
   // Kullanıcı henüz giriş yapmadıysa işlemi atla
-  if (!auth.currentUser) {
-    return;
+    if (!auth.currentUser) {
+      return;
+    }
+
+    const items = Object.values(data);
+    const haremData = Object.values(items[2]);
+
+    // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
+    fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
+    await getProfitsAndFillArray(auth.currentUser.uid, db, EXCHANGE_TYPES);
+    calculateAndDisplayPrices();
+
+    //Has alış - satış fiyatlarını ekrana yaz.
+    document.getElementById("has-alis").innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
+    document.getElementById("has-satis").innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
+
+    // Gelen her fiyat değişiminde zaman damgasını güncelle
+    lastPriceUpdate = Date.now();
+    // Eğer daha önce uyarı görünüyorsa gizle
+    hideStaleWarning();
+  } catch (error) {
+    console.error("getDataFromAPI hatasında:", error);
   }
+}
 
-  const items = Object.values(data);
-  const haremData = Object.values(items[2]);
-
-  // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
-  fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
-  await getProfitsAndFillArray(auth.currentUser.uid, db, EXCHANGE_TYPES);
-  calculateAndDisplayPrices();
-
-  //Has alış - satış fiyatlarını ekrana yaz.
-  document.getElementById("has-alis").innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
-  document.getElementById("has-satis").innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
-
-  // Gelen her fiyat değişiminde zaman damgasını güncelle
-  lastPriceUpdate = Date.now();
-  // Eğer daha önce uyarı görünüyorsa gizle
-  hideStaleWarning();
+/**
+ * XMLHttpRequest kullanarak veri al (eski cihazlar için fallback)
+ */
+const getDataViaXHR = () => {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://164.92.237.230.sslip.io/", true);
+    xhr.timeout = 10000; // 10 saniye timeout
+    
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try {
+          const data = JSON.parse(xhr.responseText);
+          resolve(data);
+        } catch (parseError) {
+          reject(new Error("JSON parse hatası: " + parseError.message));
+        }
+      } else {
+        reject(new Error("HTTP Hatası: " + xhr.status));
+      }
+    };
+    
+    xhr.onerror = () => {
+      reject(new Error("Ağ hatası"));
+    };
+    
+    xhr.ontimeout = () => {
+      reject(new Error("İstek timeout"));
+    };
+    
+    xhr.send();
+  });
 }
 
 // Son fiyat güncelleme zamanını izle
