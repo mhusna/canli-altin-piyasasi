@@ -327,8 +327,8 @@ export const EXCHANGE_TYPES = [
     },
   },
   {
-    id: "GUMUSTRY",
-    haremId: "GUMUSTRY",
+    id: "GUMTRY",
+    haremId: "GUMTRY",
     haremAlis: 0,
     haremSatis: 0,
     alisMilyem: 1,
