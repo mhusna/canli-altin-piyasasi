@@ -27,7 +27,7 @@ const getDataFromAPI = async () => {
     // Fetch desteği kontrol et
     if (typeof fetch !== 'undefined') {
       try {
-        const response = await fetch("https://164.92.237.230.sslip.io/");
+        const response = await fetch("https://kuyumcufiyatekrani-api.com.tr");
         data = await response.json();
       } catch (fetchError) {
         // Fetch başarısız olduysa XMLHttpRequest kullan
@@ -86,7 +86,7 @@ const getDataFromAPI = async () => {
 const getDataViaXHR = () => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://164.92.237.230.sslip.io/", true);
+    xhr.open("GET", "https://kuyumcufiyatekrani-api.com.tr", true);
     xhr.timeout = 10000; // 10 saniye timeout
     
     xhr.onload = () => {
