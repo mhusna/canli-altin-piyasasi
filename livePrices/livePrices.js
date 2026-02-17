@@ -23,36 +23,28 @@ const auth = getAuth(app);
 const getDataFromAPI = async () => {
   try {
     let data;
-    
-    // Fetch desteği kontrol et
-    if (typeof fetch !== 'undefined') {
-      try {
+
+    // ✅ Önce XHR dene (Smart TV safe)
+    try {
+      data = await getDataViaXHR();
+    } catch (xhrError) {
+      console.warn("XHR başarısız, fetch deneniyor:", xhrError.message);
+
+      // Fetch varsa dene
+      if (typeof fetch !== "undefined") {
         const response = await fetch("https://kuyumcufiyatekrani-api.com.tr");
         data = await response.json();
-      } catch (fetchError) {
-        // Fetch başarısız olduysa XMLHttpRequest kullan
-        const fetchErrorMsg = "Fetch başarısız, XMLHttpRequest kullanılıyor: " + fetchError.message;
-        console.warn(fetchErrorMsg);
-        alert(fetchErrorMsg);
-        data = await getDataViaXHR();
+      } else {
+        throw new Error("XHR ve Fetch başarısız");
       }
-    } else {
-      // Fetch desteklenmiyor, XMLHttpRequest kullan
-      const noFetchMsg = "Fetch desteklenmiyor, XMLHttpRequest kullanılıyor";
-      console.warn(noFetchMsg);
-      alert(noFetchMsg);
-      data = await getDataViaXHR();
     }
-    
-    // Null/undefined kontrolü
+
     if (!data) {
-      const noDataMsg = "Veri alınamadı";
-      console.error(noDataMsg);
-      alert(noDataMsg);
+      console.error("Veri alınamadı");
       return;
     }
 
-  // Kullanıcı henüz giriş yapmadıysa işlemi atla
+    // Kullanıcı henüz giriş yapmadıysa işlemi atla
     if (!auth.currentUser) {
       return;
     }
@@ -60,25 +52,22 @@ const getDataFromAPI = async () => {
     const items = Object.values(data);
     const haremData = Object.values(items[2]);
 
-    // Haremden getirilen verilerle haremAlis - haremSatis alanlarını doldur.
     fillPricesToExchangeTypes(haremData, EXCHANGE_TYPES);
     await getProfitsAndFillArray(auth.currentUser.uid, db, EXCHANGE_TYPES);
     calculateAndDisplayPrices();
 
-    //Has alış - satış fiyatlarını ekrana yaz.
-    document.getElementById("has-alis").innerText = formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
-    document.getElementById("has-satis").innerText = formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
+    document.getElementById("has-alis").innerText =
+      formatNumber(EXCHANGE_TYPES[0].haremAlis, 2);
+    document.getElementById("has-satis").innerText =
+      formatNumber(EXCHANGE_TYPES[0].haremSatis, 2);
 
-    // Gelen her fiyat değişiminde zaman damgasını güncelle
     lastPriceUpdate = Date.now();
-    // Eğer daha önce uyarı görünüyorsa gizle
     hideStaleWarning();
   } catch (error) {
-    const errorMsg = "getDataFromAPI hatasında: " + error.message;
-    console.error(errorMsg);
-    alert(errorMsg);
+    console.error("getDataFromAPI hatası:", error.message);
   }
-}
+};
+
 
 /**
  * XMLHttpRequest kullanarak veri al (eski cihazlar için fallback)
