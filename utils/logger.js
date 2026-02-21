@@ -1,3 +1,12 @@
+
+import { initializeApp } from "firebase/app";
+import { getFirestore, addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
 export const logClientError = async (payload = {}) => {
   try {
     const nav = navigator;
@@ -11,6 +20,9 @@ export const logClientError = async (payload = {}) => {
 
     await addDoc(collection(db, "client_logs"), {
       ...payload,
+
+      // 🔑 kullanıcı
+      userId: auth.currentUser?.uid || null,
 
       // 🌐 page
       url: location.href,
