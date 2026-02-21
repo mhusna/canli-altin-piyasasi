@@ -5,6 +5,7 @@ import { checkUserIsExpired, setImage, subscribeToImageChanges } from "../utils/
 import { getProfitsAndFillArray, fillPricesToExchangeTypes, listenProfitsAndRefreshLivePrices } from "../utils/priceUtils.js";
 import { findElementAndFill, formatNumber } from "../utils/domUtils.js";
 import { EXCHANGE_TYPES, firebaseConfig } from "../models/commonModels.js";
+import { logClientError } from "../utils/logger.js";
 import $ from "jquery";
 import "popper.js";
 import "bootstrap";
@@ -15,39 +16,80 @@ window.jQuery = window.$ = $;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const API_URL = "https://kuyumcufiyatekrani-api.com.tr";
 
+const safeLog = (payload) => {
+  logClientError(payload).catch(() => {});
+};
 
 /**
  * Ana metot, haremden güncel fiyatları alır.
  */
 const getDataFromAPI = async () => {
+  const start = Date.now();
+
   try {
     let data;
+    let methodUsed = "xhr";
 
-    // ✅ Önce XHR dene (Smart TV safe)
+    // 1️⃣ XHR
     try {
       data = await getDataViaXHR();
     } catch (xhrError) {
-      console.warn("XHR başarısız, fetch deneniyor:", xhrError.message);
+      safeLog({
+        type: "xhr_failed_fallback_fetch",
+        message: xhrError.message
+      });
 
-      // Fetch varsa dene
       if (typeof fetch !== "undefined") {
-        const response = await fetch("https://kuyumcufiyatekrani-api.com.tr");
-        data = await response.json();
+        methodUsed = "fetch";
+
+        try {
+          const response = await fetch(API_URL, {
+            cache: "no-store"
+          });
+
+          if (!response.ok) {
+            safeLog({
+              type: "fetch_http_error",
+              status: response.status
+            });
+            throw new Error("HTTP " + response.status);
+          }
+
+          data = await response.json();
+
+          safeLog({
+            type: "fetch_success",
+            status: response.status,
+            durationMs: Date.now() - start
+          });
+        } catch (fetchError) {
+          safeLog({
+            type: "fetch_failed_after_xhr",
+            message: fetchError.message
+          });
+
+          throw fetchError;
+        }
       } else {
+        safeLog({ type: "fetch_not_supported" });
         throw new Error("XHR ve Fetch başarısız");
       }
     }
 
     if (!data) {
-      console.error("Veri alınamadı");
+      safeLog({ type: "no_data_received" });
       return;
     }
 
-    // Kullanıcı henüz giriş yapmadıysa işlemi atla
-    if (!auth.currentUser) {
-      return;
-    }
+    if (!auth.currentUser) return;
+
+    safeLog({
+      type: "api_success",
+      method: methodUsed,
+      durationMs: Date.now() - start
+    });
 
     const items = Object.values(data);
     const haremData = Object.values(items[2]);
@@ -63,57 +105,113 @@ const getDataFromAPI = async () => {
 
     lastPriceUpdate = Date.now();
     hideStaleWarning();
+
   } catch (error) {
+    safeLog({
+      type: "getDataFromAPI_fatal",
+      message: error.message
+    });
+
     console.error("getDataFromAPI hatası:", error.message);
   }
 };
-
-
 /**
  * XMLHttpRequest kullanarak veri al (eski cihazlar için fallback)
  */
 const getDataViaXHR = () => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://kuyumcufiyatekrani-api.com.tr", true);
-    xhr.timeout = 10000; // 10 saniye timeout
-    
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        try {
-          const data = JSON.parse(xhr.responseText);
+    const start = Date.now();
+
+    try {
+      xhr.open("GET", API_URL, true);
+      xhr.timeout = 10000;
+      xhr.withCredentials = false;
+    } catch (openError) {
+      safeLog({
+        type: "xhr_open_failed",
+        message: openError.message
+      });
+      reject(openError);
+      return;
+    }
+
+    xhr.onload = async () => {
+      const durationMs = Date.now() - start;
+
+      try {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          let data;
+
+          try {
+            data = JSON.parse(xhr.responseText);
+          } catch (parseError) {
+            safeLog({
+              type: "xhr_json_parse_error",
+              durationMs,
+              message: parseError.message
+            });
+            reject(parseError);
+            return;
+          }
+
+          safeLog({
+            type: "xhr_success",
+            status: xhr.status,
+            durationMs
+          });
+
           resolve(data);
-        } catch (parseError) {
-          const parseErrorMsg = "JSON parse hatası: " + parseError.message;
-          console.error(parseErrorMsg);
-          alert(parseErrorMsg);
-          reject(new Error(parseErrorMsg));
+        } else {
+          safeLog({
+            type: "xhr_http_error",
+            status: xhr.status,
+            durationMs
+          });
+
+          reject(new Error("HTTP " + xhr.status));
         }
-      } else {
-        const statusErrorMsg = "HTTP Hatası: " + xhr.status;
-        console.error(statusErrorMsg);
-        alert(statusErrorMsg);
-        reject(new Error(statusErrorMsg));
+      } catch (handlerError) {
+        safeLog({
+          type: "xhr_onload_handler_crash",
+          message: handlerError.message
+        });
+
+        reject(handlerError);
       }
     };
-    
+
     xhr.onerror = () => {
-      const networkErrorMsg = "Ağ hatası";
-      console.error(networkErrorMsg);
-      alert(networkErrorMsg);
-      reject(new Error(networkErrorMsg));
+      safeLog({
+        type: "xhr_network_error",
+        readyState: xhr.readyState,
+        durationMs: Date.now() - start
+      });
+
+      reject(new Error("Network error"));
     };
-    
+
     xhr.ontimeout = () => {
-      const timeoutErrorMsg = "İstek timeout";
-      console.error(timeoutErrorMsg);
-      alert(timeoutErrorMsg);
-      reject(new Error(timeoutErrorMsg));
+      safeLog({
+        type: "xhr_timeout",
+        durationMs: Date.now() - start
+      });
+
+      reject(new Error("Timeout"));
     };
-    
-    xhr.send();
+
+    try {
+      xhr.send();
+    } catch (sendError) {
+      safeLog({
+        type: "xhr_send_failed",
+        message: sendError.message
+      });
+
+      reject(sendError);
+    }
   });
-}
+};
 
 // Son fiyat güncelleme zamanını izle
 let lastPriceUpdate = Date.now();
