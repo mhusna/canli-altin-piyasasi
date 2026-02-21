@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { firebaseConfig } from "../models/commonModels.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
