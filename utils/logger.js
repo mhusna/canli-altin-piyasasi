@@ -10,6 +10,16 @@ const auth = getAuth(app);
 
 export const logClientError = async (payload = {}) => {
   try {
+
+    const auth = getAuth();
+    console.log("LOG AUTH USER:", auth.currentUser);
+
+    // 🚨 auth hazır değilse log atma
+    if (!auth.currentUser) {
+      console.warn("Log skip: auth not ready");
+      return;
+    }
+    
     const nav = navigator;
     const hostname = location.hostname;
 
