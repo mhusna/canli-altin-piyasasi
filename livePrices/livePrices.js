@@ -36,10 +36,10 @@ const getDataFromAPI = async () => {
     try {
       data = await getDataViaXHR();
     } catch (xhrError) {
-      safeLog({
-        type: "xhr_failed_fallback_fetch",
-        message: xhrError.message
-      });
+      // safeLog({
+      //   type: "xhr_failed_fallback_fetch",
+      //   message: xhrError.message
+      // });
 
       if (typeof fetch !== "undefined") {
         methodUsed = "fetch";
@@ -50,30 +50,30 @@ const getDataFromAPI = async () => {
           });
 
           if (!response.ok) {
-            safeLog({
-              type: "fetch_http_error",
-              status: response.status
-            });
+          //   safeLog({
+          //     type: "fetch_http_error",
+          //     status: response.status
+          //   });
             throw new Error("HTTP " + response.status);
           }
 
           data = await response.json();
         } catch (fetchError) {
-          safeLog({
-            type: "fetch_failed_after_xhr",
-            message: fetchError.message
-          });
+          // safeLog({
+          //   type: "fetch_failed_after_xhr",
+          //   message: fetchError.message
+          // });
 
           throw fetchError;
         }
       } else {
-        safeLog({ type: "fetch_not_supported" });
+        // safeLog({ type: "fetch_not_supported" });
         throw new Error("XHR ve Fetch başarısız");
       }
     }
 
     if (!data) {
-      safeLog({ type: "no_data_received" });
+      // safeLog({ type: "no_data_received" });
       return;
     }
 
@@ -95,10 +95,10 @@ const getDataFromAPI = async () => {
     hideStaleWarning();
 
   } catch (error) {
-    safeLog({
-      type: "getDataFromAPI_fatal",
-      message: error.message
-    });
+    // safeLog({
+    //   type: "getDataFromAPI_fatal",
+    //   message: error.message
+    // });
 
     console.error("getDataFromAPI hatası:", error.message);
   }
@@ -116,10 +116,10 @@ const getDataViaXHR = () => {
       xhr.timeout = 10000;
       xhr.withCredentials = false;
     } catch (openError) {
-      safeLog({
-        type: "xhr_open_failed",
-        message: openError.message
-      });
+      // safeLog({
+      //   type: "xhr_open_failed",
+      //   message: openError.message
+      // });
       reject(openError);
       return;
     }
@@ -134,50 +134,50 @@ const getDataViaXHR = () => {
           try {
             data = JSON.parse(xhr.responseText);
           } catch (parseError) {
-            safeLog({
-              type: "xhr_json_parse_error",
-              durationMs,
-              message: parseError.message
-            });
+            // safeLog({
+            //   type: "xhr_json_parse_error",
+            //   durationMs,
+            //   message: parseError.message
+            // });
             reject(parseError);
             return;
           }
 
           resolve(data);
         } else {
-          safeLog({
-            type: "xhr_http_error",
-            status: xhr.status,
-            durationMs
-          });
+          // safeLog({
+          //   type: "xhr_http_error",
+          //   status: xhr.status,
+          //   durationMs
+          // });
 
           reject(new Error("HTTP " + xhr.status));
         }
       } catch (handlerError) {
-        safeLog({
-          type: "xhr_onload_handler_crash",
-          message: handlerError.message
-        });
+        // safeLog({
+        //   type: "xhr_onload_handler_crash",
+        //   message: handlerError.message
+        // });
 
         reject(handlerError);
       }
     };
 
     xhr.onerror = () => {
-      safeLog({
-        type: "xhr_network_error",
-        readyState: xhr.readyState,
-        durationMs: Date.now() - start
-      });
+      // safeLog({
+      //   type: "xhr_network_error",
+      //   readyState: xhr.readyState,
+      //   durationMs: Date.now() - start
+      // });
 
       reject(new Error("Network error"));
     };
 
     xhr.ontimeout = () => {
-      safeLog({
-        type: "xhr_timeout",
-        durationMs: Date.now() - start
-      });
+      // safeLog({
+      //   type: "xhr_timeout",
+      //   durationMs: Date.now() - start
+      // });
 
       reject(new Error("Timeout"));
     };
@@ -185,10 +185,10 @@ const getDataViaXHR = () => {
     try {
       xhr.send();
     } catch (sendError) {
-      safeLog({
-        type: "xhr_send_failed",
-        message: sendError.message
-      });
+      // safeLog({
+      //   type: "xhr_send_failed",
+      //   message: sendError.message
+      // });
 
       reject(sendError);
     }
