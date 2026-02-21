@@ -58,12 +58,6 @@ const getDataFromAPI = async () => {
           }
 
           data = await response.json();
-
-          safeLog({
-            type: "fetch_success",
-            status: response.status,
-            durationMs: Date.now() - start
-          });
         } catch (fetchError) {
           safeLog({
             type: "fetch_failed_after_xhr",
@@ -84,12 +78,6 @@ const getDataFromAPI = async () => {
     }
 
     if (!auth.currentUser) return;
-
-    safeLog({
-      type: "api_success",
-      method: methodUsed,
-      durationMs: Date.now() - start
-    });
 
     const items = Object.values(data);
     const haremData = Object.values(items[2]);
@@ -154,12 +142,6 @@ const getDataViaXHR = () => {
             reject(parseError);
             return;
           }
-
-          safeLog({
-            type: "xhr_success",
-            status: xhr.status,
-            durationMs
-          });
 
           resolve(data);
         } else {
