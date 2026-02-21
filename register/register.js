@@ -90,7 +90,7 @@ async function createEmptyPrices(uid) {
     "BILEZIK22", "AYAR8", "AYAR14", "AYAR18", "AYAR22", "AYAR24",
     "CEYREK_YENI", "CEYREK_ESKI", "YARIM_YENI", "YARIM_ESKI",
     "TEK_ESKI", "TEK_YENI", "ATA_YENI", "RESAT",
-    "GRAMESE_YENI", "GRAMESE_ESKI", "USDTRY", "EURTRY", "GUMUSTRY"
+    "GRAMESE_YENI", "GRAMESE_ESKI", "USDTRY", "EURTRY", "GUMTRY"
   ];
 
   for (const id of priceIds) {
