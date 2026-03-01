@@ -33,8 +33,6 @@ const safeLog = (payload) => {
  * Ana metot, haremden güncel fiyatları alır.
  */
 const getDataFromAPI = async () => {
-  const start = Date.now();
-
   try {
     let data;
     let methodUsed = "xhr";
@@ -48,12 +46,15 @@ const getDataFromAPI = async () => {
         message: xhrError.message
       });
 
+      // 2️⃣ Fetch fallback (TV-friendly)a
       if (typeof fetch !== "undefined") {
         methodUsed = "fetch";
 
         try {
           const response = await fetch(API_URL, {
-            cache: "no-store"
+            cache: "no-store",          // TV cache sorunlarını önler
+            mode: "cors",
+            credentials: "omit",
           });
 
           if (!response.ok) {
@@ -111,7 +112,7 @@ const getDataFromAPI = async () => {
   }
 };
 /**
- * XMLHttpRequest kullanarak veri al (eski cihazlar için fallback)
+ * XHR fallback (TV optimized)
  */
 const getDataViaXHR = () => {
   return new Promise((resolve, reject) => {
@@ -120,13 +121,10 @@ const getDataViaXHR = () => {
 
     try {
       xhr.open("GET", API_URL, true);
-      xhr.timeout = 10000;
+      xhr.timeout = 10000;          // 10 saniye timeout TV için
       xhr.withCredentials = false;
     } catch (openError) {
-      safeLog({
-        type: "xhr_open_failed",
-        message: openError.message
-      });
+      safeLog({ type: "xhr_open_failed", message: openError.message });
       reject(openError);
       return;
     }
@@ -137,7 +135,6 @@ const getDataViaXHR = () => {
       try {
         if (xhr.status >= 200 && xhr.status < 300) {
           let data;
-
           try {
             data = JSON.parse(xhr.responseText);
           } catch (parseError) {
@@ -152,20 +149,11 @@ const getDataViaXHR = () => {
 
           resolve(data);
         } else {
-          safeLog({
-            type: "xhr_http_error",
-            status: xhr.status,
-            durationMs
-          });
-
+          safeLog({ type: "xhr_http_error", status: xhr.status, durationMs });
           reject(new Error("HTTP " + xhr.status));
         }
       } catch (handlerError) {
-        safeLog({
-          type: "xhr_onload_handler_crash",
-          message: handlerError.message
-        });
-
+        safeLog({ type: "xhr_onload_handler_crash", message: handlerError.message });
         reject(handlerError);
       }
     };
@@ -176,7 +164,6 @@ const getDataViaXHR = () => {
         readyState: xhr.readyState,
         durationMs: Date.now() - start
       });
-
       reject(new Error("Network error"));
     };
 
@@ -185,18 +172,13 @@ const getDataViaXHR = () => {
         type: "xhr_timeout",
         durationMs: Date.now() - start
       });
-
       reject(new Error("Timeout"));
     };
 
     try {
       xhr.send();
     } catch (sendError) {
-      safeLog({
-        type: "xhr_send_failed",
-        message: sendError.message
-      });
-
+      safeLog({ type: "xhr_send_failed", message: sendError.message });
       reject(sendError);
     }
   });
@@ -273,7 +255,15 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 // Saat kontrolü için interval
-setInterval(getDataFromAPI, 1500);
+const startPolling = async () => {
+  await getDataFromAPI(); // Veriyi çek ve bitmesini bekle
+  
+  // İşlem bittikten 1.5 saniye sonra tekrar tetikle
+  setTimeout(startPolling, 1500); 
+};
+
+// Döngüyü başlat
+startPolling();
 
 // Periyodik kontrol: eğer son güncelleme STALE_THRESHOLD_MS'den uzun ise uyarı göster
 setInterval(() => {
