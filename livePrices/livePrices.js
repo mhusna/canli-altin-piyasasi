@@ -16,7 +16,7 @@ window.jQuery = window.$ = $;
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
-const API_URL = "https://kuyumcufiyatekrani-api.com.tr";
+const API_URL = "/api/prices";
 
 let i = 0;
 const safeLog = (payload) => {
