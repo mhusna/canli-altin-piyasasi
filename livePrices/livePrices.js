@@ -187,7 +187,7 @@ const getDataViaXHR = () => {
 // Son fiyat güncelleme zamanını izle
 let lastPriceUpdate = Date.now();
 // Uyarı göstergesi kontrol süresi (ms)
-const STALE_THRESHOLD_MS = 1500; // 3 saniye
+const STALE_THRESHOLD_MS = 20000; // 20 saniye
 
 function ensureStaleWarningElement() {
   let el = document.getElementById("staleWarning");

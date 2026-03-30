@@ -70,6 +70,8 @@ export const saveProfits = async (uid, db, targetArray) => {
  * @param {*} db 
  * @param {*} targetArray 
  */
+let isFirstLoadComplete = false;
+
 export const getProfits = async (uid, db, targetArray) => {
   try {
     const pricesRef = collection(db, "users", uid, "prices");
@@ -88,7 +90,23 @@ export const getProfits = async (uid, db, targetArray) => {
           if (!pricesData[item.id]) pricesData[item.id] = { alis: 0, satis: 0 };
         });
 
-        fillTableWithData(pricesData, targetArray);
+        // İlk yüklemede input'ları oluştur (bir kez)
+        if (!isFirstLoadComplete) {
+          fillTableWithData(pricesData, targetArray);
+          isFirstLoadComplete = true;
+          return;
+        }
+
+        // Sonraki güncellemelerde sadece targetArray'ı güncelle (input'ları yazma)
+        snapshot.docChanges().forEach((change) => {
+          const changedDoc = change.doc;
+          targetArray.find((type) => {
+            if (type.id === changedDoc.id) {
+              type.satisKar = changedDoc.data().satis.toFixed(2);
+              type.alisKar = changedDoc.data().alis.toFixed(2);
+            }
+          });
+        });
       },
       (error) => {
         console.error("❌ Fiyat dinleyici hatası:", error);
@@ -158,7 +176,14 @@ export const listenProfitsAndRefreshLivePrices = (uid, db, targetArray) => {
 
         snapshot.docChanges().forEach((change) => {
           if (change.type === "modified") {
-            window.location.href = window.location.href;
+            // Kaydedilen öğeyi in-memory targetArray'e güncelleştir
+            const changedDoc = change.doc;
+            targetArray.find((type) => {
+              if (type.id === changedDoc.id) {
+                type.satisKar = changedDoc.data().satis.toFixed(2);
+                type.alisKar = changedDoc.data().alis.toFixed(2);
+              }
+            });
           }
         });
       },
